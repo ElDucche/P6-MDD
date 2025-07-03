@@ -2,13 +2,13 @@ package com.elducche.demo.models;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Document(collection = "users")
+@Table("USERS")
 @Data
 public class User {
     @Id
-    private String id;
+    private Long id;
     private String pseudo;
     private String email;
     private String password;

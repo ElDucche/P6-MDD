@@ -22,6 +22,9 @@ spring:
           predicates:
             - Path=/api/notifications/**
 
+  r2dbc:
+    url: r2dbc:mysql://user:password@localhost:3306/mdd_db
+
 eureka:
   client:
     serviceUrl:
