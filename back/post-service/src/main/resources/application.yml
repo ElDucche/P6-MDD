@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: post-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://user:password@localhost:3306/mdd_db
+
+jwt:
+  secret: your-super-secret-key-that-is-long-enough-to-be-secure
