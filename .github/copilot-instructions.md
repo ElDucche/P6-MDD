@@ -32,6 +32,11 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
 6.  **Ajouter des tests unitaires et d'intégration**.
 7. **S'assurer que le code respecte les principes SOLID en POO** et que le code est documenté avec javadoc.
 
+## Instructions spéciales pour le front/angular-app
+- Utiliser Tailwind CSS pour le style.
+- N'installe pas toi même de composants, j'utilise une librairie de composants dont tu n'as pas la documentation.
+- Lorsque tu veux générer un composant, dis moi quel type de page tu dois créer, je te dirais ensuite le nom du composant dans lequel implémenter la logique métier.
+
 ## Commandes utiles
 
 - **Lancer la base de données**:
@@ -50,4 +55,4 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
 Lorsque vous travaillez sur une tâche, suivez ces étapes :
 - Lister les fichiers à modifier dans la tâche.
 - Décomposer le demande en sous-tâches.
-- Proposer à l'utilisateur de valider les sous-tâches avant de les implémenter via une elicitation MCP "Valider".
+- Proposer à l'utilisateur de valider les sous-tâches avant de les implémenter.
