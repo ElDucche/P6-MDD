@@ -34,8 +34,7 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
 
 ## Instructions spéciales pour le front/angular-app
 - Utiliser Tailwind CSS pour le style.
-- N'installe pas toi même de composants, j'utilise une librairie de composants dont tu n'as pas la documentation.
-- Lorsque tu veux générer un composant, dis moi quel type de page tu dois créer, je te dirais ensuite le nom du composant dans lequel implémenter la logique métier.
+- Lorsque tu génère un composant, n'ajoute pas de code dans la partie component.html, je l'ajouterai moi-même.
 
 ## Commandes utiles
 
