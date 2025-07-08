@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**, /api/user/**
+
+        - id: post-service
+          uri: lb://post-service
+          predicates:
+            - Path=/api/posts/**, /api/themes/**
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+
+  r2dbc:
+    url: r2dbc:mysql://user:password@localhost:3306/mdd_db
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+jwt:
+  secret: your-very-long-and-secure-secret-key-that-is-at-least-256-bits
+  expiration: 86400 # 24 hours in seconds

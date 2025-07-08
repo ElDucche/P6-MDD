@@ -1,0 +1,11 @@
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/repositories/UserRepository.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/security/JwtUtil.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/security/JwtAuthenticationFilter.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/services/AuthService.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/security/SecurityConfig.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/dto/AuthResponse.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/controllers/AuthController.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/dto/RegisterRequest.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/ApiGatewayApplication.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/dto/LoginRequest.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/models/User.java
