@@ -43,6 +43,5 @@
         }
       }
     }
-    // ... Ajoute ici d'autres endpoints selon l'évolution de l'API
   ]
 }
