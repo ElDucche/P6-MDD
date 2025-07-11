@@ -2,6 +2,10 @@
 
 Ce fichier contient les instructions et informations relatives au projet P6-MDD.
 
+## Informations générales
+- Nous sommes sur github codespaces. J'utilise une VM pour le développement.
+- Il n'est pas question de localhost dans ce projet, toutes les applications sont accessibles sur des adresses liée à ma VM.
+
 ## Contexte du projet
 
 Mettre en place une architecture microservices Java/Spring Boot pour un projet de type réseau social. L'application permettra aux utilisateurs de s'inscrire, de se connecter, de créer des posts, de suivre d'autres utilisateurs et de recevoir des notifications.

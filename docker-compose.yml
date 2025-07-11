@@ -83,4 +83,4 @@ services:
       - "4200:80"
     depends_on:
       - api-gateway
-    profiles: [all, user-service, post-service, notification-service, front]
+    profiles: [all, front]

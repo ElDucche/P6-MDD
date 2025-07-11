@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/auth'; // URL de l'API Gateway
+  private apiUrl = 'https://improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev/api/auth'; // URL de l'API Gateway Codespaces
 
   constructor(private http: HttpClient) { }
 
