@@ -1,0 +1,12 @@
+com/elducche/demo/models/User.class
+com/elducche/demo/security/CorsGlobalConfiguration.class
+com/elducche/demo/repositories/UserRepository.class
+com/elducche/demo/dto/RegisterRequest.class
+com/elducche/demo/services/AuthService.class
+com/elducche/demo/security/SecurityConfig.class
+com/elducche/demo/security/JwtAuthenticationFilter.class
+com/elducche/demo/dto/AuthResponse.class
+com/elducche/demo/controllers/AuthController.class
+com/elducche/demo/security/JwtUtil.class
+com/elducche/demo/dto/LoginRequest.class
+com/elducche/api_gateway/ApiGatewayApplication.class

@@ -1,0 +1,86 @@
+version: '3.9'
+
+# =====================
+# Multi-profil Compose
+# =====================
+# Utilisation :
+#   - all : docker compose --profile all up
+#   - user-service : docker compose --profile user-service up
+#   - post-service : docker compose --profile post-service up
+#   - notification-service : docker compose --profile notification-service up
+#   - bdd : docker compose --profile bdd up
+#   - front : docker compose --profile front up
+
+services:
+  bdd:
+    image: postgres:16
+    container_name: mdd-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: mdd_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infra/script.sql:/docker-entrypoint-initdb.d/init.sql
+    profiles: [all, bdd, user-service, post-service, notification-service, front]
+
+  discovery-server:
+    build: ./back/discovery-server
+    container_name: mdd-discovery-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - bdd
+    profiles: [all, user-service, post-service, notification-service]
+
+  api-gateway:
+    build: ./back/api-gateway
+    container_name: mdd-api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+    profiles: [all, user-service, post-service, notification-service]
+
+  user-service:
+    build: ./back/user-service
+    container_name: mdd-user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - api-gateway
+      - bdd
+    profiles: [all, user-service]
+
+  post-service:
+    build: ./back/post-service
+    container_name: mdd-post-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - api-gateway
+      - bdd
+    profiles: [all, post-service]
+
+  notification-service:
+    build: ./back/notification-service
+    container_name: mdd-notification-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - api-gateway
+      - bdd
+    profiles: [all, notification-service]
+
+  front:
+    build:
+      context: ./front/angular-app
+      dockerfile: Dockerfile
+    container_name: mdd-front
+    ports:
+      - "4200:80"
+    depends_on:
+      - api-gateway
+    profiles: [all, front]

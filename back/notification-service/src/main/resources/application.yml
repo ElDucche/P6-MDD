@@ -1,15 +1,20 @@
 spring:
   application:
     name: notification-service
+  r2dbc:
+    url: r2dbc:postgresql://mdd-postgres:5432/mdd_db
+    username: user
+    password: password
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-
-spring:
-  r2dbc:
-    url: r2dbc:mysql://user:password@localhost:3306/mdd_db
+      defaultZone: https://discovery-server:8761/eureka
+  instance:
+    hostname: improved-tribble-jgpw4rqv56g25pr4-8083.app.github.dev
+    prefer-ip-address: false
+    non-secure-port: 8083
+    instance-id: ${spring.application.name}:${random.value}
 
 jwt:
   secret: your-super-secret-key-that-is-long-enough-to-be-secure

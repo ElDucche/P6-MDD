@@ -2,6 +2,10 @@
 
 Ce fichier contient les instructions et informations relatives au projet P6-MDD.
 
+## Informations générales
+- Nous sommes sur github codespaces. J'utilise une VM pour le développement.
+- Il n'est pas question de localhost dans ce projet, toutes les applications sont accessibles sur des adresses liée à ma VM.
+
 ## Contexte du projet
 
 Mettre en place une architecture microservices Java/Spring Boot pour un projet de type réseau social. L'application permettra aux utilisateurs de s'inscrire, de se connecter, de créer des posts, de suivre d'autres utilisateurs et de recevoir des notifications.
@@ -32,6 +36,10 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
 6.  **Ajouter des tests unitaires et d'intégration**.
 7. **S'assurer que le code respecte les principes SOLID en POO** et que le code est documenté avec javadoc.
 
+## Instructions spéciales pour le front/angular-app
+- Utiliser Tailwind CSS pour le style.
+- Lorsque tu génère un composant, n'ajoute pas de code dans la partie component.html, je l'ajouterai moi-même.
+
 ## Commandes utiles
 
 - **Lancer la base de données**:
@@ -50,4 +58,4 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
 Lorsque vous travaillez sur une tâche, suivez ces étapes :
 - Lister les fichiers à modifier dans la tâche.
 - Décomposer le demande en sous-tâches.
-- Proposer à l'utilisateur de valider les sous-tâches avant de les implémenter via une elicitation MCP "Valider".
+- Proposer à l'utilisateur de valider les sous-tâches avant de les implémenter.

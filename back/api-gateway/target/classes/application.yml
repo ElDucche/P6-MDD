@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**, /api/user/**
+
+        - id: post-service
+          uri: lb://post-service
+          predicates:
+            - Path=/api/posts/**, /api/themes/**
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+
+  r2dbc:
+    url: r2dbc:postgresql://mdd-postgres:5432/mdd_db
+    username: user
+    password: password
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-server:8761/eureka
+  instance:
+    hostname: improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev
+    prefer-ip-address: false
+    non-secure-port: 8080
+    instance-id: ${spring.application.name}:${random.value}
+
+jwt:
+  secret: your-very-long-and-secure-secret-key-that-is-at-least-256-bits
+  expiration: 86400 # 24 hours in seconds

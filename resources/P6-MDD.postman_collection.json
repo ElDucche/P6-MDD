@@ -1,0 +1,47 @@
+{
+  "info": {
+    "_postman_id": "b1e1c1e2-0000-0000-0000-000000000001",
+    "name": "P6-MDD API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+        },
+        "url": {
+          "raw": "https://improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev/api/auth/register",
+          "protocol": "https",
+          "host": ["improved-tribble-jgpw4rqv56g25pr4-8080", "app", "github", "dev"],
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+        },
+        "url": {
+          "raw": "https://improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev/api/auth/login",
+          "protocol": "https",
+          "host": ["improved-tribble-jgpw4rqv56g25pr4-8080", "app", "github", "dev"],
+          "path": ["api", "auth", "login"]
+        }
+      }
+    }
+  ]
+}
