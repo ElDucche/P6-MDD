@@ -7,5 +7,6 @@
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/controllers/AuthController.java
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/dto/RegisterRequest.java
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/ApiGatewayApplication.java
+/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/security/CorsGlobalConfiguration.java
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/dto/LoginRequest.java
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/demo/models/User.java

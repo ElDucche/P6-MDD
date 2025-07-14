@@ -1,7 +1,8 @@
-com/elducche/demo/services/AuthService.class
 com/elducche/demo/models/User.class
+com/elducche/demo/security/CorsGlobalConfiguration.class
 com/elducche/demo/repositories/UserRepository.class
 com/elducche/demo/dto/RegisterRequest.class
+com/elducche/demo/services/AuthService.class
 com/elducche/demo/security/SecurityConfig.class
 com/elducche/demo/security/JwtAuthenticationFilter.class
 com/elducche/demo/dto/AuthResponse.class

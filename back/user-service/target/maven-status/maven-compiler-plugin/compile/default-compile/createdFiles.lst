@@ -1,1 +1,6 @@
+com/elducche/userservice/repository/UserRepository.class
+com/elducche/userservice/SecurityConfig.class
+com/elducche/userservice/model/User.class
 com/elducche/userservice/UserServiceApplication.class
+com/elducche/userservice/service/UserService.class
+com/elducche/userservice/controller/AuthController.class

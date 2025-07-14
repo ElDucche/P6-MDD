@@ -1,1 +1,6 @@
 /workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/UserServiceApplication.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/controller/AuthController.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/repository/UserRepository.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/SecurityConfig.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/service/UserService.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/model/User.java
