@@ -1,3 +1,10 @@
+## Accès privé via Codespaces et GitHub Token
+
+Si l'URL de l'API Gateway est en mode "private" dans Codespaces, il est obligatoire d'ajouter le token GitHub à chaque requête sortante.
+
+- Le header `X-Github-Token` doit être ajouté automatiquement par l'API Gateway sur toutes les requêtes sortantes.
+- Le token doit être fourni via la variable d'environnement `GITHUB_TOKEN` (voir https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace#forwarding-ports-privately).
+- Sans ce header, toute requête sur un port privé retournera une erreur 401.
 # Instructions pour Copilot
 
 Ce fichier contient les instructions et informations relatives au projet P6-MDD.
@@ -5,6 +12,7 @@ Ce fichier contient les instructions et informations relatives au projet P6-MDD.
 ## Informations générales
 - Nous sommes sur github codespaces. J'utilise une VM pour le développement.
 - Il n'est pas question de localhost dans ce projet, toutes les applications sont accessibles sur des adresses liée à ma VM.
+- **IMPORTANT :** Pour éviter les erreurs 401 sur le port 8080 lors de l'accès à l'API Gateway ou à tout service exposé, il faut configurer le port comme "public" dans Codespaces. Voir la documentation officielle : https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace
 
 ## Contexte du projet
 
@@ -21,7 +29,7 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
         - `notification-service`: Gestion des notifications.
     - **Base de données**: MySQL, accessible en mode réactif avec R2DBC.
 - **Frontend**: Angular (dossier `front/angular-app`, à développer).
-- **Infrastructure**: Docker Compose (`infra/docker-compose.yml`) pour lancer la base de données MySQL.
+- **Infrastructure**: Base de données PostgreSQL.
 
 ## Instructions de développement
 
@@ -42,17 +50,13 @@ Mettre en place une architecture microservices Java/Spring Boot pour un projet d
 
 ## Commandes utiles
 
-- **Lancer la base de données**:
-  ```bash
-  cd infra
-  docker-compose up -d
-  ```
-- **Lancer un microservice** (ex: api-gateway):
-  ```bash
-  cd back/api-gateway
-  mvn spring-boot:run
-  ```
-  (Répéter pour `discovery-server`, `user-service`, `post-service`, `notification-service`)
+- **Lancer un profil docker-compose**:
+  - Le fichier `docker-compose.yml` principal se trouve à la racine du projet.
+  - Pour lancer un profil spécifique, utilisez la commande :
+    ```bash
+    docker-compose --profile <nom_du_profil> up -d
+    ```
+  - Réfère toi toujours au fichier `docker-compose.yml` pour les profils disponibles.
 
 ## Workflow Mode Agent
 Lorsque vous travaillez sur une tâche, suivez ces étapes :
