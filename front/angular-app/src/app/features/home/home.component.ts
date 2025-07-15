@@ -64,11 +64,7 @@ type Location = {
 @Component({
   selector: 'app-home',
   standalone: true,
-  template: `
-    <div class="p-4 h-screen">
-      <ngm-dev-block-content-placeholder></ngm-dev-block-content-placeholder>
-    </div>
-  `,
+  templateUrl: './home.component.html',
   imports: [
     CommonModule,
     MatTabsModule,

@@ -21,7 +21,7 @@ import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ngm-dev-block-login-email-password',
-  templateUrl: './login-email-password.component.html',
+  templateUrl: './login.component.html',
   imports: [
     MatCard,
     MatCardContent,

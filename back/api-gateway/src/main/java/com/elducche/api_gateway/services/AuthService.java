@@ -20,7 +20,7 @@ public class AuthService {
 
     public Mono<User> register(RegisterRequest request) {
         User user = new User();
-        user.setPseudo(request.getPseudo());
+        user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return userRepository.save(user);

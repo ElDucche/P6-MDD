@@ -11,7 +11,9 @@ public class CorsGlobalConfiguration {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.addAllowedOrigin("https://improved-tribble-jgpw4rqv56g25pr4-4200.app.github.dev");
+        corsConfig.addAllowedOrigin("https://legendary-space-bassoon-597p4vxjgq52pxgg-4200.app.github.dev");
+        corsConfig.addAllowedHeader("Content-Type");
+        corsConfig.addAllowedHeader("Authorization");
         corsConfig.addAllowedHeader("*");
         corsConfig.addAllowedMethod("*");
         corsConfig.setAllowCredentials(true);

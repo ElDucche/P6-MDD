@@ -18,6 +18,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Mono<ResponseEntity<String>> register(@RequestBody User user) {
+        System.out.println("[USER-SERVICE] User reçu : " + user);
         return userService.findByEmail(user.getEmail())
                 .flatMap(existing -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use")))
                 .switchIfEmpty(userService.register(user)

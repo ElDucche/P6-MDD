@@ -20,6 +20,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Mono<Void> register(@RequestBody RegisterRequest request) {
+        System.out.println("[API-GATEWAY] RegisterRequest reçu : " + request);
         return authService.register(request).then();
     }
 
