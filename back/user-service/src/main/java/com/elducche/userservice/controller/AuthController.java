@@ -17,10 +17,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public Mono<ResponseEntity<User>> register(@RequestBody User user) {
+    public Mono<ResponseEntity<String>> register(@RequestBody User user) {
         return userService.findByEmail(user.getEmail())
-                .flatMap(existing -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).<User>build()))
-                .switchIfEmpty(userService.register(user).map(u -> ResponseEntity.status(HttpStatus.CREATED).body(u)));
+                .flatMap(existing -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use")))
+                .switchIfEmpty(userService.register(user)
+                        .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).body("Inscription réussie !"))));
     }
 
     @PostMapping("/login")

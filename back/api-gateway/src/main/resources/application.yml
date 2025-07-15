@@ -1,3 +1,5 @@
+github:
+  token: ${GITHUB_TOKEN:}
 server:
   port: 8080
 
@@ -30,13 +32,20 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://discovery-server:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
   instance:
     hostname: improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev
     prefer-ip-address: false
-    non-secure-port: 8080
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-port: 8080
     instance-id: ${spring.application.name}:${random.value}
 
 jwt:
   secret: your-very-long-and-secure-secret-key-that-is-at-least-256-bits
   expiration: 86400 # 24 hours in seconds
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
