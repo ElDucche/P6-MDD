@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'https://improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev/api/auth'; // URL de l'API Gateway Codespaces
+  private apiUrl = environment.apiUrl + 'api/auth'; // URL configurable via environment.ts
 
   constructor(private http: HttpClient) { }
 
