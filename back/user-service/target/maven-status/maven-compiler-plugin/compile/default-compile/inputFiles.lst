@@ -1,6 +1,11 @@
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/exception/AlreadyExistException.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/exception/GlobalExceptionHandler.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/security/JwtAuthenticationFilter.java
 /workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/UserServiceApplication.java
 /workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/controller/AuthController.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/controller/UserController.java
 /workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/repository/UserRepository.java
-/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/SecurityConfig.java
 /workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/service/UserService.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/security/JwtUtil.java
+/workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/security/SecurityConfig.java
 /workspaces/P6-MDD/back/user-service/src/main/java/com/elducche/userservice/model/User.java

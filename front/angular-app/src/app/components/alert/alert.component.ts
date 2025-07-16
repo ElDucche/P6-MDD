@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, effect, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
 import { AlertService } from '../../core/services/alert.service';
 import { Alert } from '../../core/models/alert.model';
 
@@ -11,30 +10,12 @@ import { Alert } from '../../core/models/alert.model';
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.css']
 })
-export class AlertComponent implements OnInit, OnDestroy {
-  alert: Alert | null = null;
-  private subscription!: Subscription;
+export class AlertComponent {
+  private alertService = inject(AlertService);
+  public alert = this.alertService.alert;
 
-  constructor(private alertService: AlertService) { }
-
-  ngOnInit(): void {
-    this.subscription = this.alertService.alert$.subscribe(alert => {
-      this.alert = alert;
-      if (alert) {
-        setTimeout(() => this.closeAlert(), 5000); // Auto-close after 5 seconds
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  closeAlert(): void {
-    this.alertService.clearAlert();
-  }
-
-  getAlertClass(alert: Alert | null): string {
+  public alertClass = computed(() => {
+    const alert = this.alert();
     if (!alert) {
       return '';
     }
@@ -48,5 +29,17 @@ export class AlertComponent implements OnInit, OnDestroy {
       case 'info':
         return 'alert-info';
     }
+  });
+
+  constructor() {
+    effect(() => {
+      if (this.alert()) {
+        const timer = setTimeout(() => this.closeAlert(), 5000);
+      }
+    });
+  }
+
+  closeAlert(): void {
+    this.alertService.clearAlert();
   }
 }

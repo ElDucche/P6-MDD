@@ -22,7 +22,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
   instance:
     hostname: improved-tribble-jgpw4rqv56g25pr4-8081.app.github.dev
     prefer-ip-address: false
@@ -32,3 +32,7 @@ eureka:
 logging:
   level:
     org.springframework.r2dbc: DEBUG
+
+jwt:
+  secret: feze!ç!your-very-long-and-secure-secret-key-that-is-at-least-256-bits
+  expiration: 86400 # 24 hours

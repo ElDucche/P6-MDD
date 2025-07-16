@@ -53,6 +53,8 @@ services:
       - api-gateway
       - bdd
     profiles: [all, user-service]
+    environment:
+      - JWT_SECRET=feze!ç!your-very-long-and-secure-secret-key-that-is-at-least-256-bits
 
   post-service:
     build: ./back/post-service

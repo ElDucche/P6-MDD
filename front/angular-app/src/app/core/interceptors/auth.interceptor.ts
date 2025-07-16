@@ -21,18 +21,26 @@ export class AuthInterceptor implements HttpInterceptor {
         
         return next.handle(clonedReq).pipe(
             catchError((error: HttpErrorResponse) => {
+                console.error("Full error response from backend:", error); // Log the full error
+
                 let errorMessage = 'An unknown error occurred!';
                 if (error.error instanceof ErrorEvent) {
                     // Client-side errors
                     errorMessage = `Error: ${error.error.message}`;
                 } else {
                     // Server-side errors
-                    if (error.error && typeof error.error === 'object' && error.error.message) {
-                        errorMessage = error.error.message;
+                    if (error.error && typeof error.error === 'object') {
+                        if (error.error.message) {
+                            errorMessage = error.error.message;
+                        } else if (error.error.error) {
+                            errorMessage = error.error.error;
+                        } else {
+                            errorMessage = JSON.stringify(error.error);
+                        }
                     } else if (typeof error.error === 'string') {
                         errorMessage = error.error;
                     } else {
-                        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+                        errorMessage = `Error Code: ${error.status} - ${error.statusText || 'Unknown Status'}`;
                     }
                 }
                 this.alertService.showAlert({ message: errorMessage, type: 'error' });
