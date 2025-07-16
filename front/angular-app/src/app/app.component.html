@@ -1,5 +1,7 @@
 <div class="flex h-screen">
-  <app-sidebar *ngIf="showSidebar" class="w-64 bg-gray-800 text-white"></app-sidebar>
+  @if (showSidebar) {
+    <app-sidebar class="w-64 bg-gray-800 text-white"></app-sidebar>
+  }
   <main class="flex-1 p-4">
     <router-outlet></router-outlet>
   </main>
