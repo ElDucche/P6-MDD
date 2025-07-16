@@ -1,0 +1,12 @@
+<div *ngIf="alert" class="alert fixed top-5 right-5 w-auto z-50" [ngClass]="getAlertClass(alert)">
+  <div class="flex-1">
+    <label>{{ alert.message }}</label>
+  </div>
+  <div class="flex-none">
+    <button class="btn btn-sm btn-ghost" (click)="closeAlert()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+</div>
