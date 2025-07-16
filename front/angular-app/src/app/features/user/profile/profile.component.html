@@ -1,10 +1,6 @@
-<div *ngIf="user">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ user.username }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Email: {{ user.email }}</p>
-    </mat-card-content>
-  </mat-card>
+<div *ngIf="user" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-4">
+  <div class="p-8">
+    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{ user.username }}</div>
+    <p class="mt-2 text-gray-500">{{ user.email }}</p>
+  </div>
 </div>
