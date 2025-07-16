@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { LoginEmailPasswordComponent } from './auth/login/login-email-password.component';
+import { LoginEmailPasswordComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { authGuard } from './auth/guards/auth.guard';
 import { publicGuard } from './auth/guards/public.guard';

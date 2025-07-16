@@ -1,0 +1,13 @@
+/* Sélecteurs Material fond blanc */
+.mat-mdc-select,
+.mat-mdc-select-panel,
+.mat-mdc-option {
+  background-color: #fff !important;
+  color: #222 !important;
+  border-radius: 0.5rem !important;
+}
+
+.mat-mdc-option.mat-active {
+  background-color: #e0e7ef !important;
+  color: #222 !important;
+}

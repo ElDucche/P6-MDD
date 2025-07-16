@@ -29,7 +29,6 @@
               }
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/styles.css",
               "src/app/components/styles/ngm-dev-blocks-styles.scss"
             ],
@@ -91,5 +90,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,4 +1,4 @@
-<div class="p-4 sm:p-6 lg:p-8">
+<div class="p-4 sm:p-6 lg:p-8">  
   <header>
     <div class="sm:flex sm:items-center sm:justify-between">
       <h3 class="text-3xl font-semibold">Report</h3>
@@ -7,9 +7,11 @@
           <mat-select
             [value]="selectedTimeRange()"
             (valueChange)="selectedTimeRange.set($event)"
-            disableRipple>
+            disableRipple
+            panelClass="bg-white"
+            class="bg-white text-neutral-900">
             @for (timeRange of timeRanges; track timeRange.value) {
-              <mat-option [value]="timeRange.value">{{
+              <mat-option [value]="timeRange.value" class="bg-white text-neutral-900">{{
                 timeRange.viewValue
               }}</mat-option>
             }
@@ -19,9 +21,10 @@
           <mat-select
             [value]="selectedLocation()"
             (valueChange)="selectedLocation.set($event)"
-            disableRipple>
+            disableRipple
+            panelClass="bg-white">
             @for (location of locations; track location.value) {
-              <mat-option [value]="location.value">{{
+              <mat-option [value]="location.value" class="bg-white text-neutral-900">{{
                 location.viewValue
               }}</mat-option>
             }
