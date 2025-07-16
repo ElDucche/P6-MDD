@@ -1,5 +1,6 @@
 package com.elducche.userservice.controller;
 
+import com.elducche.userservice.exception.AlreadyExistException;
 import com.elducche.userservice.model.User;
 import com.elducche.userservice.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,10 @@ public class AuthController {
     @PostMapping("/register")
     public Mono<ResponseEntity<String>> register(@RequestBody User user) {
         System.out.println("[USER-SERVICE] User reçu : " + user);
-        return userService.findByEmail(user.getEmail())
-                .flatMap(existing -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use")))
-                .switchIfEmpty(userService.register(user)
-                        .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).body("Inscription réussie !"))));
+        return userService.register(user)
+                .map(savedUser -> ResponseEntity.status(HttpStatus.CREATED).body("Registration successful for user: " + savedUser.getUsername()))
+                .onErrorResume(AlreadyExistException.class, e ->
+                        Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage())));
     }
 
     @PostMapping("/login")
