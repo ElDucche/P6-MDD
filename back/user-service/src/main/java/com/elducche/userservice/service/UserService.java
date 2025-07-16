@@ -41,8 +41,8 @@ public class UserService {
         return Mono.just(passwordEncoder.matches(rawPassword, user.getPassword()));
     }
 
-    public Mono<User> updateUser(Long id, User user) {
-        return userRepository.findById(id)
+    public Mono<User> updateUser(String email, User user) {
+        return userRepository.findByEmail(email)
                 .flatMap(existingUser -> {
                     existingUser.setUsername(user.getUsername());
                     existingUser.setEmail(user.getEmail());

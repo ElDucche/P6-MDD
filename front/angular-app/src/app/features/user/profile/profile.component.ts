@@ -17,8 +17,7 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    // This is a placeholder. Replace with actual user fetching logic.
-    this.userService.getUser(1).subscribe((user: User) => {
+    this.userService.getUser().subscribe(user => {
       this.user = user;
     });
   }
