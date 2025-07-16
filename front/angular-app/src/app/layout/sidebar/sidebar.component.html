@@ -1,17 +1,8 @@
 <div class="p-4">
   <h2 class="text-2xl font-bold mb-4">My App</h2>
-  <nav>
-    <ul>
-      <li>
-        <a routerLink="/home" class="flex items-center p-2 rounded-md hover:bg-gray-700">
-          <span>Home</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/profile" class="flex items-center p-2 rounded-md hover:bg-gray-700">
-          <span>Profile</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <ul class="menu bg-base-100 w-full">
+    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+    <li><a routerLink="/profile" routerLinkActive="active">Profile</a></li>
+    <li><button class="btn btn-outline btn-error w-full mt-4" (click)="logout()">Logout</button></li>
+  </ul>
 </div>

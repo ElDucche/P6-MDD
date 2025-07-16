@@ -1,6 +1,12 @@
-<div *ngIf="user" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-4">
-  <div class="p-8">
-    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{ user.username }}</div>
-    <p class="mt-2 text-gray-500">{{ user.email }}</p>
+@if (user) {
+<div class="card max-w-md mx-auto bg-base-100 shadow-xl mt-4">
+  <div class="card-body">
+    <h2 class="card-title">{{ user.username }}</h2>
+    <p>{{ user.email }}</p>
   </div>
 </div>
+} else {
+  <div class="text-center mt-4">
+    <p class="text-gray-500">No user information available.</p>
+  </div>
+}

@@ -12,11 +12,5 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimationsAsync(),
-    {
-      provide: MAT_ICON_DEFAULT_OPTIONS,
-      useValue: {
-        fontSet: 'material-symbols-outlined',
-      },
-    },
   ],
 };
