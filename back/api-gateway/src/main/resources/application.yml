@@ -31,16 +31,11 @@ spring:
     password: password
 
 eureka:
+  instance:
+    hostname: api-gateway
   client:
     serviceUrl:
       defaultZone: http://discovery-server:8761/eureka
-  instance:
-    hostname: improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev
-    prefer-ip-address: false
-    secure-port-enabled: true
-    non-secure-port-enabled: false
-    secure-port: 8080
-    instance-id: ${spring.application.name}:${random.value}
 
 jwt:
   secret: your-very-long-and-secure-secret-key-that-is-at-least-256-bits

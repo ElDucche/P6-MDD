@@ -24,15 +24,12 @@ eureka:
     serviceUrl:
       defaultZone: http://discovery-server:8761/eureka
   instance:
-    hostname: improved-tribble-jgpw4rqv56g25pr4-8081.app.github.dev
-    prefer-ip-address: false
-    non-secure-port: 8081
-    instance-id: ${spring.application.name}:${random.value}
+    hostname: user-service
 
 logging:
   level:
     org.springframework.r2dbc: DEBUG
 
 jwt:
-  secret: feze!ç!your-very-long-and-secure-secret-key-that-is-at-least-256-bits
+  secret: "feze!ç!your-very-long-and-secure-secret-key-that-is-at-least-256-bits"
   expiration: 86400 # 24 hours

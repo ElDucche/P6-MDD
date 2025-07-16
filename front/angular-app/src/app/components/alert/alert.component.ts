@@ -8,7 +8,6 @@ import { Alert } from '../../core/models/alert.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.css']
 })
 export class AlertComponent {
   private alertService = inject(AlertService);
