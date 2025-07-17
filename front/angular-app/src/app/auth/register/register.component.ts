@@ -27,10 +27,11 @@ export class RegisterComponent {
     if (this.form.valid) {
       this.authService.register(this.form.value).subscribe({
         next: () => {
-          this.router.navigate(['/login']);
+          // Laisser l'alerte interceptor s'afficher, puis naviguer après 2s
+          setTimeout(() => this.router.navigate(['/login']), 2000);
         },
-        error: (err) => {
-          console.error('Registration failed', err);
+        error: () => {
+          // L'interceptor gère l'affichage de l'alerte
         }
       });
     }

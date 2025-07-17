@@ -14,20 +14,13 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class JwtAuthenticationFilter implements WebFilter {
 
-    private final JwtUtil jwtUtil;
+    // Suppression de la dépendance à JwtUtil
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String authToken = authHeader.substring(7);
-            if (jwtUtil.validateToken(authToken)) {
-                String username = jwtUtil.getUsernameFromToken(authToken);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, null);
-                return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
-            }
-        }
+        // Le gateway ne valide plus le JWT, il laisse passer la requête
         return chain.filter(exchange);
     }
 }

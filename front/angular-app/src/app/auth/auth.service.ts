@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   register(userInfo: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userInfo);
+    return this.http.post(`${this.apiUrl}/register`, userInfo, { responseType: 'text' });
   }
 
   logout(): void {

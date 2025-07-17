@@ -31,9 +31,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<String>> login(@RequestBody LoginRequest loginRequest) {
+    public Mono<ResponseEntity<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest)
-                .map(token -> ResponseEntity.ok(token))
-                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials")));
+                .map(token -> ResponseEntity.ok(new LoginResponse(token)))
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)));
     }
 }
