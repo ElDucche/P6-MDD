@@ -33,8 +33,16 @@ public class JwtUtil {
             System.out.println("[JWT] Token reçu : " + token);
             System.out.println("[JWT] Claims : " + claims);
             return claims;
+        } catch (io.jsonwebtoken.security.SignatureException se) {
+            System.out.println("[JWT] Erreur de signature lors du parsing du token : " + token);
+            se.printStackTrace();
+            throw se;
+        } catch (io.jsonwebtoken.MalformedJwtException me) {
+            System.out.println("[JWT] Token mal formé : " + token);
+            me.printStackTrace();
+            throw me;
         } catch (Exception e) {
-            System.out.println("[JWT] Erreur lors du parsing du token : " + token);
+            System.out.println("[JWT] Erreur inconnue lors du parsing du token : " + token);
             e.printStackTrace();
             throw e;
         }

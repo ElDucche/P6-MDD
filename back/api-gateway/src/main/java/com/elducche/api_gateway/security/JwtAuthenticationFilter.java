@@ -14,13 +14,10 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class JwtAuthenticationFilter implements WebFilter {
 
-    // Suppression de la dépendance à JwtUtil
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-        // Le gateway ne valide plus le JWT, il laisse passer la requête
         return chain.filter(exchange);
     }
 }
