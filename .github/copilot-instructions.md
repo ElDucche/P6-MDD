@@ -22,7 +22,7 @@ Pour tester les endpoints login et obtenir un token JWT, utilise les identifiant
         - `user-service`: Gestion des utilisateurs.
         - `post-service`: Gestion des posts, thèmes et commentaires.
         - `notification-service`: Gestion des notifications.
-    - **Base de données**: MySQL, accessible en mode réactif avec R2DBC.
+    - **Base de données**: Postgres, accessible en mode réactif avec R2DBC.
 - **Frontend**: Angular (dossier `front/angular-app`, à développer).
 - **Infrastructure**: Base de données PostgreSQL.
 
