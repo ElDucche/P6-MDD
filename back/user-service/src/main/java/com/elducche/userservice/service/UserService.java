@@ -1,11 +1,11 @@
 package com.elducche.userservice.service;
 
+import com.elducche.userservice.exception.AlreadyExistException;
 import com.elducche.userservice.model.User;
 import com.elducche.userservice.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
@@ -16,16 +16,36 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Mono<User> register(User user) {
+    public User register(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new AlreadyExistException("User with email " + user.getEmail() + " already exists.");
+        }
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            throw new AlreadyExistException("User with username " + user.getUsername() + " already exists.");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    public Mono<User> findByEmail(String email) {
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public Mono<Boolean> checkPassword(User user, String rawPassword) {
-        return Mono.just(passwordEncoder.matches(rawPassword, user.getPassword()));
+    public boolean checkPassword(User user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
+
+    public User updateUser(String email, User user) {
+        User existingUser = userRepository.findByEmail(email);
+        if (existingUser == null) {
+            return null;
+        }
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        return userRepository.save(existingUser);
     }
 }

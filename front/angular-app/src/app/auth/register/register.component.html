@@ -1,72 +1,67 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 max-w-7xl mx-auto">
-  <mat-card appearance="outlined">
-    <mat-card-content>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="flex flex-col space-y-4 p-4">
+<div class="flex items-center justify-center h-full">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 max-w-4xl w-full">
+    <div class="card bg-base-100">
+      <div class="card-body grid md:grid-cols-2 gap-6">
+        <div class="flex flex-col space-y-4 p-4 justify-center">
           <img
-            ngSrc="https://ui.angular-material.dev/app-ui/logo.svg"
+            src="https://raw.githubusercontent.com/saadeghi/files/main/daisyui/logo-4.svg"
             alt="Logo"
-            height="48"
-            width="48"
-            class="inline"
+            class="w-20 h-20"
           />
-          <h1 class="text-3xl">Create an account</h1>
+          <h1 class="text-3xl font-bold">Create an account</h1>
           <p>to continue to Application</p>
         </div>
 
-        <div class="flex flex-col space-y-2 p-4 md:mt-12">
-          <mat-form-field class="w-full">
-            <mat-label>Username</mat-label>
-            <input matInput type="text" formControlName="username" />
-            @if ( (form.get('username')?.touched || form.get('username')?.dirty) &&
-            form.get('username')?.hasError('required') ) {
-            <mat-error>
-              <mat-icon class="form-field-error-icon">error</mat-icon>
-              Username is required</mat-error
-            >
+        <div class="flex flex-col space-y-2 p-4">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Username</span>
+            </div>
+            <input type="text" formControlName="username" class="input input-bordered w-full" />
+            @if ( (form.get('username')?.touched || form.get('username')?.dirty) && form.get('username')?.hasError('required') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Username is required</span>
+              </div>
             }
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" />
-            @if ( (form.get('email')?.touched || form.get('email')?.dirty) &&
-            form.get('email')?.hasError('required') ) {
-            <mat-error>
-              <mat-icon class="form-field-error-icon">error</mat-icon>
-              Email is required</mat-error
-            >
-            } @if ( (form.get('email')?.touched || form.get('email')?.dirty) &&
-            form.get('email')?.hasError('email') ) {
-            <mat-error>
-              <mat-icon class="form-field-error-icon">error</mat-icon>
-              Email is invalid
-            </mat-error>
+          </label>
+
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Email</span>
+            </div>
+            <input type="email" formControlName="email" class="input input-bordered w-full" />
+            @if ( (form.get('email')?.touched || form.get('email')?.dirty) && form.get('email')?.hasError('required') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Email is required</span>
+              </div>
+            } @if ( (form.get('email')?.touched || form.get('email')?.dirty) && form.get('email')?.hasError('email') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Email is invalid</span>
+              </div>
             }
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" />
-            @if ( (form.get('password')?.touched || form.get('password')?.dirty)
-            && form.get('password')?.hasError('required') ) {
-            <mat-error>
-              <mat-icon class="form-field-error-icon">error</mat-icon>
-              Password is required</mat-error
-            >
-            } @if ( (form.get('password')?.touched ||
-            form.get('password')?.dirty) &&
-            form.get('password')?.hasError('minlength') ) {
-            <mat-error>
-              <mat-icon class="form-field-error-icon">error</mat-icon>
-              Password must be at least 8 characters
-            </mat-error>
+          </label>
+
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Password</span>
+            </div>
+            <input type="password" formControlName="password" class="input input-bordered w-full" />
+             @if ( (form.get('password')?.touched || form.get('password')?.dirty) && form.get('password')?.hasError('required') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Password is required</span>
+              </div>
+            } @if ( (form.get('password')?.touched || form.get('password')?.dirty) && form.get('password')?.hasError('minlength') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Password must be at least 8 characters</span>
+              </div>
             }
-          </mat-form-field>
+          </label>
+          <div class="card-actions justify-end items-center gap-2 mt-4">
+            <a routerLink="/login" class="btn btn-ghost">Sign in</a>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Create account</button>
+          </div>
         </div>
       </div>
-    </mat-card-content>
-    <mat-card-actions align="end">
-      <a mat-button routerLink="/login">Already have an account?</a>
-      <button mat-flat-button type="submit">Sign up</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+    </div>
+  </form>
+</div>

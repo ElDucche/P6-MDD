@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "docker compose --profile user-service up --build -d",
+			"label": "Rebuild and restart user-service profile",
+			"group": "build"
+		}
+	]
+}

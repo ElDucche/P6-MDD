@@ -3,8 +3,7 @@ package com.elducche.postservice.controllers;
 import com.elducche.postservice.models.Post;
 import com.elducche.postservice.services.PostService;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -17,17 +16,17 @@ public class PostController {
     }
 
     @GetMapping
-    public Flux<Post> getAllPosts() {
+    public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @GetMapping("/theme/{themeId}")
-    public Flux<Post> getPostsByTheme(@PathVariable Long themeId) {
+    public List<Post> getPostsByTheme(@PathVariable Long themeId) {
         return postService.getPostsByTheme(themeId);
     }
 
     @PostMapping
-    public Mono<Post> createPost(@RequestBody Post post) {
+    public Post createPost(@RequestBody Post post) {
         return postService.createPost(post);
     }
 }
