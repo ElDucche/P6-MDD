@@ -3,8 +3,7 @@ package com.elducche.postservice.services;
 import com.elducche.postservice.models.Subscription;
 import com.elducche.postservice.repositories.SubscriptionRepository;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import java.util.List;
 
 @Service
 public class SubscriptionService {
@@ -15,11 +14,11 @@ public class SubscriptionService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public Mono<Subscription> subscribe(Subscription subscription) {
+    public Subscription subscribe(Subscription subscription) {
         return subscriptionRepository.save(subscription);
     }
 
-    public Flux<Subscription> getSubscriptionsByUser(Long userId) {
+    public List<Subscription> getSubscriptionsByUser(Long userId) {
         return subscriptionRepository.findByUserId(userId);
     }
 }

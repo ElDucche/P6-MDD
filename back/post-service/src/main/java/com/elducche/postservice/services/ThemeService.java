@@ -3,8 +3,7 @@ package com.elducche.postservice.services;
 import com.elducche.postservice.models.Theme;
 import com.elducche.postservice.repositories.ThemeRepository;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import java.util.List;
 
 @Service
 public class ThemeService {
@@ -15,11 +14,11 @@ public class ThemeService {
         this.themeRepository = themeRepository;
     }
 
-    public Flux<Theme> getAllThemes() {
-        return themeRepository.findAll();
+    public List<Theme> getAllThemes() {
+        return (List<Theme>) themeRepository.findAll();
     }
 
-    public Mono<Theme> createTheme(Theme theme) {
+    public Theme createTheme(Theme theme) {
         return themeRepository.save(theme);
     }
 }
