@@ -8,7 +8,6 @@ import com.elducche.userservice.model.dto.LoginResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,18 +21,21 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public Mono<ResponseEntity<String>> register(@RequestBody User user) {
+    public ResponseEntity<String> register(@RequestBody User user) {
         System.out.println("[USER-SERVICE] User reçu : " + user);
-        return userService.findByEmail(user.getEmail())
-                .flatMap(existing -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use")))
-                .switchIfEmpty(userService.register(user)
-                        .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).body("Inscription réussie !"))));
+        if (userService.findByEmail(user.getEmail()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+        }
+        userService.register(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Inscription réussie !");
     }
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
-        return authService.login(loginRequest)
-                .map(token -> ResponseEntity.ok(new LoginResponse(token)))
-                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)));
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        String token = authService.login(loginRequest);
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 }

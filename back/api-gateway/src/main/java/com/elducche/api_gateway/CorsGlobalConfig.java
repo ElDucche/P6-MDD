@@ -11,7 +11,7 @@ public class CorsGlobalConfig {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.addAllowedOrigin("https://legendary-space-bassoon-597p4vxjgq52pxgg-8080.app.github.dev/"); // Remplace par l'URL publique de ta VM si besoin
+        corsConfig.addAllowedOriginPattern("*"); // Autorise toutes les origines (à restreindre en prod)
         corsConfig.addAllowedMethod("*");
         corsConfig.addAllowedHeader("*");
         corsConfig.setAllowCredentials(true);
