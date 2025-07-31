@@ -3,8 +3,7 @@ package com.elducche.postservice.services;
 import com.elducche.postservice.models.Post;
 import com.elducche.postservice.repositories.PostRepository;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import java.util.List;
 
 @Service
 public class PostService {
@@ -15,15 +14,15 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Flux<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<Post> getAllPosts() {
+        return (List<Post>) postRepository.findAll();
     }
 
-    public Flux<Post> getPostsByTheme(Long themeId) {
+    public List<Post> getPostsByTheme(Long themeId) {
         return postRepository.findByThemeId(themeId);
     }
 
-    public Mono<Post> createPost(Post post) {
+    public Post createPost(Post post) {
         return postRepository.save(post);
     }
 }

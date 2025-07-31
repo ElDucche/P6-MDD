@@ -1,8 +1,0 @@
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/controllers/NotificationController.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/security/JwtUtil.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/models/Notification.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/security/JwtAuthenticationFilter.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/services/NotificationService.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/NotificationServiceApplication.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/repositories/NotificationRepository.java
-/workspaces/P6-MDD/back/notification-service/src/main/java/com/elducche/notificationservice/security/SecurityConfig.java

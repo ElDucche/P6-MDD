@@ -9,7 +9,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://improved-tribble-jgpw4rqv56g25pr4-8761.app.github.dev/eureka
+      defaultZone: https://localhost:8761/eureka
   instance:
     hostname: improved-tribble-jgpw4rqv56g25pr4-8082.app.github.dev
     prefer-ip-address: false

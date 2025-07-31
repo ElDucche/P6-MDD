@@ -29,6 +29,8 @@ eureka:
 logging:
   level:
     org.springframework.r2dbc: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
 
 jwt:
   expiration: 86400 # 24 hours

@@ -1,9 +1,9 @@
 package com.elducche.postservice.repositories;
 
 import com.elducche.postservice.models.Subscription;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
-import reactor.core.publisher.Flux;
+import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-public interface SubscriptionRepository extends R2dbcRepository<Subscription, Long> {
-    Flux<Subscription> findByUserId(Long userId);
+public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
+    List<Subscription> findByUserId(Long userId);
 }

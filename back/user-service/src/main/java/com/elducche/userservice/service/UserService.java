@@ -6,7 +6,6 @@ import com.elducche.userservice.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
@@ -17,36 +16,36 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Mono<User> register(User user) {
-        return userRepository.findByEmail(user.getEmail())
-                .flatMap(existingUser -> Mono.error(new AlreadyExistException("User with email " + user.getEmail() + " already exists.")))
-                .then(userRepository.findByUsername(user.getUsername()))
-                .flatMap(existingUser -> Mono.error(new AlreadyExistException("User with username " + user.getUsername() + " already exists.")))
-                .switchIfEmpty(Mono.defer(() -> {
-                    user.setPassword(passwordEncoder.encode(user.getPassword()));
-                    return userRepository.save(user);
-                }))
-                .cast(User.class);
+    public User register(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new AlreadyExistException("User with email " + user.getEmail() + " already exists.");
+        }
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            throw new AlreadyExistException("User with username " + user.getUsername() + " already exists.");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
-    public Mono<User> findById(Long id) {
-        return userRepository.findById(id);
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
-    public Mono<User> findByEmail(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public Mono<Boolean> checkPassword(User user, String rawPassword) {
-        return Mono.just(passwordEncoder.matches(rawPassword, user.getPassword()));
+    public boolean checkPassword(User user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
     }
 
-    public Mono<User> updateUser(String email, User user) {
-        return userRepository.findByEmail(email)
-                .flatMap(existingUser -> {
-                    existingUser.setUsername(user.getUsername());
-                    existingUser.setEmail(user.getEmail());
-                    return userRepository.save(existingUser);
-                });
+    public User updateUser(String email, User user) {
+        User existingUser = userRepository.findByEmail(email);
+        if (existingUser == null) {
+            return null;
+        }
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        return userRepository.save(existingUser);
     }
 }

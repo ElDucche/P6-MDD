@@ -5,7 +5,6 @@ import com.elducche.userservice.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/user")
@@ -18,16 +17,20 @@ public class UserController {
     }
 
     @GetMapping("")
-    public Mono<ResponseEntity<User>> getUser(Authentication authentication) {
-        return userService.findByEmail(authentication.getName())
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public ResponseEntity<User> getUser(Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("")
-    public Mono<ResponseEntity<User>> updateUser(Authentication authentication, @RequestBody User user) {
-        return userService.updateUser(authentication.getName(), user)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public ResponseEntity<User> updateUser(Authentication authentication, @RequestBody User user) {
+        User updated = userService.updateUser(authentication.getName(), user);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
     }
 }

@@ -1,7 +1,7 @@
 package com.elducche.postservice.repositories;
 
 import com.elducche.postservice.models.Theme;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface ThemeRepository extends ReactiveCrudRepository<Theme, Long> {
+public interface ThemeRepository extends CrudRepository<Theme, Long> {
 }
