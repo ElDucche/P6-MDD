@@ -9,6 +9,21 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 
+              - "https://legendary-space-bassoon-597p4vxjgq52pxgg-4200.app.github.dev"
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
       routes:
         - id: user-service
           uri: lb://user-service
@@ -25,10 +40,6 @@ spring:
           predicates:
             - Path=/api/notifications/**
 
-  r2dbc:
-    url: r2dbc:postgresql://mdd-postgres:5432/mdd_db
-    username: user
-    password: password
 
 eureka:
   instance:

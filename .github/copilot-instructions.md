@@ -22,13 +22,13 @@ Pour tester les endpoints login et obtenir un token JWT, utilise les identifiant
         - `user-service`: Gestion des utilisateurs.
         - `post-service`: Gestion des posts, thèmes et commentaires.
         - `notification-service`: Gestion des notifications.
-    - **Base de données**: Postgres, accessible en mode réactif avec R2DBC.
+    - **Base de données**: Postgres.
 - **Frontend**: Angular (dossier `front/angular-app`, à développer).
 - **Infrastructure**: Base de données PostgreSQL.
 
 ## Instructions de développement
 
-1.  **Terminer la configuration des entités et repositories** pour `post-service` et `notification-service` en utilisant R2DBC et les tables définies dans `infra/script.sql`.
+1.  **Terminer la configuration des entités et repositories** pour `post-service` et `notification-service` en utilisant JDBC et les tables définies dans `infra/script.sql`.
 2.  **Implémenter la logique métier** dans chaque microservice (CRUD pour les posts, les thèmes, les abonnements, etc.).
 3.  **Sécuriser les endpoints** des microservices en validant le token JWT transmis par l'API Gateway.
 4.  **Développer le frontend Angular** pour interagir avec l'API Gateway.
