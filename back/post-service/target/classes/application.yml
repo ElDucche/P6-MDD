@@ -1,10 +1,14 @@
 spring:
   application:
     name: post-service
-  r2dbc:
-    url: r2dbc:postgresql://mdd-postgres:5432/mdd_db
+  datasource:
+    url: jdbc:postgresql://mdd-postgres:5432/mdd_db
     username: user
     password: password
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
 
 eureka:
   client:

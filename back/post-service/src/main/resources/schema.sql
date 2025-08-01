@@ -1,38 +1,62 @@
+CREATE TABLE IF NOT EXISTS USERS (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS THEMES (
-    id LONG AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS POSTS (
-    id LONG AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    author_id LONG,
-    theme_id LONG,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    author_id BIGINT,
+    theme_id BIGINT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES USERS(id),
     FOREIGN KEY (theme_id) REFERENCES THEMES(id)
 );
 
 CREATE TABLE IF NOT EXISTS COMMENTS (
-    id LONG AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     content TEXT NOT NULL,
-    author_id LONG,
-    post_id LONG,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    author_id BIGINT,
+    post_id BIGINT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES USERS(id),
     FOREIGN KEY (post_id) REFERENCES POSTS(id)
 );
 
 CREATE TABLE IF NOT EXISTS SUBSCRIPTIONS (
-    user_id LONG,
-    theme_id LONG,
+    user_id BIGINT,
+    theme_id BIGINT,
     PRIMARY KEY (user_id, theme_id),
     FOREIGN KEY (user_id) REFERENCES USERS(id),
     FOREIGN KEY (theme_id) REFERENCES THEMES(id)
 );
+
+-- Insertion des thèmes IT/Développement
+INSERT INTO THEMES (title, description) VALUES 
+('Java', 'Discussions autour du langage Java et ses frameworks'),
+('Spring Boot', 'Développement d''applications avec Spring Boot'),
+('Angular', 'Framework JavaScript pour applications web'),
+('React', 'Bibliothèque JavaScript pour interfaces utilisateur'),
+('Python', 'Langage de programmation Python et ses applications'),
+('DevOps', 'Pratiques DevOps, CI/CD et automatisation'),
+('Base de données', 'Gestion de données, SQL, NoSQL'),
+('Sécurité', 'Cybersécurité et bonnes pratiques'),
+('Intelligence Artificielle', 'IA, Machine Learning, Deep Learning'),
+('Cloud Computing', 'Services cloud AWS, Azure, GCP'),
+('Microservices', 'Architecture en microservices'),
+('Développement Mobile', 'Applications iOS, Android, React Native');
