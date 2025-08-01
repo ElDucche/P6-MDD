@@ -1,21 +1,53 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { AuthService } from '../../../auth/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
 import { User } from '../user.model';
 
+// Interface temporaire pour les thèmes (en attendant le backend)
+interface Theme {
+  id: number;
+  title: string;
+  description: string;
+  subscribedAt: Date;
+}
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: [],
-  imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, DatePipe]
 })
 export class ProfileComponent implements OnInit {
   protected readonly user = signal<User | undefined>(undefined);
   protected readonly isEditModalOpen = signal(false);
   protected readonly isDeleteConfirmOpen = signal(false);
+  protected readonly isLoading = signal(true);
+  
+  // Signal pour les thèmes abonnés (placeholder)
+  protected readonly subscribedThemes = signal<Theme[]>([
+    {
+      id: 1,
+      title: 'Développement Web',
+      description: 'Toutes les nouveautés sur le développement web moderne',
+      subscribedAt: new Date('2024-12-15')
+    },
+    {
+      id: 2,
+      title: 'Intelligence Artificielle',
+      description: 'Actualités et discussions sur l\'IA et le machine learning',
+      subscribedAt: new Date('2024-12-10')
+    },
+    {
+      id: 3,
+      title: 'Design UX/UI',
+      description: 'Tendances et bonnes pratiques en design d\'interface',
+      subscribedAt: new Date('2024-12-05')
+    }
+  ]);
   
   protected editForm: FormGroup;
 
@@ -45,6 +77,8 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserProfile(): void {
+    this.isLoading.set(true);
+    
     this.userService.getUser().subscribe({
       next: (user) => {
         this.user.set(user);
@@ -54,6 +88,11 @@ export class ProfileComponent implements OnInit {
           email: user?.email || '',
           password: ''
         });
+        
+        // Simulation d'un délai pour voir le loading (à retirer en production)
+        setTimeout(() => {
+          this.isLoading.set(false);
+        }, 800);
       },
       error: (error: unknown) => {
         console.error('Erreur lors du chargement du profil:', error);
@@ -61,6 +100,7 @@ export class ProfileComponent implements OnInit {
           type: 'error',
           message: 'Impossible de charger le profil utilisateur'
         });
+        this.isLoading.set(false);
       }
     });
   }
@@ -104,8 +144,14 @@ export class ProfileComponent implements OnInit {
           this.closeEditModal();
           this.alertService.showAlert({
             type: 'success',
-            message: 'Profil mis à jour avec succès'
+            message: 'Profil mis à jour avec succès. Vous allez être déconnecté pour actualiser votre session.'
           });
+          
+          // Déconnexion automatique après mise à jour pour régénérer le token
+          setTimeout(() => {
+            this.authService.logout();
+            this.router.navigate(['/auth/login']);
+          }, 2000); // Délai de 2 secondes pour que l'utilisateur puisse lire le message
         },
         error: (error: unknown) => {
           console.error('Erreur lors de la mise à jour:', error);
@@ -151,6 +197,26 @@ export class ProfileComponent implements OnInit {
         });
         this.closeDeleteConfirm();
       }
+    });
+  }
+
+  /**
+   * Se désabonner d'un thème (placeholder - en attendant le backend)
+   */
+  protected unsubscribeFromTheme(themeId: number): void {
+    const currentThemes = this.subscribedThemes();
+    const themeName = currentThemes.find(theme => theme.id === themeId)?.title || 'ce thème';
+    
+    // Simulation de l'appel API - À remplacer par un vrai service
+    // Exemple: this.themeService.unsubscribe(themeId).subscribe(...)
+    
+    // Mise à jour locale des données (placeholder)
+    const updatedThemes = currentThemes.filter(theme => theme.id !== themeId);
+    this.subscribedThemes.set(updatedThemes);
+    
+    this.alertService.showAlert({
+      type: 'success',
+      message: `Vous vous êtes désabonné de "${themeName}"`
     });
   }
 

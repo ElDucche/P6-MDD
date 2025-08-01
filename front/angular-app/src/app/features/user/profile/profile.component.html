@@ -1,5 +1,55 @@
-@if (user()) {
-<div class="card max-w-lg mx-auto bg-base-100 shadow-xl mt-8">
+@if (isLoading()) {
+<!-- Loading Screen avec Skeleton -->
+<div class="max-w-lg mx-auto mt-8 space-y-6">
+  <!-- Skeleton pour la section profil -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex items-center space-x-4 mb-4">
+        <div class="skeleton w-16 h-16 rounded-full shrink-0"></div>
+        <div class="flex-1 space-y-2">
+          <div class="skeleton h-6 w-32"></div>
+          <div class="skeleton h-4 w-48"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-actions justify-center">
+        <div class="skeleton h-12 w-40"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skeleton pour la section thèmes -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex items-center justify-between mb-4">
+        <div class="skeleton h-6 w-36"></div>
+        <div class="skeleton w-8 h-6 rounded-full"></div>
+      </div>
+      <div class="space-y-3">
+        @for (item of [1,2,3]; track $index) {
+          <div class="bg-base-200 rounded-lg p-4 flex items-start justify-between">
+            <div class="flex-1 space-y-2">
+              <div class="skeleton h-5 w-40"></div>
+              <div class="skeleton h-4 w-full"></div>
+              <div class="skeleton h-3 w-32"></div>
+            </div>
+            <div class="skeleton w-8 h-8 rounded ml-3"></div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Message de chargement avec animation -->
+  <div class="text-center">
+    <span class="loading loading-dots loading-md text-primary"></span>
+    <p class="text-sm text-base-content/70 mt-2">Chargement de vos données...</p>
+  </div>
+</div>
+
+} @else if (user()) {
+<!-- Section Informations Utilisateur -->
+<div class="card card-border max-w-lg mx-auto bg-base-100 mt-8">
   <div class="card-body">
     <div class="flex items-center space-x-4 mb-4">
       <div class="avatar avatar-placeholder">
@@ -23,6 +73,54 @@
         Modifier le profil
       </button>
     </div>
+  </div>
+</div>
+
+<!-- Section Thèmes Abonnés -->
+<div class="card card-border max-w-lg mx-auto bg-base-100 mt-6">
+  <div class="card-body">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="card-title text-xl">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+        Mes abonnements
+      </h3>
+      <div class="badge badge-primary">{{ subscribedThemes().length }}</div>
+    </div>
+
+    @if (subscribedThemes().length > 0) {
+      <div class="space-y-3">
+        @for (theme of subscribedThemes(); track theme.id) {
+          <div class="bg-base-200 rounded-lg p-4 flex items-start justify-between">
+            <div class="flex-1">
+              <h4 class="font-semibold text-base">{{ theme.title }}</h4>
+              <p class="text-sm text-base-content/70 mt-1">{{ theme.description }}</p>
+              <p class="text-xs text-base-content/50 mt-2">
+                Abonné depuis le {{ theme.subscribedAt | date:'dd/MM/yyyy' }}
+              </p>
+            </div>
+            <button 
+              class="btn btn-ghost btn-sm btn-square text-error hover:bg-error hover:text-error-content ml-3"
+              (click)="unsubscribeFromTheme(theme.id)"
+              title="Se désabonner de {{ theme.title }}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="text-center py-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-base-content/30 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+        <p class="text-base-content/70">Aucun abonnement pour le moment</p>
+        <p class="text-sm text-base-content/50 mt-1">Explorez les thèmes disponibles pour commencer !</p>
+      </div>
+    }
   </div>
 </div>
 
@@ -91,7 +189,7 @@
         <input 
           id="password"
           type="password" 
-          class="input input-bordered w-full"
+          class="input input-bordered w-full placeholder:text-base-content/50"
           formControlName="password"
           placeholder="Laisser vide pour ne pas changer"
         />
