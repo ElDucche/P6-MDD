@@ -23,7 +23,7 @@ services:
       - "5432:5432"
     volumes:
       - ./infra/script.sql:/docker-entrypoint-initdb.d/init.sql
-    profiles: [all, bdd, user-service, post-service, front]
+    profiles: [all, bdd, user-service, post-service, front, back]
 
   discovery-server:
     build: ./back/discovery-server
@@ -32,7 +32,7 @@ services:
       - "8761:8761"
     depends_on:
       - bdd
-    profiles: [all, user-service, post-service]
+    profiles: [all, user-service, post-service, back]
 
   api-gateway:
     build: ./back/api-gateway
@@ -41,7 +41,7 @@ services:
       - "8080:8080"
     depends_on:
       - discovery-server
-    profiles: [all, user-service, post-service]
+    profiles: [all, user-service, post-service, back]
 
   user-service:
     build: ./back/user-service
@@ -51,7 +51,7 @@ services:
     depends_on:
       - api-gateway
       - bdd
-    profiles: [all, user-service]
+    profiles: [all, user-service, back]
     environment:
       - JWT_SECRET=A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x4
 
@@ -63,7 +63,7 @@ services:
     depends_on:
       - api-gateway
       - bdd
-    profiles: [all, post-service]
+    profiles: [all, post-service, back]
 
 
   front:

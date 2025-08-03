@@ -44,13 +44,10 @@ spring:
 eureka:
   instance:
     hostname: api-gateway
+    prefer-ip-address: true
   client:
     serviceUrl:
       defaultZone: http://discovery-server:8761/eureka
-
-jwt:
-  secret: your-very-long-and-secure-secret-key-that-is-at-least-256-bits
-  expiration: 86400 # 24 hours in seconds
 
 logging:
   level:
