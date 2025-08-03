@@ -1,7 +1,13 @@
 github:
   token: ${GITHUB_TOKEN:}
 server:
-  port: 8080
+ eureka:
+  instance:
+    hostname: mdd-api-gateway
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://mdd-discovery-server:8761/eureka8080
   forward-headers-strategy: framework
 
 spring:

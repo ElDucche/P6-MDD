@@ -81,4 +81,43 @@ public class JwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    /**
+     * Génère un token JWT enrichi avec les informations utilisateur
+     * 
+     * @param userId L'ID de l'utilisateur
+     * @param email L'email de l'utilisateur
+     * @param username Le nom d'utilisateur
+     * @return Le token JWT
+     */
+    public String generateEnrichedToken(Long userId, String email, String username) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("userId", userId)
+                .claim("username", username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    /**
+     * Extrait l'ID utilisateur du token JWT
+     * 
+     * @param token Le token JWT
+     * @return L'ID de l'utilisateur
+     */
+    public Long getUserIdFromToken(String token) {
+        return getAllClaimsFromToken(token).get("userId", Long.class);
+    }
+
+    /**
+     * Extrait le nom d'utilisateur du token JWT à partir des claims
+     * 
+     * @param token Le token JWT
+     * @return Le nom d'utilisateur
+     */
+    public String getUsernameFromClaims(String token) {
+        return getAllClaimsFromToken(token).get("username", String.class);
+    }
 }
