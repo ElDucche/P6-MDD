@@ -7,9 +7,10 @@ CREATE TABLE IF NOT EXISTS "USERS" (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "THEMES" (
+-- Table des thèmes (correspondant au modèle Java)
+CREATE TABLE IF NOT EXISTS themes (
     id BIGSERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
@@ -24,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "POSTS" (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES "USERS"(id),
-    FOREIGN KEY (theme_id) REFERENCES THEMES(id)
+    FOREIGN KEY (theme_id) REFERENCES themes(id)
 );
 
 CREATE TABLE IF NOT EXISTS "COMMENTS" (
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS "SUBSCRIPTIONS" (
     theme_id BIGINT,
     PRIMARY KEY (user_id, theme_id),
     FOREIGN KEY (user_id) REFERENCES "USERS"(id),
-    FOREIGN KEY (theme_id) REFERENCES THEMES(id)
+    FOREIGN KEY (theme_id) REFERENCES themes(id)
 );
 
 CREATE TABLE IF NOT EXISTS "NOTIFICATIONS" (
@@ -54,3 +55,19 @@ CREATE TABLE IF NOT EXISTS "NOTIFICATIONS" (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES "USERS"(id)
 );
+
+-- Insertion des thèmes IT/Développement (évite les doublons grâce à ON CONFLICT)
+INSERT INTO themes (title, description) VALUES 
+('Java', 'Discussions autour du langage Java et ses frameworks'),
+('Spring Boot', 'Développement d''applications avec Spring Boot'),
+('Angular', 'Framework JavaScript pour applications web'),
+('React', 'Bibliothèque JavaScript pour interfaces utilisateur'),
+('Python', 'Langage de programmation Python et ses applications'),
+('DevOps', 'Pratiques DevOps, CI/CD et automatisation'),
+('Base de données', 'Gestion de données, SQL, NoSQL'),
+('Sécurité', 'Cybersécurité et bonnes pratiques'),
+('Intelligence Artificielle', 'IA, Machine Learning, Deep Learning'),
+('Cloud Computing', 'Services cloud AWS, Azure, GCP'),
+('Microservices', 'Architecture en microservices'),
+('Développement Mobile', 'Applications iOS, Android, React Native')
+ON CONFLICT (title) DO NOTHING;

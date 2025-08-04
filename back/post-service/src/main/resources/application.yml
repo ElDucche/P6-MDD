@@ -9,8 +9,7 @@ spring:
   sql:
     init:
       platform: postgres
-      mode: always
-      schema-locations: classpath:/schema.sql
+      mode: never
 
 server:
   port: 8081
@@ -29,4 +28,5 @@ logging:
     org.springframework.web: INFO
 
 jwt:
+  secret: mySecretKey123456789012345678901234567890
   expiration: 86400 # 24 hours

@@ -9,8 +9,7 @@ spring:
   sql:
     init:
       platform: postgres
-      mode: always
-      schema-locations: classpath:/schema.sql
+      mode: never
 
 server:
   port: 8081
