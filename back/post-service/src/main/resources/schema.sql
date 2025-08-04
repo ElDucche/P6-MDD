@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS SUBSCRIPTIONS (
     FOREIGN KEY (theme_id) REFERENCES THEMES(id)
 );
 
--- Insertion des thèmes IT/Développement
+-- Insertion des thèmes IT/Développement (évite les doublons grâce à ON CONFLICT)
 INSERT INTO THEMES (title, description) VALUES 
 ('Java', 'Discussions autour du langage Java et ses frameworks'),
 ('Spring Boot', 'Développement d''applications avec Spring Boot'),
@@ -59,4 +59,5 @@ INSERT INTO THEMES (title, description) VALUES
 ('Intelligence Artificielle', 'IA, Machine Learning, Deep Learning'),
 ('Cloud Computing', 'Services cloud AWS, Azure, GCP'),
 ('Microservices', 'Architecture en microservices'),
-('Développement Mobile', 'Applications iOS, Android, React Native');
+('Développement Mobile', 'Applications iOS, Android, React Native')
+ON CONFLICT (title) DO NOTHING;

@@ -6,6 +6,7 @@
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/repositories/SubscriptionRepository.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/services/CommentService.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/exceptions/UnauthorizedException.java
+/workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/service/UserContextService.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/controllers/PostController.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/exceptions/PostNotFoundException.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/controllers/ThemeController.java

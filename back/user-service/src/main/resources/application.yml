@@ -1,10 +1,6 @@
 spring:
   application:
     name: user-service
-  r2dbc:
-    url: r2dbc:postgresql://mdd-postgres:5432/mdd_db
-    username: user
-    password: password
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://mdd-postgres:5432/mdd_db

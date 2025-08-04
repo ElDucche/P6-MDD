@@ -1,5 +1,14 @@
 spring:
-  application:
+  applieureka:
+  client:
+    serviceUrl:
+      defaultZone: http://mdd-discovery-server:8761/eureka
+  instance:
+    hostname: mdd-post-service
+    prefer-ip-address: true
+
+jwt:
+  secret: ${JWT_SECRET:defaultSecretKey}:
     name: post-service
   datasource:
     url: jdbc:postgresql://mdd-postgres:5432/mdd_db
@@ -16,6 +25,11 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://mdd-discovery-server:8761/eureka
   instance:
-    hostname: post-service
+    hostname: mdd-post-service
+    prefer-ip-address: true
+
+jwt:
+  secret: mySecretKey
+  expiration: 86400
