@@ -73,15 +73,6 @@ public class JwtUtil {
         }
     }
 
-    public String generateToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
     /**
      * Génère un token JWT enrichi avec les informations utilisateur
      * 
@@ -90,7 +81,7 @@ public class JwtUtil {
      * @param username Le nom d'utilisateur
      * @return Le token JWT
      */
-    public String generateEnrichedToken(Long userId, String email, String username) {
+    public String generateToken(Long userId, String email, String username) {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("userId", userId)

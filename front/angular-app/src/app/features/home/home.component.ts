@@ -1,33 +1,40 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService, Theme } from '../../services/theme.service';
 import { PostService, Post } from '../../services/post.service';
+import { ArticleCardComponent } from '../../components/article-card/article-card.component';
+import { CreateArticleModalComponent } from '../../components/create-article-modal/create-article-modal.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ArticleCardComponent, CreateArticleModalComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly postService = inject(PostService);
   
+  @ViewChild('createArticleModal') createArticleModal!: CreateArticleModalComponent;
+  
   timeRanges = [
-    { value: 'day', viewValue: 'Today' },
-    { value: 'week', viewValue: 'This Week' },
-    { value: 'month', viewValue: 'This Month' },
-    { value: 'year', viewValue: 'This Year' },
+    { value: 'day', viewValue: 'Aujourd\'hui' },
+    { value: 'week', viewValue: 'Cette semaine' },
+    { value: 'month', viewValue: 'Ce mois-ci' },
+    { value: 'year', viewValue: 'Cette année' },
   ];
 
   themes = signal<Theme[]>([]);
   posts = signal<Post[]>([]);
+  allPosts = signal<Post[]>([]);
   selectedTimeRange = signal(this.timeRanges[0].value);
   selectedTheme = signal<number | null>(null);
   isLoadingPosts = signal(false);
+  isLoadingAllPosts = signal(false);
 
   ngOnInit(): void {
     this.loadThemes();
+    this.loadAllPosts();
   }
 
   private loadThemes(): void {
@@ -42,6 +49,22 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors du chargement des thèmes:', error);
+      }
+    });
+  }
+
+  private loadAllPosts(): void {
+    this.isLoadingAllPosts.set(true);
+    this.postService.getAllPosts().subscribe({
+      next: (posts) => {
+        this.allPosts.set(posts);
+        this.isLoadingAllPosts.set(false);
+        console.log(`${posts.length} posts trouvés au total`);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement de tous les posts:', error);
+        this.allPosts.set([]);
+        this.isLoadingAllPosts.set(false);
       }
     });
   }
@@ -65,5 +88,29 @@ export class HomeComponent implements OnInit {
         this.isLoadingPosts.set(false);
       }
     });
+  }
+
+  getThemeById(themeId: number): Theme | undefined {
+    return this.themes().find(theme => theme.id === themeId);
+  }
+
+  openCreateArticleModal(): void {
+    this.createArticleModal.openModal();
+  }
+
+  /**
+   * Méthode appelée quand un nouvel article est créé
+   * Recharge les listes d'articles pour afficher le nouveau post
+   */
+  onArticleCreated(newPost: Post): void {
+    console.log('Nouvel article créé:', newPost);
+    
+    // Recharger tous les posts
+    this.loadAllPosts();
+    
+    // Si le nouvel article correspond au thème sélectionné, recharger aussi les posts filtrés
+    if (this.selectedTheme() === newPost.themeId) {
+      this.loadPostsByTheme(newPost.themeId);
+    }
   }
 }

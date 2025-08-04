@@ -12,8 +12,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private String secret = System.getenv("JWT_SECRET");
 
     private Key getKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());

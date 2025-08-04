@@ -18,7 +18,7 @@ export interface Post {
 })
 export class PostService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/posts`;
+  private readonly apiUrl = `${environment.apiUrl}api/posts`;
 
   /**
    * Récupère tous les posts
@@ -43,8 +43,9 @@ export class PostService {
 
   /**
    * Crée un nouveau post
+   * L'authorId sera automatiquement extrait du token JWT côté backend
    */
-  createPost(post: Omit<Post, 'id' | 'createdAt' | 'updatedAt'>): Observable<Post> {
+  createPost(post: Omit<Post, 'id' | 'authorId' | 'createdAt' | 'updatedAt'>): Observable<Post> {
     return this.http.post<Post>(this.apiUrl, post);
   }
 }

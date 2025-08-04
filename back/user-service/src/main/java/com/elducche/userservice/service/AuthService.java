@@ -34,7 +34,7 @@ public class AuthService {
         }
         try {
             // Génération d'un token enrichi avec l'ID utilisateur et le nom d'utilisateur
-            return jwtUtil.generateEnrichedToken(user.getId(), user.getEmail(), user.getUsername());
+            return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getUsername());
         } catch (Exception e) {
             System.out.println("[AUTH] Erreur lors de la génération du token JWT: " + e.getMessage());
             return null;
