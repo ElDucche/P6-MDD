@@ -1,35 +1,31 @@
 spring:
-  applieureka:
-  client:
-    serviceUrl:
-      defaultZone: http://mdd-discovery-server:8761/eureka
-  instance:
-    hostname: mdd-post-service
-    prefer-ip-address: true
-
-jwt:
-  secret: ${JWT_SECRET:defaultSecretKey}:
+  application:
     name: post-service
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://mdd-postgres:5432/mdd_db
     username: user
     password: password
-    driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: always
+      platform: postgres
+      mode: never
 
 server:
-  port: 8082
+  port: 8081
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://mdd-discovery-server:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
   instance:
-    hostname: mdd-post-service
-    prefer-ip-address: true
+    hostname: post-service
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
 
 jwt:
-  secret: mySecretKey
-  expiration: 86400
+  expiration: 86400 # 24 hours

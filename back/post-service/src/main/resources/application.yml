@@ -28,5 +28,4 @@ logging:
     org.springframework.web: INFO
 
 jwt:
-  secret: mySecretKey123456789012345678901234567890
   expiration: 86400 # 24 hours

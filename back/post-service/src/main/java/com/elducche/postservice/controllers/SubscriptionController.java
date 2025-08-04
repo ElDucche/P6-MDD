@@ -1,7 +1,7 @@
 package com.elducche.postservice.controllers;
 
 import com.elducche.postservice.models.Subscription;
-import com.elducche.postservice.services.SubscriptionService;
+import com.elducche.postservice.service.SubscriptionService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

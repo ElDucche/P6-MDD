@@ -16,7 +16,7 @@ export interface Theme {
 })
 export class ThemeService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/themes`;
+  private readonly apiUrl = `${environment.apiUrl}api/themes`;
 
   /**
    * Récupère tous les thèmes disponibles

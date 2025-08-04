@@ -1,7 +1,7 @@
 package com.elducche.postservice.controllers;
 
 import com.elducche.postservice.models.Comment;
-import com.elducche.postservice.services.CommentService;
+import com.elducche.postservice.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.elducche.postservice.controllers;
 
 import com.elducche.postservice.models.Post;
-import com.elducche.postservice.services.PostService;
+import com.elducche.postservice.service.PostService;
 import com.elducche.postservice.exceptions.PostNotFoundException;
 import com.elducche.postservice.exceptions.UnauthorizedException;
 import com.elducche.postservice.exceptions.PostValidationException;

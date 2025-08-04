@@ -2,7 +2,7 @@ package com.elducche.postservice.controllers;
 
 import com.elducche.postservice.models.Theme;
 import com.elducche.postservice.service.UserContextService;
-import com.elducche.postservice.services.ThemeService;
+import com.elducche.postservice.service.ThemeService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
