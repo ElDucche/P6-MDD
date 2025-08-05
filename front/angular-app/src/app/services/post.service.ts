@@ -8,6 +8,7 @@ export interface Post {
   title: string;
   content: string;
   authorId: number;
+  authorUsername?: string; // Nom d'utilisateur de l'auteur (optionnel pour la compatibilité)
   themeId: number;
   createdAt: string;
   updatedAt: string;

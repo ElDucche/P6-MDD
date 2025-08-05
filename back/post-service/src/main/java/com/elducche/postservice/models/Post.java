@@ -29,4 +29,9 @@ public class Post {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+    // Champ virtuel pour le nom d'utilisateur de l'auteur
+    // Ne sera pas persisté en base mais rempli par les requêtes avec jointure
+    @Transient
+    private String authorUsername;
 }

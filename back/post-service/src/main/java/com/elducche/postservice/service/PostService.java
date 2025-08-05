@@ -9,6 +9,7 @@ import com.elducche.postservice.exceptions.PostNotFoundException;
 import com.elducche.postservice.exceptions.UnauthorizedException;
 import com.elducche.postservice.exceptions.PostValidationException;
 import com.elducche.postservice.exceptions.ThemeNotFoundException;
+import com.elducche.postservice.utils.PostMapper;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,28 +30,31 @@ public class PostService {
     }
 
     /**
-     * Récupérer tous les posts
+     * Récupérer tous les posts avec les noms d'utilisateur des auteurs
      */
     public List<Post> getAllPosts() {
-        return (List<Post>) postRepository.findAll();
+        List<Object[]> results = postRepository.findAllWithAuthorUsername();
+        return PostMapper.mapToPostsWithAuthor(results);
     }
 
     /**
-     * Récupérer un post par son ID
+     * Récupérer un post par son ID avec le nom d'utilisateur de l'auteur
      */
     public Optional<Post> getPostById(Long id) {
-        return postRepository.findById(id);
+        Optional<Object[]> result = postRepository.findByIdWithAuthorUsername(id);
+        return result.map(PostMapper::mapToPostWithAuthor);
     }
 
     /**
-     * Récupérer les posts par thème
+     * Récupérer les posts par thème avec les noms d'utilisateur des auteurs
      */
     public List<Post> getPostsByTheme(Long themeId) {
         System.out.println("[POST SERVICE] Recherche des posts pour le thème ID: " + themeId);
         try {
-            List<Post> result = postRepository.findByThemeId(themeId);
-            System.out.println("[POST SERVICE] Requête exécutée, " + result.size() + " posts trouvés");
-            return result;
+            List<Object[]> results = postRepository.findByThemeIdWithAuthorUsername(themeId);
+            List<Post> posts = PostMapper.mapToPostsWithAuthor(results);
+            System.out.println("[POST SERVICE] Requête exécutée, " + posts.size() + " posts trouvés");
+            return posts;
         } catch (Exception e) {
             System.err.println("[POST SERVICE] Erreur lors de la recherche des posts pour le thème " + themeId + ": " + e.getMessage());
             e.printStackTrace();
@@ -59,14 +63,14 @@ public class PostService {
     }
 
     /**
-     * Récupérer les posts par auteur
+     * Récupérer les posts par auteur (méthode de compatibilité sans username)
      */
     public List<Post> getPostsByAuthor(Long authorId) {
         return postRepository.findByAuthorId(authorId);
     }
 
     /**
-     * Récupérer les posts des thèmes auxquels l'utilisateur est abonné
+     * Récupérer les posts des thèmes auxquels l'utilisateur est abonné avec les noms d'utilisateur des auteurs
      */
     public List<Post> getPostsFromSubscribedThemes(Long userId) {
         // Récupérer les abonnements de l'utilisateur
@@ -82,8 +86,9 @@ public class PostService {
             return List.of();
         }
         
-        // Récupérer tous les posts de ces thèmes
-        return postRepository.findByThemeIdIn(themeIds);
+        // Récupérer tous les posts de ces thèmes avec les noms d'utilisateur
+        List<Object[]> results = postRepository.findByThemeIdInWithAuthorUsername(themeIds);
+        return PostMapper.mapToPostsWithAuthor(results);
     }
 
     /**

@@ -6,7 +6,7 @@
     <!-- Date et Auteur -->
     <div class="flex justify-between items-center text-xs text-base-content/60 mb-3">
       <span>{{ post().createdAt | date:'dd/MM/yyyy':'fr' }}</span>
-      <span>Par l'auteur #{{ post().authorId }}</span>
+      <span>Par {{ post().authorUsername || ('Auteur #' + post().authorId) }}</span>
     </div>
     
     <!-- Description tronquée -->
