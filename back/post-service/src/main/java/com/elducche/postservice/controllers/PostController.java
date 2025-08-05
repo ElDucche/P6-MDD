@@ -52,9 +52,13 @@ public class PostController {
     @GetMapping("/theme/{themeId}")
     public ResponseEntity<List<Post>> getPostsByTheme(@PathVariable Long themeId) {
         try {
+            System.out.println("[POST CONTROLLER] Récupération des posts pour le thème ID: " + themeId);
             List<Post> posts = postService.getPostsByTheme(themeId);
+            System.out.println("[POST CONTROLLER] " + posts.size() + " posts trouvés pour le thème " + themeId);
             return ResponseEntity.ok(posts);
         } catch (Exception e) {
+            System.err.println("[POST CONTROLLER] Erreur lors de la récupération des posts pour le thème " + themeId + ": " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

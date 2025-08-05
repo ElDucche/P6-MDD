@@ -11,19 +11,6 @@
           </svg>
           Créer un article
         </button>
-        <select class="select select-bordered w-full sm:w-fit"
-                (change)="selectedTimeRange.set($any($event.target).value)">
-          @for (timeRange of timeRanges; track timeRange.value) {
-            <option [value]="timeRange.value" [selected]="timeRange.value === selectedTimeRange()">{{ timeRange.viewValue }}</option>
-          }
-        </select>
-        <select class="select select-bordered w-full sm:w-fit mt-2 sm:mt-0"
-                (change)="onThemeChange(+$any($event.target).value)">
-          <option value="" disabled [selected]="selectedTheme() === null">Sélectionner un thème</option>
-          @for (theme of themes(); track theme.id) {
-            <option [value]="theme.id" [selected]="theme.id === selectedTheme()">{{ theme.title }}</option>
-          }
-        </select>
       </div>
     </div>
   </header>

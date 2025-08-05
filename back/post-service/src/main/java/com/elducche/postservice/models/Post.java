@@ -15,7 +15,7 @@ public class Post {
     @Column(nullable = false)
     private String title;
     
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
     
     @Column(name = "author_id", nullable = false)

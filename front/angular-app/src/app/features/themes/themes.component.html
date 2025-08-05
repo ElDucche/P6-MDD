@@ -1,0 +1,57 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <header class="mb-8">
+    <h3 class="text-3xl font-semibold">Thèmes</h3>
+    <p class="text-base-content/70 mt-2">Découvrez tous les thèmes disponibles et explorez les articles associés.</p>
+  </header>
+
+  <main>
+    @if (isLoading()) {
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        @for (item of [1,2,3,4,5,6,7,8]; track item) {
+          <div class="card bg-base-200 animate-pulse">
+            <div class="card-body">
+              <div class="h-6 bg-base-300 rounded w-3/4 mb-4"></div>
+              <div class="h-4 bg-base-300 rounded w-full mb-2"></div>
+              <div class="h-4 bg-base-300 rounded w-5/6"></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        @for (theme of themes(); track theme.id) {
+          <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-base-300 hover:border-primary/30"
+               (click)="onThemeClick(theme)">
+            <div class="card-body">
+              <h2 class="card-title text-lg font-semibold text-primary">
+                {{ theme.title }}
+              </h2>
+              <p class="text-base-content/70 text-sm leading-relaxed">
+                {{ theme.description }}
+              </p>
+              <div class="card-actions justify-end mt-4">
+                <div class="btn btn-primary btn-sm btn-outline">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
+                  Voir les articles
+                </div>
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <div class="col-span-full text-center py-16">
+            <div class="text-base-content/60">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16 mx-auto mb-4 opacity-50">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+              </svg>
+              <p class="text-lg font-medium mb-2">Aucun thème trouvé</p>
+              <p class="text-sm">Il n'y a pas encore de thèmes disponibles.</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </main>
+</div>

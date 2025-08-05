@@ -41,7 +41,16 @@ public class PostService {
      * Récupérer les posts par thème
      */
     public List<Post> getPostsByTheme(Long themeId) {
-        return postRepository.findByThemeId(themeId);
+        System.out.println("[POST SERVICE] Recherche des posts pour le thème ID: " + themeId);
+        try {
+            List<Post> result = postRepository.findByThemeId(themeId);
+            System.out.println("[POST SERVICE] Requête exécutée, " + result.size() + " posts trouvés");
+            return result;
+        } catch (Exception e) {
+            System.err.println("[POST SERVICE] Erreur lors de la recherche des posts pour le thème " + themeId + ": " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
