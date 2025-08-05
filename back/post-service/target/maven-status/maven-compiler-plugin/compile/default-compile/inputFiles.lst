@@ -3,9 +3,11 @@
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/security/JwtUtil.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/repositories/CommentRepository.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/security/JwtAuthenticationFilter.java
+/workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/dto/PostWithAuthorDTO.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/repositories/SubscriptionRepository.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/exceptions/UnauthorizedException.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/service/UserContextService.java
+/workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/utils/CommentMapper.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/controllers/PostController.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/service/SubscriptionService.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/exceptions/PostNotFoundException.java
@@ -20,6 +22,7 @@
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/models/SubscriptionId.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/controllers/SubscriptionController.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/service/CommentService.java
+/workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/utils/PostMapper.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/security/SecurityConfig.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/repositories/ThemeRepository.java
 /workspaces/P6-MDD/back/post-service/src/main/java/com/elducche/postservice/repositories/PostRepository.java

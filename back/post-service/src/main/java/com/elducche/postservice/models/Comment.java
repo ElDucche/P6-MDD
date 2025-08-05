@@ -12,7 +12,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Lob
+    @Column(name = "content", nullable = false)
     private String content;
     
     @Column(name = "author_id", nullable = false)
@@ -26,4 +26,8 @@ public class Comment {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+    // Champ transient pour inclure le username de l'auteur
+    @Transient
+    private String authorUsername;
 }

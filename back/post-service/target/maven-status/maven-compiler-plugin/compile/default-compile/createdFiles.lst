@@ -1,8 +1,11 @@
+com/elducche/postservice/dto/PostWithAuthorDTO.class
 com/elducche/postservice/models/Comment.class
 com/elducche/postservice/exceptions/PostValidationException.class
 com/elducche/postservice/repositories/CommentRepository.class
 com/elducche/postservice/service/UserContextService$UserInfo.class
+com/elducche/postservice/utils/CommentMapper.class
 com/elducche/postservice/exceptions/UnauthorizedException.class
+com/elducche/postservice/utils/PostMapper.class
 com/elducche/postservice/repositories/SubscriptionRepository.class
 com/elducche/postservice/controllers/ThemeController.class
 com/elducche/postservice/exceptions/ThemeNotFoundException.class

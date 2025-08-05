@@ -39,7 +39,7 @@ spring:
         - id: post-service
           uri: lb://post-service
           predicates:
-            - Path=/api/posts/**, /api/themes/**, /api/subscriptions/**
+            - Path=/api/posts/**, /api/themes/**, /api/subscriptions/**, /api/comments/**
 
         - id: notification-service
           uri: lb://notification-service

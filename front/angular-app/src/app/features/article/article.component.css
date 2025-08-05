@@ -52,3 +52,37 @@
 .prose a {
   @apply text-primary hover:text-primary-focus underline;
 }
+
+/* Styles pour le formulaire de commentaire */
+.comment-form {
+  @apply w-full;
+}
+
+.comment-form .form-control {
+  @apply w-full;
+}
+
+.comment-form .textarea {
+  @apply w-full min-h-24;
+}
+
+.comment-form .btn {
+  @apply w-full sm:w-auto;
+}
+
+/* Section commentaires responsive */
+.comments-section {
+  @apply mt-12;
+}
+
+.comment-item {
+  @apply bg-base-100 border border-base-300 rounded-lg p-4 hover:shadow-sm transition-shadow;
+}
+
+.comment-author {
+  @apply flex items-center gap-2 mb-3 text-sm;
+}
+
+.comment-content {
+  @apply text-base-content/80 whitespace-pre-line leading-relaxed;
+}

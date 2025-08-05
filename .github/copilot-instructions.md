@@ -11,7 +11,7 @@ Ce fichier contient les instructions et informations relatives au projet P6-MDD.
 
 Mettre en place une architecture microservices Java/Spring Boot pour un projet de type réseau social. L'application permettra aux utilisateurs de s'inscrire, de se connecter, de créer des posts, de suivre d'autres utilisateurs et de recevoir des notifications.
 
-Pour tester les endpoints login et obtenir un token JWT, utilise les identifiants "usertest@example.com" et "password".
+Pour tester les endpoints login et obtenir un token JWT, utilise les identifiants "usertest@example.com" et "?Password1".
 
 ## Architecture
 

@@ -22,7 +22,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         SELECT p.id, p.title, p.content, p.author_id, p.theme_id, 
                p.created_at, p.updated_at, u.username as author_username
         FROM posts p 
-        LEFT JOIN "USERS" u ON p.author_id = u.id 
+        LEFT JOIN users u ON p.author_id = u.id 
         ORDER BY p.created_at DESC
         """, nativeQuery = true)
     List<Object[]> findAllWithAuthorUsername();
@@ -31,7 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         SELECT p.id, p.title, p.content, p.author_id, p.theme_id, 
                p.created_at, p.updated_at, u.username as author_username
         FROM posts p 
-        LEFT JOIN "USERS" u ON p.author_id = u.id 
+        LEFT JOIN users u ON p.author_id = u.id 
         WHERE p.id = :id
         """, nativeQuery = true)
     Optional<Object[]> findByIdWithAuthorUsername(@Param("id") Long id);
@@ -40,7 +40,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         SELECT p.id, p.title, p.content, p.author_id, p.theme_id, 
                p.created_at, p.updated_at, u.username as author_username
         FROM posts p 
-        LEFT JOIN "USERS" u ON p.author_id = u.id 
+        LEFT JOIN users u ON p.author_id = u.id 
         WHERE p.theme_id = :themeId 
         ORDER BY p.created_at DESC
         """, nativeQuery = true)
@@ -50,7 +50,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         SELECT p.id, p.title, p.content, p.author_id, p.theme_id, 
                p.created_at, p.updated_at, u.username as author_username
         FROM posts p 
-        LEFT JOIN "USERS" u ON p.author_id = u.id 
+        LEFT JOIN users u ON p.author_id = u.id 
         WHERE p.theme_id IN :themeIds 
         ORDER BY p.created_at DESC
         """, nativeQuery = true)

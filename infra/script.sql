@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "USERS" (
+CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     username VARCHAR(255) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS themes (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "POSTS" (
+CREATE TABLE IF NOT EXISTS posts (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
@@ -24,36 +24,36 @@ CREATE TABLE IF NOT EXISTS "POSTS" (
     theme_id BIGINT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (author_id) REFERENCES "USERS"(id),
+    FOREIGN KEY (author_id) REFERENCES users(id),
     FOREIGN KEY (theme_id) REFERENCES themes(id)
 );
 
-CREATE TABLE IF NOT EXISTS "COMMENTS" (
+CREATE TABLE IF NOT EXISTS comments (
     id BIGSERIAL PRIMARY KEY,
     content TEXT NOT NULL,
     author_id BIGINT,
     post_id BIGINT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (author_id) REFERENCES "USERS"(id),
-    FOREIGN KEY (post_id) REFERENCES POSTS(id)
+    FOREIGN KEY (author_id) REFERENCES users(id),
+    FOREIGN KEY (post_id) REFERENCES posts(id)
 );
 
-CREATE TABLE IF NOT EXISTS "SUBSCRIPTIONS" (
+CREATE TABLE IF NOT EXISTS subscriptions (
     user_id BIGINT,
     theme_id BIGINT,
     PRIMARY KEY (user_id, theme_id),
-    FOREIGN KEY (user_id) REFERENCES "USERS"(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (theme_id) REFERENCES themes(id)
 );
 
-CREATE TABLE IF NOT EXISTS "NOTIFICATIONS" (
+CREATE TABLE IF NOT EXISTS notifications (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
     message VARCHAR(255) NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES "USERS"(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- Insertion des thèmes IT/Développement (évite les doublons grâce à ON CONFLICT)
