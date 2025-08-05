@@ -3,8 +3,10 @@ package com.elducche.postservice.controllers;
 import com.elducche.postservice.models.Theme;
 import com.elducche.postservice.service.UserContextService;
 import com.elducche.postservice.service.ThemeService;
+import com.elducche.postservice.exceptions.ThemeNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/themes")
@@ -28,6 +30,28 @@ public class ThemeController {
             }
         }
         return themeService.getAllThemes();
+    }
+
+    /**
+     * Récupère un thème par son ID
+     */
+    @GetMapping("/{id}")
+    public Theme getThemeById(@PathVariable Long id, 
+                             @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        // Log de l'accès au thème spécifique
+        if (authHeader != null) {
+            UserContextService.UserInfo userInfo = userContextService.getUserInfo(authHeader);
+            if (userInfo != null) {
+                System.out.println("[THEMES] Utilisateur " + userInfo.getUsername() + " (ID: " + userInfo.getUserId() + ") accède au thème: " + id);
+            }
+        }
+        
+        Optional<Theme> theme = themeService.getThemeById(id);
+        if (theme.isEmpty()) {
+            throw new ThemeNotFoundException(id);
+        }
+        
+        return theme.get();
     }
 
     @PostMapping

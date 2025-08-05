@@ -65,7 +65,9 @@ export class ArticleComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error('Erreur lors du chargement du thème:', error);
+        console.warn('Thème non trouvé (ID:', themeId, '):', error);
+        // On continue sans le thème, ce n'est pas bloquant pour l'affichage de l'article
+        this.theme.set(null);
         this.isLoading.set(false);
       }
     });
