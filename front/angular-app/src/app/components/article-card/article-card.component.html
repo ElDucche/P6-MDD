@@ -1,21 +1,28 @@
-<div class="card bg-base-100 shadow-sm border border-base-300">
-  <div class="card-body">
-    <div class="flex justify-between items-start mb-4">
-      <h2 class="card-title text-lg font-semibold">{{ post().title }}</h2>
-      @if (theme()) {
-        <div class="badge badge-secondary badge-sm">{{ theme()!.title }}</div>
-      }
+<div class="card bg-base-100 shadow-sm border border-base-300 h-full">
+  <div class="card-body flex flex-col justify-between h-full">
+    <!-- Titre -->
+    <h2 class="card-title text-lg font-semibold mb-3 line-clamp-2">{{ post().title }}</h2>
+    
+    <!-- Date et Auteur -->
+    <div class="flex justify-between items-center text-xs text-base-content/60 mb-3">
+      <span>{{ post().createdAt | date:'dd/MM/yyyy':'fr' }}</span>
+      <span>Par l'auteur #{{ post().authorId }}</span>
     </div>
     
-    <p class="text-base-content/70 text-sm line-clamp-3 mb-4">{{ post().content }}</p>
+    <!-- Description tronquée -->
+    <p class="text-base-content/70 text-sm mb-4 flex-grow">{{ truncateContent(post().content) }}</p>
     
-    <div class="card-actions justify-between items-center">
-      <div class="flex flex-col gap-1 text-xs text-base-content/60">
-        <span>{{ post().createdAt | date:'short':'fr' }}</span>
-        <span>Par l'auteur #{{ post().authorId }}</span>
-      </div>
+    <!-- Actions -->
+    <div class="card-actions justify-between items-center mt-auto">
+      @if (theme()) {
+        <div class="badge badge-secondary badge-sm">{{ theme()!.title }}</div>
+      } @else {
+        <div></div>
+      }
       
-      <button class="btn btn-primary btn-sm">
+      <button 
+        class="btn btn-primary btn-sm"
+        (click)="onReadMore()">
         Lire la suite
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

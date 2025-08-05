@@ -1,0 +1,54 @@
+/* Styles pour le composant article */
+.prose {
+  @apply text-base-content;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-base-content font-semibold;
+}
+
+.prose p {
+  @apply text-base-content/80;
+}
+
+.prose strong {
+  @apply text-base-content font-semibold;
+}
+
+.prose em {
+  @apply text-base-content/80 italic;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary pl-4 text-base-content/70 italic;
+}
+
+.prose code {
+  @apply bg-base-200 text-primary px-1 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply bg-base-200 p-4 rounded-lg overflow-x-auto;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose ul,
+.prose ol {
+  @apply text-base-content/80;
+}
+
+.prose li {
+  @apply mb-1;
+}
+
+.prose a {
+  @apply text-primary hover:text-primary-focus underline;
+}
