@@ -25,15 +25,16 @@ export class HomeComponent implements OnInit {
   ];
 
   themes = signal<Theme[]>([]);
-  posts = signal<Post[]>([]);
+  myFeedPosts = signal<Post[]>([]);
   allPosts = signal<Post[]>([]);
   selectedTimeRange = signal(this.timeRanges[0].value);
   selectedTheme = signal<number | null>(null);
-  isLoadingPosts = signal(false);
+  isLoadingMyFeed = signal(false);
   isLoadingAllPosts = signal(false);
 
   ngOnInit(): void {
     this.loadThemes();
+    this.loadMyFeedPosts();
     this.loadAllPosts();
   }
 
@@ -41,14 +42,25 @@ export class HomeComponent implements OnInit {
     this.themeService.getAllThemes().subscribe({
       next: (themes) => {
         this.themes.set(themes);
-        // Sélectionner le premier thème par défaut
-        if (themes.length > 0) {
-          this.selectedTheme.set(themes[0].id);
-          this.loadPostsByTheme(themes[0].id);
-        }
       },
       error: (error) => {
         console.error('Erreur lors du chargement des thèmes:', error);
+      }
+    });
+  }
+
+  private loadMyFeedPosts(): void {
+    this.isLoadingMyFeed.set(true);
+    this.postService.getPostsFromSubscribedThemes().subscribe({
+      next: (posts) => {
+        this.myFeedPosts.set(posts);
+        this.isLoadingMyFeed.set(false);
+        console.log(`${posts.length} posts trouvés dans Mon Fil (thèmes abonnés)`);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement de Mon Fil:', error);
+        this.myFeedPosts.set([]);
+        this.isLoadingMyFeed.set(false);
       }
     });
   }
@@ -71,23 +83,8 @@ export class HomeComponent implements OnInit {
 
   onThemeChange(themeId: number): void {
     this.selectedTheme.set(themeId);
-    this.loadPostsByTheme(themeId);
-  }
-
-  private loadPostsByTheme(themeId: number): void {
-    this.isLoadingPosts.set(true);
-    this.postService.getPostsByTheme(themeId).subscribe({
-      next: (posts) => {
-        this.posts.set(posts);
-        this.isLoadingPosts.set(false);
-        console.log(`${posts.length} posts trouvés pour le thème ${themeId}`);
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement des posts:', error);
-        this.posts.set([]);
-        this.isLoadingPosts.set(false);
-      }
-    });
+    // Note: cette méthode peut être supprimée si elle n'est plus utilisée
+    // car Mon Fil ne dépend plus d'un thème sélectionné
   }
 
   getThemeById(themeId: number): Theme | undefined {
@@ -105,12 +102,8 @@ export class HomeComponent implements OnInit {
   onArticleCreated(newPost: Post): void {
     console.log('Nouvel article créé:', newPost);
     
-    // Recharger tous les posts
+    // Recharger Mon Fil et tous les posts
+    this.loadMyFeedPosts();
     this.loadAllPosts();
-    
-    // Si le nouvel article correspond au thème sélectionné, recharger aussi les posts filtrés
-    if (this.selectedTheme() === newPost.themeId) {
-      this.loadPostsByTheme(newPost.themeId);
-    }
   }
 }

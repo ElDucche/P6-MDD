@@ -48,4 +48,11 @@ export class PostService {
   createPost(post: Omit<Post, 'id' | 'authorId' | 'createdAt' | 'updatedAt'>): Observable<Post> {
     return this.http.post<Post>(this.apiUrl, post);
   }
+
+  /**
+   * Récupère les posts des thèmes auxquels l'utilisateur courant est abonné
+   */
+  getPostsFromSubscribedThemes(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}/subscribed`);
+  }
 }

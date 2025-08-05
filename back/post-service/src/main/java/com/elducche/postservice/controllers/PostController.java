@@ -94,6 +94,23 @@ public class PostController {
     }
 
     /**
+     * Récupérer les posts des thèmes auxquels l'utilisateur est abonné
+     */
+    @GetMapping("/subscribed")
+    public ResponseEntity<List<Post>> getPostsFromSubscribedThemes(Authentication authentication) {
+        try {
+            // Extraire l'ID utilisateur du token JWT
+            Long userId = Long.parseLong(authentication.getName());
+            List<Post> posts = postService.getPostsFromSubscribedThemes(userId);
+            return ResponseEntity.ok(posts);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
      * Créer un nouveau post
      */
     @PostMapping

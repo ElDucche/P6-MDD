@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByThemeId(Long themeId);
     List<Post> findByAuthorId(Long authorId);
+    List<Post> findByThemeIdIn(List<Long> themeIds);
 }

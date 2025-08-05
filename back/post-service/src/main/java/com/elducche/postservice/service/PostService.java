@@ -1,8 +1,10 @@
 package com.elducche.postservice.service;
 
 import com.elducche.postservice.models.Post;
+import com.elducche.postservice.models.Subscription;
 import com.elducche.postservice.repositories.PostRepository;
 import com.elducche.postservice.repositories.ThemeRepository;
+import com.elducche.postservice.repositories.SubscriptionRepository;
 import com.elducche.postservice.exceptions.PostNotFoundException;
 import com.elducche.postservice.exceptions.UnauthorizedException;
 import com.elducche.postservice.exceptions.PostValidationException;
@@ -11,16 +13,19 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
     private final PostRepository postRepository;
     private final ThemeRepository themeRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
-    public PostService(PostRepository postRepository, ThemeRepository themeRepository) {
+    public PostService(PostRepository postRepository, ThemeRepository themeRepository, SubscriptionRepository subscriptionRepository) {
         this.postRepository = postRepository;
         this.themeRepository = themeRepository;
+        this.subscriptionRepository = subscriptionRepository;
     }
 
     /**
@@ -58,6 +63,27 @@ public class PostService {
      */
     public List<Post> getPostsByAuthor(Long authorId) {
         return postRepository.findByAuthorId(authorId);
+    }
+
+    /**
+     * Récupérer les posts des thèmes auxquels l'utilisateur est abonné
+     */
+    public List<Post> getPostsFromSubscribedThemes(Long userId) {
+        // Récupérer les abonnements de l'utilisateur
+        List<Subscription> subscriptions = subscriptionRepository.findByUserId(userId);
+        
+        // Extraire les IDs des thèmes
+        List<Long> themeIds = subscriptions.stream()
+                .map(Subscription::getThemeId)
+                .collect(Collectors.toList());
+        
+        // Si l'utilisateur n'a aucun abonnement, retourner une liste vide
+        if (themeIds.isEmpty()) {
+            return List.of();
+        }
+        
+        // Récupérer tous les posts de ces thèmes
+        return postRepository.findByThemeIdIn(themeIds);
     }
 
     /**
