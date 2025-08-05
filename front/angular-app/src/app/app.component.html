@@ -35,9 +35,9 @@
         <div class="hidden flex-none lg:block">
           <ul class="menu menu-horizontal items-center">
              <li><button (click)="logout()" class="text-error w-full text-left">Se déconnecter</button></li>
-            <li><a routerLink="/" routerLinkActive="active" class="">Articles</a></li>
-            <li><a routerLink="/themes" routerLinkActive="active">Thèmes</a></li>
-            <li><a routerLink="/profile" routerLinkActive="active">
+            <li><a routerLink="/" routerLinkActive="menu-active" [routerLinkActiveOptions]="{exact: true}" class="">Articles</a></li>
+            <li><a routerLink="/themes" routerLinkActive="menu-active">Thèmes</a></li>
+            <li><a routerLink="/profile" routerLinkActive="menu-active">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                   <div class="w-10 rounded-full bg-primary/10">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 m-2 text-primary">
@@ -62,10 +62,10 @@
         class="drawer-overlay"
       ></label>
       <ul class="menu bg-base-200 min-h-full w-80 p-4">
-        <li><a routerLink="/" routerLinkActive="active">Article</a></li>
-        <li><a routerLink="/themes" routerLinkActive="active">Thèmes</a></li>
+        <li><a routerLink="/" routerLinkActive="menu-active" [routerLinkActiveOptions]="{exact: true}">Article</a></li>
+        <li><a routerLink="/themes" routerLinkActive="menu-active">Thèmes</a></li>
 
-        <li><a routerLink="/profile">Profil</a></li>
+        <li><a routerLink="/profile" routerLinkActive="menu-active">Profil</a></li>
         <li>
           <button
             class="btn btn-outline btn-error w-full mt-4"
