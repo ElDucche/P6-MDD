@@ -12,14 +12,14 @@ spring:
       mode: never
 
 server:
-  port: 8081
+  port: 8082
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://mdd-discovery-server:8761/eureka
   instance:
-    hostname: post-service
+    hostname: mdd-post-service
 
 logging:
   level:

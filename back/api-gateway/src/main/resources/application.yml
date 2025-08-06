@@ -1,13 +1,7 @@
 github:
   token: ${GITHUB_TOKEN:}
 server:
- eureka:
-  instance:
-    hostname: mdd-api-gateway
-    prefer-ip-address: true
-  client:
-    serviceUrl:
-      defaultZone: http://mdd-discovery-server:8761/eureka8080
+  port: 8080
   forward-headers-strategy: framework
 
 spring:
@@ -46,14 +40,13 @@ spring:
           predicates:
             - Path=/api/notifications/**
 
-
 eureka:
   instance:
-    hostname: api-gateway
+    hostname: mdd-api-gateway
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://mdd-discovery-server:8761/eureka
 
 logging:
   level:

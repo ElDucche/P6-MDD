@@ -112,6 +112,19 @@
           </div>
         }
       </div>
+    } @else if (isLoadingSubscriptions()) {
+      <div class="space-y-3">
+        @for (item of [1,2,3]; track $index) {
+          <div class="bg-base-200 rounded-lg p-4 flex items-start justify-between">
+            <div class="flex-1 space-y-2">
+              <div class="skeleton h-5 w-40"></div>
+              <div class="skeleton h-4 w-full"></div>
+              <div class="skeleton h-3 w-32"></div>
+            </div>
+            <div class="skeleton w-8 h-8 rounded ml-3"></div>
+          </div>
+        }
+      </div>
     } @else {
       <div class="text-center py-8">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-base-content/30 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
