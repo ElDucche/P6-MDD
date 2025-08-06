@@ -62,7 +62,7 @@ export class ThemesComponent {
     return this.loadingSubscriptions().has(themeId);
   }
 
-  protected toggleSubscription(event: Event, theme: Theme): void {
+  protected subscribeToTheme(event: Event, theme: Theme): void {
     event.stopPropagation(); // Empêche la navigation vers les articles
     
     const userId = this.authService.getCurrentUserId();
@@ -76,37 +76,18 @@ export class ThemesComponent {
     loading.add(theme.id);
     this.loadingSubscriptions.set(loading);
 
-    const isCurrentlySubscribed = this.isSubscribed(theme.id);
-
-    if (isCurrentlySubscribed) {
-      // Se désabonner
-      this.subscriptionService.unsubscribe(theme.id, userId).subscribe({
-        next: () => {
-          const updatedSubscriptions = this.subscriptions().filter(
-            sub => sub.themeId !== theme.id
-          );
-          this.subscriptions.set(updatedSubscriptions);
-          this.removeFromLoading(theme.id);
-        },
-        error: (error: any) => {
-          console.error('Erreur lors du désabonnement:', error);
-          this.removeFromLoading(theme.id);
-        }
-      });
-    } else {
-      // S'abonner
-      this.subscriptionService.subscribe(theme.id, userId).subscribe({
-        next: (newSubscription: Subscription) => {
-          const updatedSubscriptions = [...this.subscriptions(), newSubscription];
-          this.subscriptions.set(updatedSubscriptions);
-          this.removeFromLoading(theme.id);
-        },
-        error: (error: any) => {
-          console.error('Erreur lors de l\'abonnement:', error);
-          this.removeFromLoading(theme.id);
-        }
-      });
-    }
+    // S'abonner uniquement
+    this.subscriptionService.subscribe(theme.id, userId).subscribe({
+      next: (newSubscription: Subscription) => {
+        const updatedSubscriptions = [...this.subscriptions(), newSubscription];
+        this.subscriptions.set(updatedSubscriptions);
+        this.removeFromLoading(theme.id);
+      },
+      error: (error: any) => {
+        console.error('Erreur lors de l\'abonnement:', error);
+        this.removeFromLoading(theme.id);
+      }
+    });
   }
 
   private removeFromLoading(themeId: number): void {
