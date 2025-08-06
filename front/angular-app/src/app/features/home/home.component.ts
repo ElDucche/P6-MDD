@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
   selectedTheme = signal<number | null>(null);
   isLoadingMyFeed = signal(false);
   isLoadingAllPosts = signal(false);
+  sortOrderMyFeed = signal<'asc' | 'desc'>('desc');
+  sortOrderAllPosts = signal<'asc' | 'desc'>('desc');
 
   ngOnInit(): void {
     this.loadThemes();
@@ -53,7 +55,7 @@ export class HomeComponent implements OnInit {
     this.isLoadingMyFeed.set(true);
     this.postService.getPostsFromSubscribedThemes().subscribe({
       next: (posts) => {
-        this.myFeedPosts.set(posts);
+        this.myFeedPosts.set(this.sortPosts(posts, this.sortOrderMyFeed()));
         this.isLoadingMyFeed.set(false);
         console.log(`${posts.length} posts trouvés dans Mon Fil (thèmes abonnés)`);
       },
@@ -69,7 +71,7 @@ export class HomeComponent implements OnInit {
     this.isLoadingAllPosts.set(true);
     this.postService.getAllPosts().subscribe({
       next: (posts) => {
-        this.allPosts.set(posts);
+        this.allPosts.set(this.sortPosts(posts, this.sortOrderAllPosts()));
         this.isLoadingAllPosts.set(false);
         console.log(`${posts.length} posts trouvés au total`);
       },
@@ -79,6 +81,50 @@ export class HomeComponent implements OnInit {
         this.isLoadingAllPosts.set(false);
       }
     });
+  }
+
+  /**
+   * Trie les posts selon l'ordre sélectionné
+   */
+  private sortPosts(posts: Post[], order: 'asc' | 'desc'): Post[] {
+    return [...posts].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      
+      return order === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }
+
+  /**
+   * Change l'ordre de tri pour Mon Fil
+   */
+  protected changeSortOrderMyFeed(order: 'asc' | 'desc'): void {
+    this.sortOrderMyFeed.set(order);
+    this.myFeedPosts.update(posts => this.sortPosts(posts, order));
+  }
+
+  /**
+   * Change l'ordre de tri pour Tous les articles
+   */
+  protected changeSortOrderAllPosts(order: 'asc' | 'desc'): void {
+    this.sortOrderAllPosts.set(order);
+    this.allPosts.update(posts => this.sortPosts(posts, order));
+  }
+
+  /**
+   * Gère le changement d'ordre de tri via l'événement select pour Mon Fil
+   */
+  protected onSortOrderChangeMyFeed(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.changeSortOrderMyFeed(target.value as 'asc' | 'desc');
+  }
+
+  /**
+   * Gère le changement d'ordre de tri via l'événement select pour Tous les articles
+   */
+  protected onSortOrderChangeAllPosts(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.changeSortOrderAllPosts(target.value as 'asc' | 'desc');
   }
 
   onThemeChange(themeId: number): void {

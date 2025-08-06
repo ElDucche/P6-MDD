@@ -6,6 +6,7 @@ Ce fichier contient les instructions et informations relatives au projet P6-MDD.
 - Nous sommes sur github codespaces. J'utilise une VM pour le développement.
 - Il n'est pas question de localhost dans ce projet, toutes les applications sont accessibles sur des adresses liée à ma VM.
 - **IMPORTANT :** Pour éviter les erreurs 401 sur le port 8080 lors de l'accès à l'API Gateway ou à tout service exposé, il faut configurer le port comme "public" dans Codespaces. Voir la documentation officielle : https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace
+- NE LANCE JAMAIS LE FRONTEND QUAND TU FAIS DES MODIFICATIONS.
 
 ## Contexte du projet
 

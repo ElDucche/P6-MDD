@@ -97,6 +97,21 @@
         <div class="divider">
           <h2 class="text-2xl font-semibold">Commentaires</h2>
         </div>
+
+        <!-- Options de tri -->
+        @if (comments().length > 1) {
+          <div class="flex items-center justify-end gap-3 mb-6">
+            <label for="sort-select" class="text-sm font-medium text-base-content/70">Trier par date :</label>
+            <select 
+              id="sort-select"
+              class="select select-bordered select-sm w-auto"
+              [value]="sortOrder()"
+              (change)="onSortOrderChange($event)">
+              <option value="desc">Plus récents d'abord</option>
+              <option value="asc">Plus anciens d'abord</option>
+            </select>
+          </div>
+        }
         
         <!-- Liste des commentaires -->
         @if (isLoadingComments()) {
