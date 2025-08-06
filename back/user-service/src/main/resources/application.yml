@@ -17,9 +17,9 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://mdd-discovery-server:8761/eureka
   instance:
-    hostname: user-service
+    hostname: mdd-user-service
 
 logging:
   level:

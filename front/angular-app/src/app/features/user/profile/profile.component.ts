@@ -2,16 +2,16 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { forkJoin, map } from 'rxjs';
 import { UserService } from '../user.service';
 import { AuthService } from '../../../auth/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
+import { SubscriptionService } from '../../../services/subscription.service';
+import { ThemeService, Theme } from '../../../services/theme.service';
 import { User } from '../user.model';
 
-// Interface temporaire pour les thèmes (en attendant le backend)
-interface Theme {
-  id: number;
-  title: string;
-  description: string;
+// Interface pour les thèmes avec information d'abonnement
+interface ThemeWithSubscription extends Theme {
   subscribedAt: Date;
 }
 
@@ -26,28 +26,10 @@ export class ProfileComponent implements OnInit {
   protected readonly isEditModalOpen = signal(false);
   protected readonly isDeleteConfirmOpen = signal(false);
   protected readonly isLoading = signal(true);
+  protected readonly isLoadingSubscriptions = signal(false);
   
-  // Signal pour les thèmes abonnés (placeholder)
-  protected readonly subscribedThemes = signal<Theme[]>([
-    {
-      id: 1,
-      title: 'Développement Web',
-      description: 'Toutes les nouveautés sur le développement web moderne',
-      subscribedAt: new Date('2024-12-15')
-    },
-    {
-      id: 2,
-      title: 'Intelligence Artificielle',
-      description: 'Actualités et discussions sur l\'IA et le machine learning',
-      subscribedAt: new Date('2024-12-10')
-    },
-    {
-      id: 3,
-      title: 'Design UX/UI',
-      description: 'Tendances et bonnes pratiques en design d\'interface',
-      subscribedAt: new Date('2024-12-05')
-    }
-  ]);
+  // Signal pour les thèmes abonnés - sera chargé depuis l'API
+  protected readonly subscribedThemes = signal<ThemeWithSubscription[]>([]);
   
   protected editForm: FormGroup;
 
@@ -61,6 +43,8 @@ export class ProfileComponent implements OnInit {
     private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly alertService: AlertService,
+    private readonly subscriptionService: SubscriptionService,
+    private readonly themeService: ThemeService,
     private readonly router: Router,
     private readonly fb: FormBuilder
   ) {
@@ -89,6 +73,9 @@ export class ProfileComponent implements OnInit {
           password: ''
         });
         
+        // Charger les abonnements une fois que l'utilisateur est chargé
+        this.loadUserSubscriptions();
+        
         // Simulation d'un délai pour voir le loading (à retirer en production)
         setTimeout(() => {
           this.isLoading.set(false);
@@ -101,6 +88,60 @@ export class ProfileComponent implements OnInit {
           message: 'Impossible de charger le profil utilisateur'
         });
         this.isLoading.set(false);
+      }
+    });
+  }
+
+  private loadUserSubscriptions(): void {
+    const currentUser = this.user();
+    if (!currentUser?.id) {
+      // Si pas d'utilisateur, on attendra qu'il soit chargé
+      return;
+    }
+
+    this.isLoadingSubscriptions.set(true);
+    
+    this.subscriptionService.getUserSubscriptions(currentUser.id).subscribe({
+      next: (subscriptions) => {
+        if (subscriptions.length === 0) {
+          this.subscribedThemes.set([]);
+          this.isLoadingSubscriptions.set(false);
+          return;
+        }
+
+        // Pour chaque abonnement, récupérer les détails du thème
+        const themeRequests = subscriptions.map(subscription => 
+          this.themeService.getThemeById(subscription.themeId).pipe(
+            map(theme => ({
+              ...theme,
+              subscribedAt: new Date() // Pour l'instant on met la date actuelle, à améliorer
+            } as ThemeWithSubscription))
+          )
+        );
+
+        // Combiner toutes les requêtes de thèmes
+        forkJoin(themeRequests).subscribe({
+          next: (themesWithSubscription) => {
+            this.subscribedThemes.set(themesWithSubscription);
+            this.isLoadingSubscriptions.set(false);
+          },
+          error: (error: unknown) => {
+            console.error('Erreur lors du chargement des détails des thèmes:', error);
+            this.alertService.showAlert({
+              type: 'error',
+              message: 'Erreur lors du chargement de vos abonnements'
+            });
+            this.isLoadingSubscriptions.set(false);
+          }
+        });
+      },
+      error: (error: unknown) => {
+        console.error('Erreur lors du chargement des abonnements:', error);
+        this.alertService.showAlert({
+          type: 'error',
+          message: 'Erreur lors du chargement de vos abonnements'
+        });
+        this.isLoadingSubscriptions.set(false);
       }
     });
   }
@@ -201,22 +242,40 @@ export class ProfileComponent implements OnInit {
   }
 
   /**
-   * Se désabonner d'un thème (placeholder - en attendant le backend)
+   * Se désabonner d'un thème
    */
   protected unsubscribeFromTheme(themeId: number): void {
+    const currentUser = this.user();
+    if (!currentUser?.id) {
+      this.alertService.showAlert({
+        type: 'error',
+        message: 'Utilisateur non connecté'
+      });
+      return;
+    }
+
     const currentThemes = this.subscribedThemes();
-    const themeName = currentThemes.find(theme => theme.id === themeId)?.title || 'ce thème';
-    
-    // Simulation de l'appel API - À remplacer par un vrai service
-    // Exemple: this.themeService.unsubscribe(themeId).subscribe(...)
-    
-    // Mise à jour locale des données (placeholder)
-    const updatedThemes = currentThemes.filter(theme => theme.id !== themeId);
-    this.subscribedThemes.set(updatedThemes);
-    
-    this.alertService.showAlert({
-      type: 'success',
-      message: `Vous vous êtes désabonné de "${themeName}"`
+    const theme = currentThemes.find(t => t.id === themeId);
+    const themeName = theme?.title || 'ce thème';
+
+    this.subscriptionService.unsubscribe(themeId, currentUser.id).subscribe({
+      next: () => {
+        // Mettre à jour la liste locale
+        const updatedThemes = currentThemes.filter(t => t.id !== themeId);
+        this.subscribedThemes.set(updatedThemes);
+        
+        this.alertService.showAlert({
+          type: 'success',
+          message: `Vous vous êtes désabonné de "${themeName}"`
+        });
+      },
+      error: (error: unknown) => {
+        console.error('Erreur lors du désabonnement:', error);
+        this.alertService.showAlert({
+          type: 'error',
+          message: 'Erreur lors du désabonnement'
+        });
+      }
     });
   }
 
