@@ -9,15 +9,19 @@ import { environment } from '../../../environments/environment';
 })
 export class UserService {
 
-  private apiUrl = `${environment.apiUrl}api/user`;
+  private readonly apiUrl = `${environment.apiUrl}api/user`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}`);
   }
 
-  updateUser(user: User): Observable<User> {
+  updateUser(user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}`, user);
+  }
+
+  deleteUser(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}`);
   }
 }

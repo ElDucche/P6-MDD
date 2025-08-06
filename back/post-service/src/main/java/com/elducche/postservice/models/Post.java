@@ -1,20 +1,37 @@
 package com.elducche.postservice.models;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
-@Table("POSTS")
+@Entity
+@Table(name = "posts")
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false)
     private String title;
+    
+    @Column(columnDefinition = "TEXT")
     private String content;
+    
+    @Column(name = "author_id", nullable = false)
     private Long authorId;
+    
+    @Column(name = "theme_id", nullable = false)
     private Long themeId;
+    
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+    // Champ virtuel pour le nom d'utilisateur de l'auteur
+    // Ne sera pas persisté en base mais rempli par les requêtes avec jointure
+    @Transient
+    private String authorUsername;
 }

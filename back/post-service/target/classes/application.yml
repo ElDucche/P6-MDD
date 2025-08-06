@@ -1,20 +1,31 @@
 spring:
   application:
     name: post-service
-  r2dbc:
-    url: r2dbc:postgresql://mdd-postgres:5432/mdd_db
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://mdd-postgres:5432/mdd_db
     username: user
     password: password
+  sql:
+    init:
+      platform: postgres
+      mode: never
+
+server:
+  port: 8081
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
   instance:
-    hostname: improved-tribble-jgpw4rqv56g25pr4-8082.app.github.dev
-    prefer-ip-address: false
-    non-secure-port: 8082
-    instance-id: ${spring.application.name}:${random.value}
+    hostname: post-service
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
 
 jwt:
-  secret: your-super-secret-key-that-is-long-enough-to-be-secure
+  expiration: 86400 # 24 hours

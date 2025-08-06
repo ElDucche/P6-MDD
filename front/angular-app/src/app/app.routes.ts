@@ -9,8 +9,9 @@ import { ProfileComponent } from './features/user/profile/profile.component';
 export const routes: Routes = [
     { path: 'login', component: LoginEmailPasswordComponent, canActivate: [publicGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [publicGuard] },
-    { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+    { path: '', component: HomeComponent, canActivate: [authGuard] },
+    { path: 'themes', loadComponent: () => import('./features/themes/themes.component').then(m => m.ThemesComponent), canActivate: [authGuard] },
+    { path: 'article/:id', loadComponent: () => import('./features/article/article.component').then(m => m.ArticleComponent), canActivate: [authGuard] },
     { path: 'profile', component: ProfileComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: '**', redirectTo: '/home' } // Redirection pour les routes non trouvées
+    { path: '**', redirectTo: '/' } // Redirection pour les routes non trouvées
 ];

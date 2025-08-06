@@ -1,12 +1,8 @@
 {
   "servers": {
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
-    },
-    "context7": {
+     "context7": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
-    },
+    }
   }
 }

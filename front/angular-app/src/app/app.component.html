@@ -1,9 +1,138 @@
 <app-alert></app-alert>
-<div class="flex h-screen">
-  @if (showSidebar) {
-    <app-sidebar></app-sidebar>
-  }
-  <main class="flex-1 p-4">
-    <router-outlet></router-outlet>
-  </main>
+@if (showNavbar) {
+<div class="drawer drawer-end">
+  <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col">
+    <!-- Navbar -->
+    <div class="navbar bg-neutral-50 w-full">
+      <div class="mx-2 flex-1 px-2">
+        <a class="btn btn-ghost text-xl font-bold text-primary" routerLink="/">
+          <img src="/assets/logo.png" alt="Logo" class="w-8 h-8 mr-2" />
+          MDD
+        </a>
+      </div>
+      <div class="flex-none lg:hidden">
+        <label
+          for="my-drawer-3"
+          aria-label="open sidebar"
+          class="btn btn-square btn-ghost"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="inline-block h-6 w-6 stroke-current"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </label>
+      </div>
+      <div class="hidden flex-none lg:block">
+        <ul class="menu menu-horizontal items-center gap-4">
+          <li>
+            <button (click)="logout()" class="text-error w-full text-left">
+              Se déconnecter
+            </button>
+          </li>
+          <li>
+            <a
+              routerLink="/"
+              routerLinkActive="menu-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class=""
+              >Articles</a
+            >
+          </li>
+          <li>
+            <a routerLink="/themes" routerLinkActive="menu-active">Thèmes</a>
+          </li>
+          <li>
+            <a routerLink="/profile" routerLinkActive="menu-active">
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost btn-circle avatar"
+              >
+                <div class="w-10 rounded-full bg-primary/10">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 m-2 text-primary"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Page content here -->
+    <main class="flex-1 min-h-screen bg-base-100">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  <div class="drawer-side">
+    <label
+      for="my-drawer-3"
+      aria-label="close sidebar"
+      class="drawer-overlay"
+    ></label>
+    <ul class="menu bg-base-200 min-h-full w-80 p-4 gap-4">
+      <li>
+        <a
+          routerLink="/"
+          routerLinkActive="menu-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Article</a
+        >
+      </li>
+      <li><a routerLink="/themes" routerLinkActive="menu-active">Thèmes</a></li>
+
+      <li>
+        <button
+          class="btn btn-outline btn-error w-full mt-4"
+          (click)="logout()"
+        >
+          Se déconnecter
+        </button>
+      </li>
+    </ul>
+    <a routerLink="/profile" routerLinkActive="menu-active" class="absolute bottom-4 right-4">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+        <div class="w-10 rounded-full bg-primary/10">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 m-2 text-primary"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            />
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
 </div>
+} @else {
+<router-outlet></router-outlet>
+}

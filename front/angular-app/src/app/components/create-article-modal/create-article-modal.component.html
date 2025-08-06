@@ -1,0 +1,113 @@
+<dialog id="create_article_modal" class="modal">
+  <div class="modal-box w-11/12 max-w-2xl">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" type="button" (click)="closeModal()">✕</button>
+    </form>
+    
+    <h3 class="text-lg font-bold mb-6">Créer un nouvel article</h3>
+    
+    <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Sélection du thème -->
+      <div class="form-control w-full">
+        <label class="label" for="themeId">
+          <span class="label-text font-medium">Thème <span class="text-error">*</span></span>
+        </label>
+        <select 
+          id="themeId"
+          class="select select-bordered w-full" 
+          formControlName="themeId"
+          [class.select-error]="articleForm.get('themeId')?.invalid && articleForm.get('themeId')?.touched">
+          <option value="" disabled>Choisissez un thème</option>
+          @for (theme of themes(); track theme.id) {
+            <option [value]="theme.id">{{ theme.title }}</option>
+          }
+        </select>
+        @if (articleForm.get('themeId')?.invalid && articleForm.get('themeId')?.touched) {
+          <label class="label">
+            <span class="label-text-alt text-error">Le thème est obligatoire</span>
+          </label>
+        }
+      </div>
+
+      <!-- Titre de l'article -->
+      <div class="form-control w-full">
+        <label class="label" for="title">
+          <span class="label-text font-medium">Titre <span class="text-error">*</span></span>
+        </label>
+        <input 
+          id="title"
+          type="text" 
+          placeholder="Saisissez le titre de votre article" 
+          class="input input-bordered w-full" 
+          formControlName="title"
+          [class.input-error]="articleForm.get('title')?.invalid && articleForm.get('title')?.touched">
+        @if (articleForm.get('title')?.invalid && articleForm.get('title')?.touched) {
+          <label class="label">
+            <span class="label-text-alt text-error">
+              @if (articleForm.get('title')?.errors?.['required']) {
+                Le titre est obligatoire
+              }
+              @if (articleForm.get('title')?.errors?.['minlength']) {
+                Le titre doit contenir au moins 3 caractères
+              }
+            </span>
+          </label>
+        }
+      </div>
+
+      <!-- Contenu de l'article -->
+      <div class="form-control w-full">
+        <label class="label" for="content">
+          <span class="label-text font-medium">Description <span class="text-error">*</span></span>
+        </label>
+        <textarea 
+          id="content"
+          class="textarea textarea-bordered h-32 resize-none w-full" 
+          placeholder="Décrivez votre article..." 
+          formControlName="content"
+          [class.textarea-error]="articleForm.get('content')?.invalid && articleForm.get('content')?.touched"></textarea>
+        @if (articleForm.get('content')?.invalid && articleForm.get('content')?.touched) {
+          <label class="label">
+            <span class="label-text-alt text-error">
+              @if (articleForm.get('content')?.errors?.['required']) {
+                La description est obligatoire
+              }
+              @if (articleForm.get('content')?.errors?.['minlength']) {
+                La description doit contenir au moins 10 caractères
+              }
+            </span>
+          </label>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-action">
+        <button 
+          type="button" 
+          class="btn btn-ghost" 
+          (click)="closeModal()"
+          [disabled]="isLoading()">
+          Annuler
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary" 
+          [disabled]="articleForm.invalid || isLoading()">
+          @if (isLoading()) {
+            <span class="loading loading-spinner loading-sm"></span>
+            Création...
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Créer l'article
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <form method="dialog" class="modal-backdrop">
+    <button type="button" (click)="closeModal()">close</button>
+  </form>
+</dialog>

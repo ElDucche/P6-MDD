@@ -9,4 +9,3 @@
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/api_gateway/dto/AuthResponse.java
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/api_gateway/dto/LoginRequest.java
 /workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/api_gateway/models/User.java
-/workspaces/P6-MDD/back/api-gateway/src/main/java/com/elducche/api_gateway/security/CorsGlobalConfiguration.java

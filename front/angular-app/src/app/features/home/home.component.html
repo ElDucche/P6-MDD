@@ -1,40 +1,93 @@
 <div class="p-4 sm:p-6 lg:p-8">
   <header>
     <div class="sm:flex sm:items-center sm:justify-between">
-      <h3 class="text-3xl font-semibold">Report</h3>
+      <h3 class="text-3xl font-semibold">Tableau de bord</h3>
       <div class="mt-4 sm:mt-0 sm:flex sm:items-center sm:gap-2">
-        <select class="select select-bordered w-full sm:w-fit"
-                (change)="selectedTimeRange.set($any($event.target).value)">
-          @for (timeRange of timeRanges; track timeRange.value) {
-            <option [value]="timeRange.value" [selected]="timeRange.value === selectedTimeRange()">{{ timeRange.viewValue }}</option>
-          }
-        </select>
-        <select class="select select-bordered w-full sm:w-fit mt-2 sm:mt-0"
-                (change)="selectedLocation.set($any($event.target).value)">
-          @for (location of locations; track location.value) {
-            <option [value]="location.value" [selected]="location.value === selectedLocation()">{{ location.viewValue }}</option>
-          }
-        </select>
+        <button 
+          class="btn btn-primary btn-sm" 
+          (click)="openCreateArticleModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Créer un article
+        </button>
       </div>
     </div>
   </header>
   <main>
     <div role="tablist" class="tabs tabs-lifted mt-6">
-      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Overview" checked />
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Mon Fil" checked />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div class="card bg-base-200 shadow-xl h-36"></div>
-          <div class="card bg-base-200 shadow-xl h-36"></div>
-          <div class="card bg-base-200 shadow-xl h-36"></div>
-          <div class="card bg-base-200 shadow-xl h-36"></div>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          @if (isLoadingMyFeed()) {
+            @for (item of [1,2,3,4,5,6]; track item) {
+              <div class="card bg-base-200 animate-pulse">
+                <div class="card-body">
+                  <div class="h-4 bg-base-300 rounded w-3/4 mb-4"></div>
+                  <div class="h-3 bg-base-300 rounded w-full mb-2"></div>
+                  <div class="h-3 bg-base-300 rounded w-5/6"></div>
+                </div>
+              </div>
+            }
+          } @else {
+            @for (post of myFeedPosts(); track post.id) {
+              <app-article-card 
+                [post]="post" 
+                [theme]="getThemeById(post.themeId)">
+              </app-article-card>
+            } @empty {
+              <div class="col-span-full text-center py-12">
+                <div class="text-base-content/60">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16 mx-auto mb-4 opacity-50">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-4.5m0 0V8.25m0 0V6.75a.75.75 0 0 1 1.5 0v1.5m-1.5 0a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 1-1.5 0v-1.5m1.5 0H9.75a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 1-1.5 0V8.25a2.25 2.25 0 0 1 2.25-2.25h4.5m0 0h1.875a1.125 1.125 0 0 1 1.125 1.125v1.125m-1.125-1.125a1.125 1.125 0 0 0-1.125-1.125H15m1.125 1.125a1.125 1.125 0 0 1-1.125 1.125v-1.5a.75.75 0 0 1 .75-.75h.375c.621 0 1.125.504 1.125 1.125v1.125Z" />
+                  </svg>
+                  <p class="text-lg font-medium mb-2">Aucun article dans votre fil</p>
+                  <p class="text-sm">Abonnez-vous à des thèmes pour voir leurs articles ici.</p>
+                </div>
+              </div>
+            }
+          }
         </div>
       </div>
-      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Detail" />
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tous les articles" />
       <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-        <div class="mt-4">
-          <div class="card bg-base-200 shadow-xl h-72"></div>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          @if (isLoadingAllPosts()) {
+            @for (item of [1,2,3,4,5,6,7,8,9]; track item) {
+              <div class="card bg-base-200 animate-pulse">
+                <div class="card-body">
+                  <div class="h-4 bg-base-300 rounded w-3/4 mb-4"></div>
+                  <div class="h-3 bg-base-300 rounded w-full mb-2"></div>
+                  <div class="h-3 bg-base-300 rounded w-5/6"></div>
+                </div>
+              </div>
+            }
+          } @else {
+            @for (post of allPosts(); track post.id) {
+              <app-article-card 
+                [post]="post" 
+                [theme]="getThemeById(post.themeId)">
+              </app-article-card>
+            } @empty {
+              <div class="col-span-full text-center py-12">
+                <div class="text-base-content/60">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16 mx-auto mb-4 opacity-50">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-4.5m0 0V8.25m0 0V6.75a.75.75 0 0 1 1.5 0v1.5m-1.5 0a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 1-1.5 0v-1.5m1.5 0H9.75a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 1-1.5 0V8.25a2.25 2.25 0 0 1 2.25-2.25h4.5m0 0h1.875a1.125 1.125 0 0 1 1.125 1.125v1.125m-1.125-1.125a1.125 1.125 0 0 0-1.125-1.125H15m1.125 1.125a1.125 1.125 0 0 1-1.125 1.125v-1.5a.75.75 0 0 1 .75-.75h.375c.621 0 1.125.504 1.125 1.125v1.125Z" />
+                  </svg>
+                  <p class="text-lg font-medium mb-2">Aucun article trouvé</p>
+                  <p class="text-sm">Il n'y a pas encore d'articles publiés.</p>
+                </div>
+              </div>
+            }
+          }
         </div>
       </div>
     </div>
   </main>
+
+  <!-- Modal de création d'article -->
+  <app-create-article-modal 
+    #createArticleModal
+    (articleCreated)="onArticleCreated($event)">
+  </app-create-article-modal>
 </div>

@@ -1,11 +1,28 @@
+github:
+  token: ${GITHUB_TOKEN:}
 server:
   port: 8080
+  forward-headers-strategy: framework
 
 spring:
   application:
     name: api-gateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 
+              - "https://legendary-space-bassoon-597p4vxjgq52pxgg-4200.app.github.dev"
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
         - id: user-service
           uri: lb://user-service
@@ -28,15 +45,17 @@ spring:
     password: password
 
 eureka:
+  instance:
+    hostname: api-gateway
   client:
     serviceUrl:
-      defaultZone: https://localhost:8761/eureka
-  instance:
-    hostname: improved-tribble-jgpw4rqv56g25pr4-8080.app.github.dev
-    prefer-ip-address: false
-    non-secure-port: 8080
-    instance-id: ${spring.application.name}:${random.value}
+      defaultZone: http://discovery-server:8761/eureka
 
 jwt:
   secret: your-very-long-and-secure-secret-key-that-is-at-least-256-bits
   expiration: 86400 # 24 hours in seconds
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
