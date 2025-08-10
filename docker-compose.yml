@@ -1,80 +1,57 @@
-# =====================
-# Multi-profil Compose
-# =====================
+# =============================================
+# Docker Compose - Architecture Monolithique
+# =============================================
 # Utilisation :
-#   - all : docker compose --profile all up
-#   - user-service : docker compose --profile user-service up
-#   - post-service : docker compose --profile post-service up
-#   - bdd : docker compose --profile bdd up
-#   - front : docker compose --profile front up
+#   - Complet : docker compose --profile all up -d
+#   - Base de données seule : docker compose --profile postgres up -d
+#   - Backend seul : docker compose --profile backend up -d
+#   - Frontend seul : docker compose --profile frontend up -d
 
 services:
-  bdd:
+  # Base de données PostgreSQL
+  postgres:
     image: postgres:16
     container_name: mdd-postgres
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-mdd}
+      POSTGRES_USER: ${POSTGRES_USER:-mdd_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mdd_password}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - ./infra/script.sql:/docker-entrypoint-initdb.d/init.sql
-    profiles: [all, bdd, user-service, post-service, front, back]
+      - postgres_data:/var/lib/postgresql/data
+    profiles: [all, postgres, backend, frontend]
 
-  discovery-server:
-    build: ./back/discovery-server
-    container_name: mdd-discovery-server
+  # Application monolithique Spring Boot
+  mdd-backend:
+    build: ./back/mdd
+    container_name: mdd-backend
     ports:
-      - "${DISCOVERY_PORT}:8761"
+      - "${BACKEND_PORT:-8080}:8080"
     depends_on:
-      - bdd
-    profiles: [all, user-service, post-service, back]
-
-  api-gateway:
-    build: ./back/api-gateway
-    container_name: mdd-api-gateway
-    ports:
-      - "${API_GATEWAY_PORT}:8080"
-    depends_on:
-      - discovery-server
-    profiles: [all, user-service, post-service, back]
+      - postgres
     environment:
-      - JWT_SECRET=${JWT_SECRET}
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${POSTGRES_DB:-mdd}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-mdd_user}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-mdd_password}
+      - JWT_SECRET=${JWT_SECRET:-monSecretJwtTresSolideEtComplexe}
+    profiles: [all, backend]
 
-  user-service:
-    build: ./back/user-service
-    container_name: mdd-user-service
-    ports:
-      - "${USER_SERVICE_PORT}:8081"
-    depends_on:
-      - api-gateway
-      - bdd
-    profiles: [all, user-service, back]
-    environment:
-      - JWT_SECRET=${JWT_SECRET}
-
-  post-service:
-    build: ./back/post-service
-    container_name: mdd-post-service
-    ports:
-      - "${POST_SERVICE_PORT}:8082"
-    depends_on:
-      - api-gateway
-      - bdd
-    profiles: [all, post-service, back]
-    environment:
-      - JWT_SECRET=${JWT_SECRET}
-
-
-  front:
+  # Frontend Angular
+  mdd-frontend:
     build:
       context: ./front/angular-app
       dockerfile: Dockerfile
-    container_name: mdd-front
+    container_name: mdd-frontend
     ports:
-      - "${FRONT_PORT}:80"
+      - "${FRONTEND_PORT:-4200}:80"
     depends_on:
-      - api-gateway
-    profiles: [all, front]
+      - mdd-backend
+    profiles: [all, frontend]
+
+# Volumes pour persistance des données
+volumes:
+  postgres_data:
