@@ -1,5 +1,6 @@
 package com.elducche.mdd.service;
 
+import com.elducche.mdd.dto.UpdateUserProfileRequest;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,13 @@ public class UserService {
      */
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+    
+    /**
+     * Alias pour findById (compatibilité avec les contrôleurs)
+     */
+    public Optional<User> getUserById(Long id) {
+        return findById(id);
     }
     
     /**
@@ -78,6 +86,45 @@ public class UserService {
                             throw new IllegalArgumentException("Un compte avec cet email existe déjà");
                         }
                         existingUser.setEmail(userUpdates.getEmail());
+                    }
+                    
+                    User savedUser = userRepository.save(existingUser);
+                    log.info("Profil mis à jour pour l'utilisateur ID: {}", userId);
+                    return savedUser;
+                });
+    }
+    
+    /**
+     * Met à jour le profil utilisateur avec un DTO
+     */
+    public Optional<User> updateUserProfile(Long userId, UpdateUserProfileRequest request) {
+        return userRepository.findById(userId)
+                .map(existingUser -> {
+                    // Mise à jour du nom d'utilisateur
+                    if (request.getUsername() != null && !request.getUsername().trim().isEmpty() &&
+                        !request.getUsername().equals(existingUser.getUsername())) {
+                        
+                        if (userRepository.existsByUsername(request.getUsername())) {
+                            log.warn("Tentative de mise à jour avec username existant: {}", request.getUsername());
+                            throw new IllegalArgumentException("Ce nom d'utilisateur est déjà pris");
+                        }
+                        existingUser.setUsername(request.getUsername());
+                    }
+                    
+                    // Mise à jour de l'email
+                    if (request.getEmail() != null && !request.getEmail().trim().isEmpty() &&
+                        !request.getEmail().equals(existingUser.getEmail())) {
+                        
+                        if (userRepository.existsByEmail(request.getEmail())) {
+                            log.warn("Tentative de mise à jour avec email existant: {}", request.getEmail());
+                            throw new IllegalArgumentException("Un compte avec cet email existe déjà");
+                        }
+                        existingUser.setEmail(request.getEmail());
+                    }
+                    
+                    // Mise à jour du mot de passe
+                    if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+                        existingUser.setPassword(passwordEncoder.encode(request.getPassword()));
                     }
                     
                     User savedUser = userRepository.save(existingUser);

@@ -51,29 +51,10 @@ public class SecurityConfig {
             
             // Configuration des autorisations
             .authorizeHttpRequests(auth -> auth
-                // Endpoints publics (authentification)
-                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/auth/validate").permitAll()
+                // Endpoints d'authentification publics
+                .requestMatchers("/api/auth/**").permitAll()
                 
-                // Endpoints publics (lecture seule)
-                .requestMatchers(HttpMethod.GET, "/api/themes").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/themes/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/themes/search").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/themes/{id}/stats").permitAll()
-                
-                .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/theme/{themeId}").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/search").permitAll()
-                
-                .requestMatchers(HttpMethod.GET, "/api/comments/post/{postId}").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/comments/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/comments/post/{postId}/count").permitAll()
-                
-                // Endpoints actuator pour monitoring (optionnel)
-                .requestMatchers("/actuator/health").permitAll()
-                
-                // Tous les autres endpoints nécessitent une authentification
+                // Tous les autres endpoints nécessitent une authentification JWT
                 .anyRequest().authenticated()
             )
             

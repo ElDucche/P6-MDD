@@ -1,4 +1,6 @@
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/SubscriptionId.java
+/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/SubscriptionRequest.java
+/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/UpdateUserProfileRequest.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/AuthController.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/SecurityUtil.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/LoginRequest.java

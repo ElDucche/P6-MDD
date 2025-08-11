@@ -37,6 +37,13 @@ public class CommentService {
     }
     
     /**
+     * Alias pour getCommentsByPost (compatibilité avec les contrôleurs)
+     */
+    public List<Comment> getCommentsByPostId(Long postId) {
+        return getCommentsByPost(postId);
+    }
+    
+    /**
      * Récupère tous les commentaires d'un utilisateur avec les posts associés
      */
     public List<Comment> getCommentsByUser(Long userId) {

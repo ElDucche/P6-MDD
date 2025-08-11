@@ -65,6 +65,14 @@ public class PostService {
     }
     
     /**
+     * Récupère les posts des thèmes auxquels l'utilisateur est abonné
+     * (alias pour getPersonalizedFeed pour compatibilité avec les contrôleurs)
+     */
+    public List<Post> getPostsFromSubscribedThemes(Long userId) {
+        return getPersonalizedFeed(userId);
+    }
+    
+    /**
      * Recherche des posts par titre
      */
     public List<Post> searchPostsByTitle(String title) {
