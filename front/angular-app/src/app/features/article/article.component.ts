@@ -162,7 +162,6 @@ export class ArticleComponent implements OnInit {
         this.comments.update(comments => this.sortComments([newComment, ...comments]));
         this.commentControl.reset();
         this.isSubmittingComment.set(false);
-        console.log('Commentaire créé avec succès:', newComment);
       },
       error: (error) => {
         console.error('Erreur lors de la création du commentaire:', error);

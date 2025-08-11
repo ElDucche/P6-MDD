@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
       next: (posts) => {
         this.myFeedPosts.set(this.sortPosts(posts, this.sortOrderMyFeed()));
         this.isLoadingMyFeed.set(false);
-        console.log(`${posts.length} posts trouvés dans Mon Fil (thèmes abonnés)`);
       },
       error: (error) => {
         console.error('Erreur lors du chargement de Mon Fil:', error);
@@ -64,7 +63,6 @@ export class HomeComponent implements OnInit {
       next: (posts) => {
         this.allPosts.set(this.sortPosts(posts, this.sortOrderAllPosts()));
         this.isLoadingAllPosts.set(false);
-        console.log(`${posts.length} posts trouvés au total`);
       },
       error: (error) => {
         console.error('Erreur lors du chargement de tous les posts:', error);
@@ -127,8 +125,6 @@ export class HomeComponent implements OnInit {
    * Recharge les listes d'articles pour afficher le nouveau post
    */
   onArticleCreated(newPost: Post): void {
-    console.log('Nouvel article créé:', newPost);
-    
     // Recharger Mon Fil et tous les posts
     this.loadMyFeedPosts();
     this.loadAllPosts();

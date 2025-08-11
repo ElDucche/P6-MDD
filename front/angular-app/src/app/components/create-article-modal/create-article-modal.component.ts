@@ -61,10 +61,9 @@ export class CreateArticleModalComponent {
 
       this.postService.createPost(newPost).subscribe({
         next: (post) => {
-          console.log('Article créé avec succès:', post);
-          this.articleCreated.emit(post); // Émettre l'événement avec le nouvel article
+          this.articleCreated.emit(post);
+          this.articleForm.reset();
           this.closeModal();
-          this.isLoading.set(false);
         },
         error: (error) => {
           console.error('Erreur lors de la création de l\'article:', error);
