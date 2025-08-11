@@ -3,7 +3,7 @@ package com.elducche.mdd.controller;
 import com.elducche.mdd.dto.CommentCreateRequest;
 import com.elducche.mdd.entity.Comment;
 import com.elducche.mdd.service.CommentService;
-import com.elducche.mdd.security.SecurityUtil;
+import com.elducche.mdd.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class CommentController {
 
     private final CommentService commentService;
-    private final SecurityUtil securityUtil;
+    private final AuthUtil authUtil;
 
     /**
      * Récupère tous les commentaires d'un post
@@ -48,22 +48,13 @@ public class CommentController {
     public ResponseEntity<?> createComment(@Valid @RequestBody CommentCreateRequest request) {
         log.debug("Création d'un commentaire pour le post ID : {}", request.getPostId());
         
-        Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        try {
+        return authUtil.executeWithAuthHandleErrors(userId -> {
             Optional<Comment> comment = commentService.createComment(request, userId);
             if (comment.isPresent()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(comment.get());
             } else {
                 return ResponseEntity.badRequest().body("Impossible de créer le commentaire");
             }
-        } catch (Exception e) {
-            log.error("Erreur lors de la création du commentaire : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                               .body("Erreur lors de la création du commentaire");
-        }
+        });
     }
 }

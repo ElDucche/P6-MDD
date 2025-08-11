@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { ConfigService } from '../core/services/config.service';
 
 export interface CurrentUser {
   userId: number;
@@ -15,12 +15,13 @@ export interface CurrentUser {
 })
 export class AuthService {
 
-  private readonly apiUrl = environment.apiUrl + 'api/auth'; // URL configurable via environment.ts
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    private readonly http: HttpClient,
+    private readonly config: ConfigService
+  ) { }
 
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+    return this.http.post<any>(this.config.endpoints.auth.login, credentials).pipe(
       tap(response => {
         if (response?.token) {
           localStorage.setItem('token', response.token);
@@ -30,7 +31,7 @@ export class AuthService {
   }
 
   register(userInfo: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userInfo, { responseType: 'text' });
+    return this.http.post(this.config.endpoints.auth.register, userInfo, { responseType: 'text' });
   }
 
   logout(): void {

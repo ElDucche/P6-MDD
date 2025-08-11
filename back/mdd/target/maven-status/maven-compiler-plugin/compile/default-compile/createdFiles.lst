@@ -15,6 +15,7 @@ com/elducche/mdd/dto/UpdateUserProfileRequest.class
 com/elducche/mdd/mapper/EntityMapper.class
 com/elducche/mdd/dto/SubscriptionRequest.class
 com/elducche/mdd/entity/Subscription.class
+com/elducche/mdd/util/AuthUtil.class
 com/elducche/mdd/repository/SubscriptionRepository.class
 com/elducche/mdd/service/AuthService.class
 com/elducche/mdd/repository/ThemeRepository.class

@@ -5,7 +5,7 @@ import com.elducche.mdd.dto.PostDTO;
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.mapper.EntityMapper;
 import com.elducche.mdd.service.PostService;
-import com.elducche.mdd.security.SecurityUtil;
+import com.elducche.mdd.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class PostController {
 
     private final PostService postService;
-    private final SecurityUtil securityUtil;
+    private final AuthUtil authUtil;
     private final EntityMapper entityMapper;
 
     /**
@@ -61,38 +61,17 @@ public class PostController {
         List<PostDTO> postDTOs = posts.stream().map(entityMapper::toPostDTO).toList();
         return ResponseEntity.ok(postDTOs);
     }
-
+    
     /**
      * Récupère les posts des thèmes auxquels l'utilisateur est abonné
      */
-    @GetMapping("/feed")
-    public ResponseEntity<List<PostDTO>> getPostsFeed() {
-        Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        List<Post> posts = postService.getPostsFromSubscribedThemes(userId);
-        List<PostDTO> postDTOs = posts.stream().map(entityMapper::toPostDTO).toList();
-        return ResponseEntity.ok(postDTOs);
-    }
-    
-    /**
-     * Récupère les posts des thèmes auxquels l'utilisateur est abonné (alias)
-     */
     @GetMapping("/subscribed")
     public ResponseEntity<List<PostDTO>> getSubscribedPosts() {
-        Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        List<Post> posts = postService.getPostsFromSubscribedThemes(userId);
-        // Convertir en DTOs et retourner une liste vide si aucun post
-        List<PostDTO> postDTOs = posts != null 
-            ? posts.stream().map(entityMapper::toPostDTO).toList()
-            : List.of();
-        return ResponseEntity.ok(postDTOs);
+        return authUtil.executeWithAuth(userId -> {
+            List<Post> posts = postService.getPostsFromSubscribedThemes(userId);
+            List<PostDTO> postDTOs = posts.stream().map(entityMapper::toPostDTO).toList();
+            return ResponseEntity.ok(postDTOs);
+        });
     }
 
     /**
@@ -100,12 +79,7 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<?> createPost(@Valid @RequestBody PostCreateRequest request) {
-        Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        try {
+        return authUtil.executeWithAuthHandleErrors(userId -> {
             Optional<Post> post = postService.createPost(request, userId);
             if (post.isPresent()) {
                 PostDTO postDTO = entityMapper.toPostDTO(post.get());
@@ -113,10 +87,6 @@ public class PostController {
             } else {
                 return ResponseEntity.badRequest().body("Erreur lors de la création du post");
             }
-        } catch (Exception e) {
-            log.error("Erreur lors de la création du post: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Erreur interne du serveur");
-        }
+        });
     }
 }

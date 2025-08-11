@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { ConfigService } from '../core/services/config.service';
 
 export interface Theme {
   id: number;
@@ -16,19 +16,19 @@ export interface Theme {
 })
 export class ThemeService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}api/themes`;
+  private readonly config = inject(ConfigService);
 
   /**
    * Récupère tous les thèmes disponibles
    */
   getAllThemes(): Observable<Theme[]> {
-    return this.http.get<Theme[]>(this.apiUrl);
+    return this.http.get<Theme[]>(this.config.endpoints.themes.all);
   }
 
   /**
    * Récupère un thème par son ID
    */
   getThemeById(id: number): Observable<Theme> {
-    return this.http.get<Theme>(`${this.apiUrl}/${id}`);
+    return this.http.get<Theme>(`${this.config.apiUrl}/api/themes/${id}`);
   }
 }

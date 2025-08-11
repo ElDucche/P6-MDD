@@ -3,10 +3,9 @@ package com.elducche.mdd.controller;
 import com.elducche.mdd.dto.UpdateUserProfileRequest;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.service.UserService;
-import com.elducche.mdd.security.SecurityUtil;
+import com.elducche.mdd.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final SecurityUtil securityUtil;
+    private final AuthUtil authUtil;
 
     /**
      * Récupère le profil de l'utilisateur connecté
@@ -33,14 +32,11 @@ public class UserController {
     public ResponseEntity<User> getCurrentUserProfile() {
         log.debug("Récupération du profil de l'utilisateur connecté");
         
-        Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        Optional<User> user = userService.getUserById(userId);
-        return user.map(ResponseEntity::ok)
-                   .orElse(ResponseEntity.notFound().build());
+        return authUtil.executeWithAuth(userId -> {
+            Optional<User> user = userService.getUserById(userId);
+            return user.map(ResponseEntity::ok)
+                       .orElse(ResponseEntity.notFound().build());
+        });
     }
 
     /**
@@ -52,23 +48,11 @@ public class UserController {
     public ResponseEntity<?> updateCurrentUserProfile(@Valid @RequestBody UpdateUserProfileRequest request) {
         log.debug("Mise à jour du profil de l'utilisateur connecté");
         
-        Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        try {
+        return authUtil.executeWithAuthHandleErrors(userId -> {
             Optional<User> updatedUser = userService.updateUserProfile(userId, request);
-            if (updatedUser.isPresent()) {
-                return ResponseEntity.ok(updatedUser.get());
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            log.error("Erreur lors de la mise à jour du profil : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                               .body("Erreur lors de la mise à jour du profil");
-        }
+            return updatedUser.map(ResponseEntity::ok)
+                              .orElse(ResponseEntity.notFound().build());
+        });
     }
 
     /**
