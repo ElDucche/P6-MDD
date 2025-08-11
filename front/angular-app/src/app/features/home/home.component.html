@@ -48,7 +48,7 @@
             @for (post of myFeedPosts(); track post.id) {
               <app-article-card 
                 [post]="post" 
-                [theme]="getThemeById(post.themeId)">
+                [theme]="post.theme">
               </app-article-card>
             } @empty {
               <div class="col-span-full text-center py-12">
@@ -96,7 +96,7 @@
             @for (post of allPosts(); track post.id) {
               <app-article-card 
                 [post]="post" 
-                [theme]="getThemeById(post.themeId)">
+                [theme]="post.theme">
               </app-article-card>
             } @empty {
               <div class="col-span-full text-center py-12">

@@ -32,7 +32,8 @@ public class EntityMapper {
             if (post.getAuthor() != null) {
                 authorDTO = new PostDTO.AuthorDTO(
                     post.getAuthor().getId(),
-                    post.getAuthor().getUsername()
+                    post.getAuthor().getUsername(),
+                    post.getAuthor().getEmail()
                 );
             } else {
                 log.warn("Post {} sans auteur", post.getId());
@@ -74,7 +75,8 @@ public class EntityMapper {
         
         CommentDTO.AuthorDTO authorDTO = new CommentDTO.AuthorDTO(
             comment.getAuthor().getId(),
-            comment.getAuthor().getUsername()
+            comment.getAuthor().getUsername(),
+            comment.getAuthor().getEmail()
         );
         
         CommentDTO.PostInfoDTO postDTO = new CommentDTO.PostInfoDTO(

@@ -40,14 +40,16 @@ public class JwtUtil {
     }
 
     /**
-     * Génère un token JWT simple avec l'email comme identifiant principal
+     * Génère un token JWT avec l'email, userId et username
      */
-    public String generateToken(String email) {
+    public String generateToken(String email, Long userId, String username) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + jwtExpiration);
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("userId", userId)
+                .claim("username", username)
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
                 .signWith(key, SignatureAlgorithm.HS512)

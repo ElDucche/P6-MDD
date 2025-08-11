@@ -32,9 +32,10 @@ export class SubscriptionService {
    * S'abonner à un thème
    */
   subscribe(themeId: number, userId: number): Observable<Subscription> {
-    return this.http.post<Subscription>(this.apiUrl, {
-      themeId
-    });
+    console.log('Tentative d\'abonnement au thème:', themeId, 'pour l\'utilisateur:', userId);
+    const body = { themeId };
+    console.log('Corps de la requête POST:', body);
+    return this.http.post<Subscription>(this.apiUrl, body);
   }
 
   /**

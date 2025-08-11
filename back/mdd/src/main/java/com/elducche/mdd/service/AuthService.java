@@ -45,8 +45,8 @@ public class AuthService {
                 return LoginResponse.error("Email ou mot de passe incorrect");
             }
             
-            // Génération du token JWT simplifié
-            String token = jwtUtil.generateToken(user.getEmail());
+            // Génération du token JWT avec toutes les informations utilisateur
+            String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getUsername());
             log.info("Connexion réussie pour l'utilisateur: {}", user.getEmail());
             
             return LoginResponse.success(token);
@@ -83,7 +83,7 @@ public class AuthService {
             log.info("Nouveau compte créé pour l'utilisateur: {}", savedUser.getEmail());
             
             // Génération du token JWT pour connexion automatique
-            String token = jwtUtil.generateToken(savedUser.getEmail());
+            String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getId(), savedUser.getUsername());
             
             return LoginResponse.success(token);
             

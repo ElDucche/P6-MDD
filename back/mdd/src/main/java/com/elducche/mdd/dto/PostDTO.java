@@ -33,6 +33,7 @@ public class PostDTO {
     public static class AuthorDTO {
         private Long id;
         private String username;
+        private String email;
     }
     
     @Data

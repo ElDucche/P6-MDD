@@ -32,6 +32,7 @@ public class CommentDTO {
     public static class AuthorDTO {
         private Long id;
         private String username;
+        private String email;
     }
     
     @Data

@@ -17,18 +17,9 @@ export class HomeComponent implements OnInit {
   
   @ViewChild('createArticleModal') createArticleModal!: CreateArticleModalComponent;
   
-  timeRanges = [
-    { value: 'day', viewValue: 'Aujourd\'hui' },
-    { value: 'week', viewValue: 'Cette semaine' },
-    { value: 'month', viewValue: 'Ce mois-ci' },
-    { value: 'year', viewValue: 'Cette année' },
-  ];
-
   themes = signal<Theme[]>([]);
   myFeedPosts = signal<Post[]>([]);
   allPosts = signal<Post[]>([]);
-  selectedTimeRange = signal(this.timeRanges[0].value);
-  selectedTheme = signal<number | null>(null);
   isLoadingMyFeed = signal(false);
   isLoadingAllPosts = signal(false);
   sortOrderMyFeed = signal<'asc' | 'desc'>('desc');
@@ -125,16 +116,6 @@ export class HomeComponent implements OnInit {
   protected onSortOrderChangeAllPosts(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.changeSortOrderAllPosts(target.value as 'asc' | 'desc');
-  }
-
-  onThemeChange(themeId: number): void {
-    this.selectedTheme.set(themeId);
-    // Note: cette méthode peut être supprimée si elle n'est plus utilisée
-    // car Mon Fil ne dépend plus d'un thème sélectionné
-  }
-
-  getThemeById(themeId: number): Theme | undefined {
-    return this.themes().find(theme => theme.id === themeId);
   }
 
   openCreateArticleModal(): void {

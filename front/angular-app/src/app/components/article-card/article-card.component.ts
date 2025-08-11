@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Post } from '../../services/post.service';
-import { Theme } from '../../services/theme.service';
 
 @Component({
   selector: 'app-article-card',
@@ -13,7 +12,7 @@ import { Theme } from '../../services/theme.service';
 })
 export class ArticleCardComponent {
   readonly post = input.required<Post>();
-  readonly theme = input<Theme>();
+  readonly theme = input<{ id: number; title: string; description: string }>();
 
   constructor(private readonly router: Router) {}
 
