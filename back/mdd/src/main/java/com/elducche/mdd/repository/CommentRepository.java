@@ -1,6 +1,7 @@
 package com.elducche.mdd.repository;
 
 import com.elducche.mdd.entity.Comment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -67,9 +68,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     /**
      * Trouve les commentaires les plus récents d'un utilisateur
      * @param userId L'ID de l'utilisateur
-     * @param limit Nombre maximum de commentaires à retourner
+     * @param pageable Objet Pageable pour la limitation et le tri
      * @return Liste des commentaires récents
      */
     @Query("SELECT c FROM Comment c JOIN FETCH c.author JOIN FETCH c.post WHERE c.author.id = :userId ORDER BY c.createdAt DESC")
-    List<Comment> findRecentCommentsByUserId(@Param("userId") Long userId, @Param("limit") int limit);
+    List<Comment> findRecentCommentsByUserId(@Param("userId") Long userId, Pageable pageable);
 }
