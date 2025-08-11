@@ -19,11 +19,15 @@
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/UserRepository.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/MddApplication.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/PostService.java
+/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/CommentDTO.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/ThemeRepository.java
+/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/mapper/EntityMapper.java
+/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/SubscriptionDTO.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/HealthController.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/JwtUtil.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/JwtAuthenticationFilter.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/UserService.java
+/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/PostDTO.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/CommentRepository.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/ThemeController.java
 /workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/AuthService.java

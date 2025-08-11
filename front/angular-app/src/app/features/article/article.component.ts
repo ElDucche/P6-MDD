@@ -60,7 +60,7 @@ export class ArticleComponent implements OnInit {
     this.postService.getPostById(id).subscribe({
       next: (post) => {
         this.post.set(post);
-        this.loadTheme(post.themeId);
+        this.loadTheme(post.theme.id);
         this.loadComments(post.id);
       },
       error: (error) => {

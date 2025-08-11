@@ -1,5 +1,6 @@
 package com.elducche.mdd.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.persistence.*;
@@ -40,6 +41,7 @@ public class Comment {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnore
     private Post post;
     
     @PrePersist

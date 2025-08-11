@@ -1,5 +1,6 @@
 package com.elducche.mdd.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.persistence.*;
@@ -39,9 +40,11 @@ public class Theme {
     
     // Relations JPA
     @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Post> posts;
     
     @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Subscription> subscriptions;
     
     @PrePersist

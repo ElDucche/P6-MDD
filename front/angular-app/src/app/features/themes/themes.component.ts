@@ -41,17 +41,14 @@ export class ThemesComponent {
   }
 
   private loadUserSubscriptions(): void {
-    const userId = this.authService.getCurrentUserId();
-    if (userId) {
-      this.subscriptionService.getUserSubscriptions(userId).subscribe({
-        next: (subscriptions: Subscription[]) => {
-          this.subscriptions.set(subscriptions);
-        },
-        error: (error: any) => {
-          console.error('Erreur lors du chargement des abonnements:', error);
-        }
-      });
-    }
+    this.subscriptionService.getUserSubscriptions().subscribe({
+      next: (subscriptions: Subscription[]) => {
+        this.subscriptions.set(subscriptions);
+      },
+      error: (error: any) => {
+        console.error('Erreur lors du chargement des abonnements:', error);
+      }
+    });
   }
 
   protected isSubscribed(themeId: number): boolean {

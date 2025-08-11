@@ -7,11 +7,24 @@ export interface Post {
   id: number;
   title: string;
   content: string;
-  authorId: number;
-  authorUsername?: string; // Nom d'utilisateur de l'auteur (optionnel pour la compatibilité)
-  themeId: number;
+  author: {
+    id: number;
+    username: string;
+    email: string;
+  };
+  theme: {
+    id: number;
+    title: string;
+    description: string;
+  };
   createdAt: string;
   updatedAt: string;
+}
+
+export interface PostCreateRequest {
+  title: string;
+  content: string;
+  themeId: number;
 }
 
 @Injectable({
@@ -46,7 +59,7 @@ export class PostService {
    * Crée un nouveau post
    * L'authorId sera automatiquement extrait du token JWT côté backend
    */
-  createPost(post: Omit<Post, 'id' | 'authorId' | 'createdAt' | 'updatedAt'>): Observable<Post> {
+  createPost(post: PostCreateRequest): Observable<Post> {
     return this.http.post<Post>(this.apiUrl, post);
   }
 

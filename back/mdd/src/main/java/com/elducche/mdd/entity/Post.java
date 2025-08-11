@@ -1,5 +1,6 @@
 package com.elducche.mdd.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.persistence.*;
@@ -47,6 +48,7 @@ public class Post {
     private Theme theme;
     
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Comment> comments;
     
     @PrePersist

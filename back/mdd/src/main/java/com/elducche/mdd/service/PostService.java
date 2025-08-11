@@ -8,6 +8,7 @@ import com.elducche.mdd.repository.PostRepository;
 import com.elducche.mdd.repository.ThemeRepository;
 import com.elducche.mdd.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +33,7 @@ public class PostService {
     /**
      * Récupère tous les posts avec leurs relations (auteur + thème)
      */
+    @Transactional(readOnly = true)
     public List<Post> getAllPosts() {
         return postRepository.findAllWithAuthorAndTheme();
     }
@@ -39,6 +41,7 @@ public class PostService {
     /**
      * Récupère un post par ID avec ses relations
      */
+    @Transactional(readOnly = true)
     public Optional<Post> getPostById(Long id) {
         return postRepository.findByIdWithAuthorAndTheme(id);
     }
@@ -46,6 +49,7 @@ public class PostService {
     /**
      * Récupère les posts d'un thème spécifique
      */
+    @Transactional(readOnly = true)
     public List<Post> getPostsByTheme(Long themeId) {
         return postRepository.findByThemeIdWithAuthorAndTheme(themeId);
     }
@@ -53,6 +57,7 @@ public class PostService {
     /**
      * Récupère les posts d'un auteur spécifique
      */
+    @Transactional(readOnly = true)
     public List<Post> getPostsByAuthor(Long authorId) {
         return postRepository.findByAuthorIdWithAuthorAndTheme(authorId);
     }
@@ -60,6 +65,7 @@ public class PostService {
     /**
      * Récupère le feed personnalisé d'un utilisateur (posts des thèmes abonnés)
      */
+    @Transactional(readOnly = true)
     public List<Post> getPersonalizedFeed(Long userId) {
         return postRepository.findPostsFromSubscribedThemes(userId);
     }
@@ -68,6 +74,7 @@ public class PostService {
      * Récupère les posts des thèmes auxquels l'utilisateur est abonné
      * (alias pour getPersonalizedFeed pour compatibilité avec les contrôleurs)
      */
+    @Transactional(readOnly = true)
     public List<Post> getPostsFromSubscribedThemes(Long userId) {
         return getPersonalizedFeed(userId);
     }

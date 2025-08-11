@@ -2,7 +2,6 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { forkJoin, map } from 'rxjs';
 import { UserService } from '../user.service';
 import { AuthService } from '../../../auth/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
@@ -93,15 +92,9 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserSubscriptions(): void {
-    const currentUser = this.user();
-    if (!currentUser?.id) {
-      // Si pas d'utilisateur, on attendra qu'il soit chargé
-      return;
-    }
-
     this.isLoadingSubscriptions.set(true);
     
-    this.subscriptionService.getUserSubscriptions(currentUser.id).subscribe({
+    this.subscriptionService.getUserSubscriptions().subscribe({
       next: (subscriptions) => {
         if (subscriptions.length === 0) {
           this.subscribedThemes.set([]);
@@ -109,31 +102,14 @@ export class ProfileComponent implements OnInit {
           return;
         }
 
-        // Pour chaque abonnement, récupérer les détails du thème
-        const themeRequests = subscriptions.map(subscription => 
-          this.themeService.getThemeById(subscription.themeId).pipe(
-            map(theme => ({
-              ...theme,
-              subscribedAt: new Date() // Pour l'instant on met la date actuelle, à améliorer
-            } as ThemeWithSubscription))
-          )
-        );
+        // Mapper les abonnements vers les thèmes avec la date d'abonnement
+        const themesWithSubscription = subscriptions.map(subscription => ({
+          ...subscription.theme,
+          subscribedAt: subscription.createdAt ? new Date(subscription.createdAt) : new Date()
+        } as ThemeWithSubscription));
 
-        // Combiner toutes les requêtes de thèmes
-        forkJoin(themeRequests).subscribe({
-          next: (themesWithSubscription) => {
-            this.subscribedThemes.set(themesWithSubscription);
-            this.isLoadingSubscriptions.set(false);
-          },
-          error: (error: unknown) => {
-            console.error('Erreur lors du chargement des détails des thèmes:', error);
-            this.alertService.showAlert({
-              type: 'error',
-              message: 'Erreur lors du chargement de vos abonnements'
-            });
-            this.isLoadingSubscriptions.set(false);
-          }
-        });
+        this.subscribedThemes.set(themesWithSubscription);
+        this.isLoadingSubscriptions.set(false);
       },
       error: (error: unknown) => {
         console.error('Erreur lors du chargement des abonnements:', error);
@@ -245,20 +221,23 @@ export class ProfileComponent implements OnInit {
    * Se désabonner d'un thème
    */
   protected unsubscribeFromTheme(themeId: number): void {
-    const currentUser = this.user();
-    if (!currentUser?.id) {
-      this.alertService.showAlert({
-        type: 'error',
-        message: 'Utilisateur non connecté'
-      });
-      return;
-    }
-
     const currentThemes = this.subscribedThemes();
     const theme = currentThemes.find(t => t.id === themeId);
     const themeName = theme?.title || 'ce thème';
 
-    this.subscriptionService.unsubscribe(themeId, currentUser.id).subscribe({
+    // Trouver l'abonnement à supprimer pour récupérer son ID
+    const subscriptionToDelete = currentThemes.find(t => t.id === themeId);
+    if (!subscriptionToDelete) {
+      this.alertService.showAlert({
+        type: 'error',
+        message: 'Abonnement introuvable'
+      });
+      return;
+    }
+
+    // Utiliser l'ID du thème comme ID d'abonnement pour l'instant
+    // Note: Le backend devrait idéalement retourner l'ID réel de l'abonnement
+    this.subscriptionService.unsubscribe(themeId).subscribe({
       next: () => {
         // Mettre à jour la liste locale
         const updatedThemes = currentThemes.filter(t => t.id !== themeId);
