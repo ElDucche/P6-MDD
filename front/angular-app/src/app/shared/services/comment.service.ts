@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Comment, CreateCommentRequest } from '../shared/interfaces/comment.interface';
-import { ConfigService } from '../core/services/config.service';
+import { Comment, CreateCommentRequest } from '../interfaces/comment.interface';
+import { ConfigService } from '../../core/services/config.service';
 
 @Injectable({
   providedIn: 'root'

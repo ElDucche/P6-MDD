@@ -1,25 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ConfigService } from '../core/services/config.service';
-
-export interface Subscription {
-  id: {
-    userId: number;
-    themeId: number;
-  };
-  user: {
-    id: number;
-    username: string;
-    email: string;
-  };
-  theme: {
-    id: number;
-    title: string;
-    description: string;
-  };
-  createdAt?: string;
-}
+import { ConfigService } from '../../core/services/config.service';
+import { Subscription } from '../interfaces/subscription.interface';
 
 @Injectable({
   providedIn: 'root'
