@@ -4,9 +4,9 @@
 */
 
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../features/auth/auth.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'ngm-dev-block-login-email-password',
@@ -26,7 +26,7 @@ export class LoginEmailPasswordComponent {
     ]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
   onSubmit() {
     if (this.form.valid) {
