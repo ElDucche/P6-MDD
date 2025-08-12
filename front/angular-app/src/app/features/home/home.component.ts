@@ -1,9 +1,9 @@
 import { Component, signal, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ThemeService, Theme } from '../../services/theme.service';
-import { PostService, Post } from '../../services/post.service';
-import { ArticleCardComponent } from '../../components/article-card/article-card.component';
-import { CreateArticleModalComponent } from '../../components/create-article-modal/create-article-modal.component';
+import { ThemeService, PostService } from '@shared/services';
+import { Theme, Post } from '@shared/interfaces';
+import { ArticleCardComponent } from '@components/article-card/article-card.component';
+import { CreateArticleModalComponent } from '@components/create-article-modal/create-article-modal.component';
 
 @Component({
   selector: 'app-home',

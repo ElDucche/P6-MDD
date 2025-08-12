@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../features/auth/auth.service';
 import { AlertService } from '../services/alert.service';
 
 /**

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ThemeService, Theme } from '../../services/theme.service';
-import { SubscriptionService, Subscription } from '../../services/subscription.service';
-import { AuthService } from '../../auth/auth.service';
+import { ThemeService, SubscriptionService } from '@shared/services';
+import { AuthService } from '../auth/auth.service';
+import { Theme, Subscription } from '@shared/interfaces';
 import { Router } from '@angular/router';
 
 @Component({

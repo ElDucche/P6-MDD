@@ -2,10 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Post, PostService } from '../../services/post.service';
-import { Theme, ThemeService } from '../../services/theme.service';
-import { Comment } from '../../shared/interfaces/comment.interface';
-import { CommentService } from '../../services/comment.service';
+import { PostService, ThemeService, CommentService } from '@shared/services';
+import { Post, Theme, Comment } from '@shared/interfaces';
 
 @Component({
   selector: 'app-article',

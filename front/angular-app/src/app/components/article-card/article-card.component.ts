@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { Post } from '../../services/post.service';
+import { Post } from '@shared/interfaces';
 
 @Component({
   selector: 'app-article-card',

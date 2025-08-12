@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal, output } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { ThemeService, Theme } from '../../services/theme.service';
-import { PostService, Post } from '../../services/post.service';
+import { ThemeService, PostService } from '@shared/services';
+import { Theme, Post } from '@shared/interfaces';
 
 @Component({
   selector: 'app-create-article-modal',

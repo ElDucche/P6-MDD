@@ -6,7 +6,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../features/auth/auth.service';
 
 @Component({
   selector: 'ngm-dev-block-login-email-password',

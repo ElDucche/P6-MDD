@@ -11,4 +11,3 @@ export * from './theme.service';
 export * from './comment.service';
 export * from './subscription.service';
 export * from './user.service';
-export * from './notification.service';

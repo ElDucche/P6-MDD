@@ -2,12 +2,10 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserService } from '../user.service';
-import { AuthService } from '../../../auth/auth.service';
-import { AlertService } from '../../../core/services/alert.service';
-import { SubscriptionService } from '../../../services/subscription.service';
-import { ThemeService, Theme } from '../../../services/theme.service';
-import { User } from '../user.model';
+import { UserService, SubscriptionService, ThemeService } from '@shared/services';
+import { AuthService } from '../auth/auth.service';
+import { AlertService } from '@core/services/alert.service';
+import { User, Theme } from '@shared/interfaces';
 
 // Interface pour les thèmes avec information d'abonnement
 interface ThemeWithSubscription extends Theme {
