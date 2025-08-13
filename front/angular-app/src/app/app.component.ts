@@ -21,12 +21,14 @@ export class AppComponent {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.showNavbar = !(event.url === '/login' || event.url === '/register');
+      // Masquer la navbar pour les pages publiques (non connectées)
+      const publicPages = ['/', '/login', '/register'];
+      this.showNavbar = !publicPages.includes(event.url);
     });
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 }

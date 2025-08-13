@@ -3,7 +3,7 @@
 	Update this file using `@ngm-dev/cli update free-authentication/login-email-password`
 */
 
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
@@ -26,15 +26,24 @@ export class LoginEmailPasswordComponent {
     ]),
   });
 
+  protected readonly errorMessage = signal<string>('');
+  protected readonly isLoading = signal<boolean>(false);
+
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
   onSubmit() {
     if (this.form.valid) {
+      this.isLoading.set(true);
+      this.errorMessage.set('');
+      
       this.authService.login(this.form.value).subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          this.isLoading.set(false);
+          this.router.navigate(['/home']);
         },
         error: (err) => {
+          this.isLoading.set(false);
+          this.errorMessage.set(err.message || 'Erreur de connexion');
           console.error('Login failed', err);
         },
       });
