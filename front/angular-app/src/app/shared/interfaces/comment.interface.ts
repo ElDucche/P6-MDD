@@ -1,9 +1,15 @@
 export interface Comment {
   id: number;
   content: string;
-  authorId: number;
-  authorUsername?: string;
-  postId: number;
+  author: {
+    id: number;
+    username: string;
+    email: string;
+  };
+  post: {
+    id: number;
+    title: string;
+  };
   createdAt: string;
   updatedAt: string;
 }

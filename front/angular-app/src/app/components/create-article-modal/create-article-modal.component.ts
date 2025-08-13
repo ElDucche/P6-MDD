@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal, output } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { ThemeService, Theme } from '../../services/theme.service';
-import { PostService, Post } from '../../services/post.service';
+import { ThemeService, PostService } from '@shared/services';
+import { Theme, Post } from '@shared/interfaces';
 
 @Component({
   selector: 'app-create-article-modal',
@@ -61,10 +61,9 @@ export class CreateArticleModalComponent {
 
       this.postService.createPost(newPost).subscribe({
         next: (post) => {
-          console.log('Article créé avec succès:', post);
-          this.articleCreated.emit(post); // Émettre l'événement avec le nouvel article
+          this.articleCreated.emit(post);
+          this.articleForm.reset();
           this.closeModal();
-          this.isLoading.set(false);
         },
         error: (error) => {
           console.error('Erreur lors de la création de l\'article:', error);

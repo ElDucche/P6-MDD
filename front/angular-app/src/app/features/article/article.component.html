@@ -72,7 +72,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
             </svg>
-            <span>Par {{ post()!.authorUsername || ('Auteur #' + post()!.authorId) }}</span>
+            <span>Par {{ post()!.author.username || ('Auteur #' + post()!.author.id) }}</span>
           </div>
           @if (post()!.updatedAt !== post()!.createdAt) {
             <div class="flex items-center gap-2">
@@ -97,6 +97,21 @@
         <div class="divider">
           <h2 class="text-2xl font-semibold">Commentaires</h2>
         </div>
+
+        <!-- Options de tri -->
+        @if (comments().length > 1) {
+          <div class="flex items-center justify-end gap-3 mb-6">
+            <label for="sort-select" class="text-sm font-medium text-base-content/70">Trier par date :</label>
+            <select 
+              id="sort-select"
+              class="select select-bordered select-sm w-auto"
+              [value]="sortOrder()"
+              (change)="onSortOrderChange($event)">
+              <option value="desc">Plus récents d'abord</option>
+              <option value="asc">Plus anciens d'abord</option>
+            </select>
+          </div>
+        }
         
         <!-- Liste des commentaires -->
         @if (isLoadingComments()) {
@@ -118,7 +133,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-base-content/60">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
-                    <span class="font-medium text-sm">{{ comment.authorUsername || ('Auteur #' + comment.authorId) }}</span>
+                    <span class="font-medium text-sm">{{ comment.author.username || ('Auteur #' + comment.author.id) }}</span>
                     <span class="text-xs text-base-content/60">• {{ comment.createdAt | date:'dd/MM/yyyy à HH:mm':'fr' }}</span>
                   </div>
                   <!-- Contenu du commentaire -->

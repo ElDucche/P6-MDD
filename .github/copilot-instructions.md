@@ -5,39 +5,42 @@ Ce fichier contient les instructions et informations relatives au projet P6-MDD.
 ## Informations générales
 - Nous sommes sur github codespaces. J'utilise une VM pour le développement.
 - Il n'est pas question de localhost dans ce projet, toutes les applications sont accessibles sur des adresses liée à ma VM.
-- **IMPORTANT :** Pour éviter les erreurs 401 sur le port 8080 lors de l'accès à l'API Gateway ou à tout service exposé, il faut configurer le port comme "public" dans Codespaces. Voir la documentation officielle : https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace
+- **IMPORTANT :** Pour éviter les erreurs 401 sur le port 8080 lors de l'accès à l'API ou à tout service exposé, il faut configurer le port comme "public" dans Codespaces. Voir la documentation officielle : https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace
+- NE LANCE JAMAIS LE FRONTEND QUAND TU FAIS DES MODIFICATIONS.
 
 ## Contexte du projet
 
-Mettre en place une architecture microservices Java/Spring Boot pour un projet de type réseau social. L'application permettra aux utilisateurs de s'inscrire, de se connecter, de créer des posts, de suivre d'autres utilisateurs et de recevoir des notifications.
+Architecture monolithique (client/serveur) Java/Spring Boot pour un projet de type réseau social. L'application permettra aux utilisateurs de s'inscrire, de se connecter, de créer des posts, de suivre d'autres utilisateurs et de recevoir des notifications.
 
 Pour tester les endpoints login et obtenir un token JWT, utilise les identifiants "usertest@example.com" et "?Password1".
 
 ## Architecture
 
-- **Backend**: Java 21 / Spring Boot 3
-    - **API Gateway**: `api-gateway` (Spring Cloud Gateway) pour le routage et la sécurité (JWT).
-    - **Service Discovery**: `discovery-server` (Eureka).
-    - **Microservices**:
-        - `user-service`: Gestion des utilisateurs.
-        - `post-service`: Gestion des posts, thèmes et commentaires.
-        - `notification-service`: Gestion des notifications.
-    - **Base de données**: Postgres.
+- **Backend**: Java 21 / Spring Boot 3 - Application monolithique `mdd`
+    - **Sécurité**: JWT avec Spring Security
+    - **Fonctionnalités**:
+        - Gestion des utilisateurs (inscription, connexion, profils)
+        - Gestion des posts et commentaires
+        - Gestion des thèmes et abonnements
+        - Système de notifications
+    - **Base de données**: PostgreSQL avec Spring Data JPA
+    - **Port**: 8080
 - **Frontend**: Angular (dossier `front/angular-app`, à développer).
 - **Infrastructure**: Base de données PostgreSQL.
 
 ## Instructions de développement
 
-1.  **Terminer la configuration des entités et repositories** pour `post-service` et `notification-service` en utilisant JDBC et les tables définies dans `infra/script.sql`.
-2.  **Implémenter la logique métier** dans chaque microservice (CRUD pour les posts, les thèmes, les abonnements, etc.).
-3.  **Sécuriser les endpoints** des microservices en validant le token JWT transmis par l'API Gateway.
-4.  **Développer le frontend Angular** pour interagir avec l'API Gateway.
-5.  **Respecter les bonnes pratiques de développement** :
-  - Nettoyer le code inutiles
-  - Verifier l'indentation
-  - Commenter le code lorsque les fonctionnalités deviennent complexe 
-6.  **Ajouter des tests unitaires et d'intégration**.
-7. **S'assurer que le code respecte les principes SOLID en POO** et que le code est documenté avec javadoc.
+1.  **Fusionner user-service et post-service** dans une application monolithique Spring Boot nommée `mdd`
+2.  **Configurer Spring Data JPA** pour remplacer JDBC avec les entités définies dans `infra/script.sql`
+3.  **Implémenter la logique métier** (CRUD pour les users, posts, thèmes, abonnements, commentaires, notifications)
+4.  **Sécuriser les endpoints** avec Spring Security et JWT
+5.  **Développer le frontend Angular** pour interagir avec l'API REST
+6.  **Respecter les bonnes pratiques de développement** :
+  - Nettoyer le code inutile
+  - Vérifier l'indentation
+  - Commenter le code lorsque les fonctionnalités deviennent complexes
+7.  **Ajouter des tests unitaires et d'intégration**
+8. **S'assurer que le code respecte les principes SOLID en POO** et que le code est documenté avec javadoc
 
 ## Instructions spéciales pour le front/angular-app
 # Persona

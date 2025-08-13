@@ -2,10 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Post, PostService } from '../../services/post.service';
-import { Theme, ThemeService } from '../../services/theme.service';
-import { Comment } from '../../shared/interfaces/comment.interface';
-import { CommentService } from '../../services/comment.service';
+import { PostService, ThemeService, CommentService } from '@shared/services';
+import { Post, Theme, Comment } from '@shared/interfaces';
 
 @Component({
   selector: 'app-article',
@@ -29,6 +27,7 @@ export class ArticleComponent implements OnInit {
   protected readonly isLoadingComments = signal(false);
   protected readonly isSubmittingComment = signal(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly sortOrder = signal<'asc' | 'desc'>('desc');
   
   // Formulaire pour nouveau commentaire
   protected readonly commentControl = new FormControl('', [
@@ -59,7 +58,7 @@ export class ArticleComponent implements OnInit {
     this.postService.getPostById(id).subscribe({
       next: (post) => {
         this.post.set(post);
-        this.loadTheme(post.themeId);
+        this.loadTheme(post.theme.id);
         this.loadComments(post.id);
       },
       error: (error) => {
@@ -96,7 +95,7 @@ export class ArticleComponent implements OnInit {
     
     this.commentService.getCommentsByPostId(postId).subscribe({
       next: (comments) => {
-        this.comments.set(comments);
+        this.comments.set(this.sortComments(comments));
         this.isLoadingComments.set(false);
       },
       error: (error) => {
@@ -105,6 +104,34 @@ export class ArticleComponent implements OnInit {
         this.isLoadingComments.set(false);
       }
     });
+  }
+
+  /**
+   * Trie les commentaires selon l'ordre sélectionné
+   */
+  private sortComments(comments: Comment[]): Comment[] {
+    return [...comments].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      
+      return this.sortOrder() === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }
+
+  /**
+   * Change l'ordre de tri des commentaires
+   */
+  protected changeSortOrder(order: 'asc' | 'desc'): void {
+    this.sortOrder.set(order);
+    this.comments.update(comments => this.sortComments(comments));
+  }
+
+  /**
+   * Gère le changement d'ordre de tri via l'événement select
+   */
+  protected onSortOrderChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.changeSortOrder(target.value as 'asc' | 'desc');
   }
 
   /**
@@ -129,11 +156,10 @@ export class ArticleComponent implements OnInit {
 
     this.commentService.createComment(commentData).subscribe({
       next: (newComment) => {
-        // Ajouter le nouveau commentaire en tête de liste
-        this.comments.update(comments => [newComment, ...comments]);
+        // Ajouter le nouveau commentaire et trier la liste
+        this.comments.update(comments => this.sortComments([newComment, ...comments]));
         this.commentControl.reset();
         this.isSubmittingComment.set(false);
-        console.log('Commentaire créé avec succès:', newComment);
       },
       error: (error) => {
         console.error('Erreur lors de la création du commentaire:', error);

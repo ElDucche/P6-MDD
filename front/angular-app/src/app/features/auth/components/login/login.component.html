@@ -1,0 +1,65 @@
+<!--
+  Installed from https://ui.angular-material.dev/api/registry/
+  Update this file using `@ngm-dev/cli update free-authentication/login-email-password`
+-->
+
+<div class="flex items-center justify-center h-full">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 max-w-4xl w-full">
+    <div class="card bg-base-100">
+      <div class="card-body grid md:grid-cols-2 gap-6">
+        <div class="flex flex-col space-y-4 p-4 justify-center">
+          <img
+          
+            src="../../../../../assets/logo.png"
+            alt="Logo"
+            class="w-20 h-20 rounded"
+          />
+          <h1 class="text-3xl font-bold">Se connecter</h1>
+          <p>pour continuer vers l'application</p>
+        </div>
+
+        <div class="flex flex-col space-y-2 p-4">
+<label class="form-control w-full">
+  <div class="label">
+    <span class="label-text">Email</span>
+  </div>
+  <input type="email" formControlName="email" class="input input-bordered w-full" />
+  @if ( (form.get('email')?.touched || form.get('email')?.dirty) && form.get('email')?.hasError('required') ) {
+    <div class="label">
+      <span class="label-text-alt text-error">Email requis</span>
+    </div>
+  }
+  @if (form.get('email')?.hasError('email')) {
+    <div class="label">
+      <span class="label-text-alt text-error">Format d'email invalide</span>
+    </div>
+  }
+</label>
+
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Mot de passe</span>
+            </div>
+            <input type="password" formControlName="password" class="input input-bordered w-full" />
+             @if ( (form.get('password')?.touched || form.get('password')?.dirty) && form.get('password')?.hasError('required') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Le mot de passe est requis</span>
+              </div>
+            } @if ( (form.get('password')?.touched || form.get('password')?.dirty) && form.get('password')?.hasError('minlength') ) {
+              <div class="label">
+                <span class="label-text-alt text-error">Le mot de passe doit comporter au moins 8 caractères</span>
+              </div>
+            }
+          </label>
+          <div class="text-right">
+            <a class="link link-hover">Mot de passe oublié ?</a>
+          </div>
+          <div class="card-actions justify-end items-center gap-2 mt-4">
+            <a routerLink="/register" class="btn btn-ghost">Créer un compte</a>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Se connecter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

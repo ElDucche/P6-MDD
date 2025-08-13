@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AlertComponent } from './components/alert/alert.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './features/auth/auth.service';
 
 @Component({
   selector: 'app-root',
