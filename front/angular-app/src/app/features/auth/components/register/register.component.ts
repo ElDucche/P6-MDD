@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
@@ -14,6 +14,9 @@ import { AuthService } from '../../auth.service';
 })
 export class RegisterComponent {
   form: FormGroup;
+  protected readonly errorMessage = signal<string>('');
+  protected readonly successMessage = signal<string>('');
+  protected readonly isLoading = signal<boolean>(false);
 
   constructor(private readonly fb: FormBuilder, private readonly authService: AuthService, private readonly router: Router) {
     this.form = this.fb.group({
@@ -25,13 +28,20 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.form.valid) {
+      this.isLoading.set(true);
+      this.errorMessage.set('');
+      this.successMessage.set('');
+      
       this.authService.register(this.form.value).subscribe({
         next: () => {
-          // Laisser l'alerte interceptor s'afficher, puis naviguer après 2s
+          this.isLoading.set(false);
+          this.successMessage.set('Compte créé avec succès ! Redirection vers la connexion...');
           setTimeout(() => this.router.navigate(['/login']), 2000);
         },
-        error: () => {
-          // L'interceptor gère l'affichage de l'alerte
+        error: (err) => {
+          this.isLoading.set(false);
+          this.errorMessage.set(err.message || 'Erreur lors de la création du compte');
+          console.error('Registration failed', err);
         }
       });
     }

@@ -6,9 +6,8 @@
     <!-- Navbar -->
     <div class="navbar bg-neutral-50 w-full">
       <div class="mx-2 flex-1 px-2">
-        <a class="btn btn-ghost text-xl font-bold text-primary" routerLink="/">
-          <img src="/assets/logo.png" alt="Logo" class="w-8 h-8 mr-2" />
-          MDD
+        <a class="link" routerLink="/home">
+          <img src="/assets/logo.png" alt="Logo" class="w-24" />
         </a>
       </div>
       <div class="flex-none lg:hidden">
@@ -41,7 +40,7 @@
           </li>
           <li>
             <a
-              routerLink="/"
+              routerLink="/home"
               routerLinkActive="menu-active"
               [routerLinkActiveOptions]="{ exact: true }"
               class=""
@@ -57,7 +56,7 @@
                 tabindex="0"
                 class="btn btn-ghost btn-circle avatar"
               >
-                <div class="w-10 rounded-full bg-primary/10">
+                <div class="w-10 rounded-full bg-secondary/10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 
+export interface LoginResponse {
+  token: string | null;
+  message: string;
+}
+
 export interface CurrentUser {
   userId: number;
   username: string;
@@ -20,11 +25,14 @@ export class AuthService {
     private readonly config: ConfigService
   ) { }
 
-  login(credentials: any): Observable<any> {
-    return this.http.post<any>(this.config.endpoints.auth.login, credentials).pipe(
+  login(credentials: any): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.config.endpoints.auth.login, credentials).pipe(
       tap(response => {
         if (response?.token) {
           localStorage.setItem('token', response.token);
+        } else {
+          // Si pas de token, c'est une erreur d'authentification
+          throw new Error(response.message || 'Erreur de connexion');
         }
       })
     );
