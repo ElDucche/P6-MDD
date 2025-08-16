@@ -1,5 +1,5 @@
 # Utiliser une image Java 21 pour construire l'application
-FROM openjdk:21-jdk-slim AS builder
+FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 
@@ -8,11 +8,10 @@ COPY pom.xml .
 COPY src ./src
 
 # Installer Maven et construire l'application
-RUN apt-get update && apt-get install -y maven
-RUN mvn clean package -DskipTests
+RUN apk add --no-cache maven && mvn clean package -DskipTests
 
 # Image finale
-FROM openjdk:21-jre-slim
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 

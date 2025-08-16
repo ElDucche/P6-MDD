@@ -1,42 +1,42 @@
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/SubscriptionId.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/SubscriptionRequest.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/UpdateUserProfileRequest.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/AuthController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/SecurityUtil.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/util/AuthUtil.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/LoginRequest.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/CommentService.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/SubscriptionService.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/PostCreateRequest.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/PostController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/SecurityConfig.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/User.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/LoginResponse.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/UserController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/RegisterRequest.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/SubscriptionController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/exception/GlobalExceptionHandler.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Comment.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/UserRepository.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/MddApplication.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/PostService.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/CommentDTO.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/ThemeRepository.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/mapper/EntityMapper.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/SubscriptionDTO.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/HealthController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/JwtUtil.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/JwtAuthenticationFilter.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/UserService.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/PostDTO.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/CommentRepository.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/ThemeController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/AuthService.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/SubscriptionRepository.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Theme.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/CommentController.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Subscription.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/CommentCreateRequest.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Post.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/PostRepository.java
-/workspaces/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/ThemeService.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/RegisterRequest.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/util/AuthUtil.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/ThemeService.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/AuthController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/JwtUtil.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/MddApplication.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/SubscriptionRepository.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/PostService.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/LoginRequest.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/SecurityConfig.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/User.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Post.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/ThemeRepository.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/UserController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/SecurityUtil.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/LoginResponse.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/PostRepository.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Comment.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/ThemeController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/CommentCreateRequest.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Theme.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/SubscriptionController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/Subscription.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/security/JwtAuthenticationFilter.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/UserService.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/exception/GlobalExceptionHandler.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/CommentService.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/SubscriptionDTO.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/entity/SubscriptionId.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/mapper/EntityMapper.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/CommentRepository.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/repository/UserRepository.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/UpdateUserProfileRequest.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/PostController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/PostCreateRequest.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/SubscriptionRequest.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/HealthController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/PostDTO.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/controller/CommentController.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/SubscriptionService.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/dto/CommentDTO.java
+/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/src/main/java/com/elducche/mdd/service/AuthService.java
