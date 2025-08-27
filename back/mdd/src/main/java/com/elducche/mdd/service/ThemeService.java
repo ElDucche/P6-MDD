@@ -19,6 +19,19 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ThemeService {
+    // Méthodes CRUD minimales pour les tests unitaires
+    public Optional<Theme> findById(Long id) {
+        return themeRepository.findById(id);
+    }
+
+    public Theme save(Theme theme) {
+        return themeRepository.save(theme);
+    }
+
+    public void deleteById(Long id) {
+        themeRepository.deleteById(id);
+    }
+
     
     private final ThemeRepository themeRepository;
     

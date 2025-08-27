@@ -20,6 +20,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    // Méthodes CRUD minimales pour les tests unitaires
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
     
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

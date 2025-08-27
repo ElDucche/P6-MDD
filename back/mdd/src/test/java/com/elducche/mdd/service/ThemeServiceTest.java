@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ThemeServiceTest {
+    private static final String TEST_TITLE = "Nature";
     @Mock
     private ThemeRepository themeRepository;
 
@@ -35,5 +36,30 @@ class ThemeServiceTest {
         assertEquals(1L, result.get().getId());
     }
 
-    // ... autres tests CRUD à compléter
+    @Test
+    void testCreateTheme() {
+        Theme theme = new Theme();
+        theme.setTitle(TEST_TITLE);
+        when(themeRepository.save(any(Theme.class))).thenReturn(theme);
+        Theme created = themeService.save(theme);
+        assertEquals(TEST_TITLE, created.getTitle());
+    }
+
+    @Test
+    void testUpdateTheme() {
+        Theme theme = new Theme();
+        theme.setId(1L);
+        theme.setTitle(TEST_TITLE);
+        when(themeRepository.save(any(Theme.class))).thenReturn(theme);
+        Theme updated = themeService.save(theme);
+        assertEquals(1L, updated.getId());
+        assertEquals(TEST_TITLE, updated.getTitle());
+    }
+
+    @Test
+    void testDeleteTheme() {
+        doNothing().when(themeRepository).deleteById(1L);
+        themeService.deleteById(1L);
+        verify(themeRepository, times(1)).deleteById(1L);
+    }
 }

@@ -1,7 +1,8 @@
 com/elducche/mdd/entity/SubscriptionEntityTest.class
 com/elducche/mdd/entity/UserEntityTest.class
-com/elducche/mdd/entity/ThemeEntityTest.class
+com/elducche/mdd/service/PostServiceTest.class
 com/elducche/mdd/util/SecurityTestUtils.class
+com/elducche/mdd/service/SubscriptionServiceTest.class
 com/elducche/mdd/util/SecurityTestUtils$WithMockAuthenticatedUserSecurityContextFactory.class
 com/elducche/mdd/repository/SubscriptionRepositoryTest.class
 com/elducche/mdd/util/SecurityTestUtils$WithMockAuthenticatedUser.class
@@ -9,10 +10,15 @@ com/elducche/mdd/util/TestConfig.class
 com/elducche/mdd/util/BaseIntegrationTest.class
 com/elducche/mdd/repository/CommentRepositoryTest.class
 com/elducche/mdd/entity/PostEntityTest.class
+com/elducche/mdd/MddApplicationTests.class
+com/elducche/mdd/service/UserServiceTest.class
+com/elducche/mdd/entity/ThemeEntityTest.class
+com/elducche/mdd/service/CommentServiceTest.class
 com/elducche/mdd/entity/CommentEntityTest.class
 com/elducche/mdd/util/TestConstants.class
+com/elducche/mdd/service/AuthServiceTest.class
 com/elducche/mdd/repository/PostRepositoryTest.class
 com/elducche/mdd/util/TestDataBuilder.class
-com/elducche/mdd/MddApplicationTests.class
+com/elducche/mdd/service/ThemeServiceTest.class
 com/elducche/mdd/repository/UserRepositoryTest.class
 com/elducche/mdd/repository/ThemeRepositoryTest.class

@@ -24,6 +24,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class SubscriptionService {
+    // Méthodes CRUD minimales pour les tests unitaires
+    public Optional<Subscription> findById(SubscriptionId id) {
+        return subscriptionRepository.findById(id);
+    }
+
+    public Subscription save(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
+    }
+
+    public void deleteById(SubscriptionId id) {
+        subscriptionRepository.deleteById(id);
+    }
     
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;

@@ -24,6 +24,19 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
+    // Méthodes CRUD minimales pour les tests unitaires
+    public Optional<Comment> findById(Long id) {
+        return commentRepository.findById(id);
+    }
+
+    public Comment save(Comment comment) {
+        return commentRepository.save(comment);
+    }
+
+    public void deleteById(Long id) {
+        commentRepository.deleteById(id);
+    }
     
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;

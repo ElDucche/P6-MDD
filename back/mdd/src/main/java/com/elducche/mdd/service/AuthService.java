@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+
 /**
  * Service d'authentification
  * 
@@ -20,6 +22,19 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    // Méthodes pour les tests unitaires
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<User> authenticate(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getPassword())) {
+            return userOpt;
+        }
+        return Optional.empty();
+    }
+
     
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

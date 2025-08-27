@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommentServiceTest {
+    private static final String TEST_CONTENT = "Bravo !";
     @Mock
     private CommentRepository commentRepository;
 
@@ -35,5 +36,30 @@ class CommentServiceTest {
         assertEquals(1L, result.get().getId());
     }
 
-    // ... autres tests CRUD à compléter
+    @Test
+    void testCreateComment() {
+        Comment comment = new Comment();
+        comment.setContent(TEST_CONTENT);
+        when(commentRepository.save(any(Comment.class))).thenReturn(comment);
+        Comment created = commentService.save(comment);
+        assertEquals(TEST_CONTENT, created.getContent());
+    }
+
+    @Test
+    void testUpdateComment() {
+        Comment comment = new Comment();
+        comment.setId(1L);
+        comment.setContent(TEST_CONTENT);
+        when(commentRepository.save(any(Comment.class))).thenReturn(comment);
+        Comment updated = commentService.save(comment);
+        assertEquals(1L, updated.getId());
+        assertEquals(TEST_CONTENT, updated.getContent());
+    }
+
+    @Test
+    void testDeleteComment() {
+        doNothing().when(commentRepository).deleteById(1L);
+        commentService.deleteById(1L);
+        verify(commentRepository, times(1)).deleteById(1L);
+    }
 }

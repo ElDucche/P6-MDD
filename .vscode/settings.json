@@ -10,6 +10,7 @@
         "eval": true,
         "chmod": true,
         "chown": true,
-        "/^Remove-Item\\b/i": true
+        "/^Remove-Item\\b/i": true,
+        "mvn": true
     }
 }

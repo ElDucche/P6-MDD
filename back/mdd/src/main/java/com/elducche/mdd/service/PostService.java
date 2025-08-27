@@ -25,6 +25,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+    // Méthodes CRUD minimales pour les tests unitaires
+    public Optional<Post> findById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    public Post save(Post post) {
+        return postRepository.save(post);
+    }
+
+    public void deleteById(Long id) {
+        postRepository.deleteById(id);
+    }
     
     private final PostRepository postRepository;
     private final ThemeRepository themeRepository;

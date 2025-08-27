@@ -1,6 +1,7 @@
 package com.elducche.mdd.service;
 
 import com.elducche.mdd.entity.Subscription;
+import com.elducche.mdd.entity.SubscriptionId;
 import com.elducche.mdd.repository.SubscriptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,12 +28,31 @@ class SubscriptionServiceTest {
 
     @Test
     void testFindById() {
-        Subscription subscription = new Subscription();
-        // TODO: set composite key if needed
-        when(subscriptionRepository.findById(any())).thenReturn(Optional.of(subscription));
-        Optional<Subscription> result = subscriptionService.findById(any());
-        assertTrue(result.isPresent());
+        // Création d'une clé composite SubscriptionId
+    SubscriptionId id = new SubscriptionId(2L, 1L);
+    Subscription subscription = new Subscription();
+    subscription.setId(id);
+    when(subscriptionRepository.findById(id)).thenReturn(Optional.of(subscription));
+    Optional<Subscription> result = subscriptionService.findById(id);
+    assertTrue(result.isPresent());
+    assertEquals(id, result.get().getId());
     }
 
-    // ... autres tests CRUD à compléter
+    @Test
+    void testCreateSubscription() {
+    SubscriptionId id = new SubscriptionId(2L, 1L);
+    Subscription subscription = new Subscription();
+    subscription.setId(id);
+    when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
+    Subscription created = subscriptionService.save(subscription);
+    assertEquals(id, created.getId());
+    }
+
+    @Test
+    void testDeleteSubscription() {
+    SubscriptionId id = new SubscriptionId(2L, 1L);
+    doNothing().when(subscriptionRepository).deleteById(id);
+    subscriptionService.deleteById(id);
+    verify(subscriptionRepository, times(1)).deleteById(id);
+    }
 }
