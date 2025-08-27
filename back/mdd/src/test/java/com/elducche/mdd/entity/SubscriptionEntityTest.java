@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DataJpaTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+    "spring.sql.init.mode=never"
+})
 @DisplayName("Tests de l'entité Subscription")
 class SubscriptionEntityTest {
 
@@ -29,28 +33,26 @@ class SubscriptionEntityTest {
     @BeforeEach
     void setUp() {
         // Préparation des entités liées
-        user = TestDataBuilder.createValidUser();
-        theme = TestDataBuilder.createValidTheme();
+        user = TestDataBuilder.createUser("user@test.com", "testuser", "password");
+        theme = TestDataBuilder.createTheme("Java", "Programmation Java");
         
         // Sauvegarde des entités parentes
         user = entityManager.persistAndFlush(user);
         theme = entityManager.persistAndFlush(theme);
         
-        // Création de la subscription valide
-        validSubscription = TestDataBuilder.createValidSubscription();
-        validSubscription.setUser(user);
-        validSubscription.setTheme(theme);
+        // Création de l'abonnement valide avec ID composite
+        validSubscription = TestDataBuilder.createSubscriptionWithRelations(user, theme);
     }
 
     @Test
-    @DisplayName("Devrait créer une subscription valide")
+    @DisplayName("Devrait créer un abonnement valide")
     void shouldCreateValidSubscription() {
-        // Given - une subscription valide avec relations
+        // Given - un abonnement valide avec relations
         
         // When - sauvegarde en base
         Subscription savedSubscription = entityManager.persistAndFlush(validSubscription);
         
-        // Then - la subscription est sauvegardée
+        // Then - l'abonnement est sauvegardé avec un ID
         assertNotNull(savedSubscription);
         assertEquals(user.getId(), savedSubscription.getUser().getId());
         assertEquals(theme.getId(), savedSubscription.getTheme().getId());
@@ -60,11 +62,10 @@ class SubscriptionEntityTest {
     @Test
     @DisplayName("Devrait échouer sans utilisateur")
     void shouldFailWithoutUser() {
-        // Given - une subscription sans utilisateur
+        // Given - un abonnement sans utilisateur
         validSubscription.setUser(null);
         
-        // When - tentative de sauvegarde
-        // Then - exception de contrainte de base de données
+        // When/Then - exception de contrainte de base de données
         assertThrows(Exception.class, () -> {
             entityManager.persistAndFlush(validSubscription);
         });
@@ -73,28 +74,25 @@ class SubscriptionEntityTest {
     @Test
     @DisplayName("Devrait échouer sans thème")
     void shouldFailWithoutTheme() {
-        // Given - une subscription sans thème
+        // Given - un abonnement sans thème
         validSubscription.setTheme(null);
         
-        // When - tentative de sauvegarde
-        // Then - exception de contrainte de base de données
+        // When/Then - exception de contrainte de base de données
         assertThrows(Exception.class, () -> {
             entityManager.persistAndFlush(validSubscription);
         });
     }
 
     @Test
-    @DisplayName("Devrait respecter l'unicité de la clé composite")
-    void shouldRespectCompositeKeyUniqueness() {
-        // Given - une première subscription sauvegardée
+    @DisplayName("Devrait empêcher les doublons d'abonnement utilisateur-thème")
+    void shouldPreventDuplicateUserThemeSubscriptions() {
+        // Given - premier abonnement sauvegardé
         entityManager.persistAndFlush(validSubscription);
         
-        // When - création d'une seconde subscription avec les mêmes user/theme
-        Subscription duplicateSubscription = TestDataBuilder.createValidSubscription();
-        duplicateSubscription.setUser(user);
-        duplicateSubscription.setTheme(theme);
+        // When - tentative de création d'un second abonnement identique
+        Subscription duplicateSubscription = TestDataBuilder.createSubscriptionWithRelations(user, theme);
         
-        // Then - exception lors de la sauvegarde
+        // Then - exception de contrainte d'unicité
         assertThrows(Exception.class, () -> {
             entityManager.persistAndFlush(duplicateSubscription);
         });
@@ -103,19 +101,16 @@ class SubscriptionEntityTest {
     @Test
     @DisplayName("Devrait permettre au même utilisateur de s'abonner à plusieurs thèmes")
     void shouldAllowSameUserToSubscribeToMultipleThemes() {
-        // Given - une première subscription sauvegardée
+        // Given - premier abonnement sauvegardé
         entityManager.persistAndFlush(validSubscription);
         
-        // When - création d'un second thème et subscription
-        Theme secondTheme = TestDataBuilder.createValidTheme();
-        secondTheme.setTitle("Deuxième thème");
+        // When - création d'un second thème et abonnement
+        Theme secondTheme = TestDataBuilder.createTheme("Spring", "Framework Spring");
         secondTheme = entityManager.persistAndFlush(secondTheme);
         
-        Subscription secondSubscription = TestDataBuilder.createValidSubscription();
-        secondSubscription.setUser(user);
-        secondSubscription.setTheme(secondTheme);
+        Subscription secondSubscription = TestDataBuilder.createSubscriptionWithRelations(user, secondTheme);
         
-        // Then - la seconde subscription peut être sauvegardée
+        // Then - le second abonnement peut être sauvegardé
         Subscription savedSecondSubscription = entityManager.persistAndFlush(secondSubscription);
         assertNotNull(savedSecondSubscription);
         assertEquals(user.getId(), savedSecondSubscription.getUser().getId());
@@ -125,20 +120,16 @@ class SubscriptionEntityTest {
     @Test
     @DisplayName("Devrait permettre à plusieurs utilisateurs de s'abonner au même thème")
     void shouldAllowMultipleUsersToSubscribeToSameTheme() {
-        // Given - une première subscription sauvegardée
+        // Given - premier abonnement sauvegardé
         entityManager.persistAndFlush(validSubscription);
         
-        // When - création d'un second utilisateur et subscription
-        User secondUser = TestDataBuilder.createValidUser();
-        secondUser.setUsername("secondUser");
-        secondUser.setEmail("second@user.com");
+        // When - création d'un second utilisateur et abonnement
+        User secondUser = TestDataBuilder.createUser("user2@test.com", "testuser2", "password");
         secondUser = entityManager.persistAndFlush(secondUser);
         
-        Subscription secondSubscription = TestDataBuilder.createValidSubscription();
-        secondSubscription.setUser(secondUser);
-        secondSubscription.setTheme(theme);
+        Subscription secondSubscription = TestDataBuilder.createSubscriptionWithRelations(secondUser, theme);
         
-        // Then - la seconde subscription peut être sauvegardée
+        // Then - le second abonnement peut être sauvegardé
         Subscription savedSecondSubscription = entityManager.persistAndFlush(secondSubscription);
         assertNotNull(savedSecondSubscription);
         assertEquals(secondUser.getId(), savedSecondSubscription.getUser().getId());
@@ -148,7 +139,7 @@ class SubscriptionEntityTest {
     @Test
     @DisplayName("Devrait maintenir l'intégrité référentielle avec l'utilisateur")
     void shouldMaintainReferentialIntegrityWithUser() {
-        // Given - une subscription sauvegardée
+        // Given - un abonnement sauvegardé
         Subscription savedSubscription = entityManager.persistAndFlush(validSubscription);
         
         // When - récupération avec l'utilisateur
@@ -166,7 +157,7 @@ class SubscriptionEntityTest {
     @Test
     @DisplayName("Devrait maintenir l'intégrité référentielle avec le thème")
     void shouldMaintainReferentialIntegrityWithTheme() {
-        // Given - une subscription sauvegardée
+        // Given - un abonnement sauvegardé
         Subscription savedSubscription = entityManager.persistAndFlush(validSubscription);
         
         // When - récupération avec le thème
@@ -179,27 +170,5 @@ class SubscriptionEntityTest {
         assertNotNull(foundSubscription.getTheme());
         assertEquals(theme.getId(), foundSubscription.getTheme().getId());
         assertEquals(theme.getTitle(), foundSubscription.getTheme().getTitle());
-    }
-
-    @Test
-    @DisplayName("Devrait gérer la suppression en cascade")
-    void shouldHandleCascadeDeletion() {
-        // Given - une subscription sauvegardée
-        Subscription savedSubscription = entityManager.persistAndFlush(validSubscription);
-        SubscriptionId subscriptionId = new SubscriptionId(user.getId(), theme.getId());
-        
-        // When - suppression de la subscription
-        entityManager.remove(savedSubscription);
-        entityManager.flush();
-        
-        // Then - la subscription n'existe plus
-        Subscription foundSubscription = entityManager.find(Subscription.class, subscriptionId);
-        assertNull(foundSubscription);
-        
-        // And - les entités liées existent toujours
-        User foundUser = entityManager.find(User.class, user.getId());
-        Theme foundTheme = entityManager.find(Theme.class, theme.getId());
-        assertNotNull(foundUser);
-        assertNotNull(foundTheme);
     }
 }

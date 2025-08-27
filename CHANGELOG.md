@@ -162,6 +162,65 @@ Transformation complète du projet P6-MDD d'une architecture microservices vers 
 - **application-docker.yml** : Profil de configuration spécifique pour l'environnement conteneurisé
 - **PostgreSQL** : Démarrage réussi avec initialisation du schéma (12 tables créées, 12 thèmes insérés)
 
+---
+
+## ✅ Étape 8 : Tests Unitaires et d'Intégration
+**Date :** 27 août 2025  
+**Objectif :** Mise en place d'une stratégie complète de tests pour garantir la qualité du code
+
+### Phase 1 : Configuration des Tests ✅ TERMINÉE
+**Infrastructure de test créée :**
+- ✅ **Structure des répertoires** : Organisation Maven-standard sous `src/test/java`
+- ✅ **Configuration H2** : Base de données en mémoire pour tests (`application-test.yml`)
+- ✅ **Classes utilitaires** : `TestDataBuilder`, `SecurityTestUtils`, `BaseIntegrationTest`
+- ✅ **Données de test** : Script `data.sql` aligné avec le schéma JPA
+- ✅ **Test de base** : `MddApplicationTests` validant le démarrage Spring Boot
+
+**Problèmes résolus :**
+- Configuration Java 21 vs Java 11
+- Alignement schémas SQL/JPA (colonnes `title` vs `name`, `subscribedAt` vs `created_at`)
+- Configuration profils Spring Boot pour tests
+
+### Phase 2 : Tests des Entités 🔄 EN COURS
+**Méthode validée :**
+- `@DataJpaTest` avec `spring.sql.init.mode=never` pour isolation
+- Tests focalisés sur contraintes base de données et relations JPA
+- Pas de validation Bean Validation (focus sur persistance)
+
+**Entités testées :**
+- ✅ **UserEntity** : Tests complets (7 tests passés)
+  - Contraintes NOT NULL (email, username, password)
+  - Contraintes UNIQUE (email, username)
+  - Timestamps automatiques
+  - Relations et persistance
+- 🔄 **ThemeEntity** : 6 tests (4 succès, 2 échecs - relations non initialisées)
+- 🔄 **PostEntity** : 9 tests (8 succès, 1 échec - relation comments non initialisée)  
+- ✅ **CommentEntity** : 6 tests, tous validés avec succès
+- ❌ **SubscriptionEntity** : 8 tests (2 succès, 6 erreurs - problème ID composite)
+
+**Problèmes identifiés :**
+1. **Relations OneToMany** : Listes non initialisées automatiquement par JPA
+2. **Entité Subscription** : ID composite nécessite initialisation manuelle
+3. **TestDataBuilder** : Ajustements requis pour gestion ID composite
+
+**Corrections en cours :**
+- Initialisation manuelle des collections dans les entités
+- Modification du TestDataBuilder pour Subscription
+- Mise à jour des tests pour gérer les spécificités JPA
+
+### Plan de test global (9 phases)
+1. ✅ **Configuration** - Infrastructure de test
+2. 🔄 **Entités** - Validation JPA et contraintes
+3. 📋 **Repositories** - Requêtes et méthodes personnalisées  
+4. 📋 **Services** - Logique métier et transactions
+5. 📋 **Contrôleurs** - Tests d'intégration REST
+6. 📋 **Sécurité** - Tests JWT et autorisations
+7. 📋 **Intégration** - Tests bout-en-bout
+8. 📋 **Performance** - Tests de charge sur endpoints critiques
+9. 📋 **Validation** - Tests avec collection Postman
+
+---
+
 ## 🎯 Prochaines Étapes
 
 ### Étape 7 : Configuration Spring Security

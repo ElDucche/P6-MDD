@@ -133,21 +133,37 @@ public class TestDataBuilder {
     }
 
     /**
-     * Crée un abonnement de test
+     * Crée un abonnement de test avec utilisateur et thème
      */
     public static Subscription createSubscription(User user, Theme theme) {
-        Subscription subscription = new Subscription();
-        subscription.setUser(user);
-        subscription.setTheme(theme);
-        subscription.setSubscribedAt(LocalDateTime.now());
-        return subscription;
+        return new Subscription(user, theme);
     }
 
     /**
-     * Crée un abonnement valide pour les tests (sans user/theme)
+     * Crée un abonnement valide pour les tests (sans user/theme initialisés)
+     * ATTENTION: L'ID composite doit être configuré manuellement après assignation des entités
      */
     public static Subscription createValidSubscription() {
         Subscription subscription = new Subscription();
+        subscription.setSubscribedAt(LocalDateTime.now());
+        return subscription;
+    }
+    
+    /**
+     * Crée un abonnement complet avec ses relations
+     */
+    public static Subscription createSubscriptionWithRelations(User user, Theme theme) {
+        if (user == null || theme == null) {
+            throw new IllegalArgumentException("User et Theme ne peuvent pas être null pour créer un Subscription");
+        }
+        if (user.getId() == null || theme.getId() == null) {
+            throw new IllegalArgumentException("User et Theme doivent avoir des IDs pour créer un Subscription");
+        }
+        
+        Subscription subscription = new Subscription();
+        subscription.setUser(user);
+        subscription.setTheme(theme);
+        subscription.setId(new SubscriptionId(user.getId(), theme.getId()));
         subscription.setSubscribedAt(LocalDateTime.now());
         return subscription;
     }

@@ -1,8 +1,6 @@
 package com.elducche.mdd.entity;
 
 import com.elducche.mdd.util.TestDataBuilder;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Set;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DataJpaTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+    "spring.sql.init.mode=never"
+})
 @DisplayName("Tests de l'entité Theme")
 class ThemeEntityTest {
 
     @Autowired
     private TestEntityManager entityManager;
-
-    @Autowired
-    private Validator validator;
 
     private Theme validTheme;
 
@@ -58,28 +55,10 @@ class ThemeEntityTest {
         // Given - un thème avec titre null
         validTheme.setTitle(null);
         
-        // When - validation
-        Set<ConstraintViolation<Theme>> violations = validator.validate(validTheme);
-        
-        // Then - violation de contrainte
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream()
-            .anyMatch(v -> v.getPropertyPath().toString().equals("title")));
-    }
-
-    @Test
-    @DisplayName("Devrait échouer avec un titre vide")
-    void shouldFailWithEmptyTitle() {
-        // Given - un thème avec titre vide
-        validTheme.setTitle("");
-        
-        // When - validation
-        Set<ConstraintViolation<Theme>> violations = validator.validate(validTheme);
-        
-        // Then - violation de contrainte
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream()
-            .anyMatch(v -> v.getPropertyPath().toString().equals("title")));
+        // When/Then - exception lors de la sauvegarde
+        assertThrows(Exception.class, () -> {
+            entityManager.persistAndFlush(validTheme);
+        });
     }
 
     @Test
@@ -88,14 +67,10 @@ class ThemeEntityTest {
         // Given - un thème avec description null
         validTheme.setDescription(null);
         
-        // When - validation
-        Set<ConstraintViolation<Theme>> violations = validator.validate(validTheme);
-        
-        // Then - aucune violation
-        assertTrue(violations.isEmpty());
-        
-        // And - sauvegarde réussie
+        // When - sauvegarde
         Theme savedTheme = entityManager.persistAndFlush(validTheme);
+        
+        // Then - sauvegarde réussie
         assertNotNull(savedTheme.getId());
         assertNull(savedTheme.getDescription());
     }

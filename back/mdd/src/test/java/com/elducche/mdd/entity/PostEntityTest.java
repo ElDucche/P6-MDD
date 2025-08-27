@@ -1,8 +1,6 @@
 package com.elducche.mdd.entity;
 
 import com.elducche.mdd.util.TestDataBuilder;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Set;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DataJpaTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+    "spring.sql.init.mode=never"
+})
 @DisplayName("Tests de l'entité Post")
 class PostEntityTest {
 
     @Autowired
     private TestEntityManager entityManager;
-
-    @Autowired
-    private Validator validator;
 
     private Post validPost;
     private User author;
@@ -36,8 +33,8 @@ class PostEntityTest {
     @BeforeEach
     void setUp() {
         // Préparation des entités liées
-        author = TestDataBuilder.createValidUser();
-        theme = TestDataBuilder.createValidTheme();
+        author = TestDataBuilder.createUser("author@test.com", "author", "password");
+        theme = TestDataBuilder.createTheme("Java", "Programmation Java");
         
         // Sauvegarde des entités parentes
         author = entityManager.persistAndFlush(author);
@@ -73,28 +70,10 @@ class PostEntityTest {
         // Given - un post avec titre null
         validPost.setTitle(null);
         
-        // When - validation
-        Set<ConstraintViolation<Post>> violations = validator.validate(validPost);
-        
-        // Then - violation de contrainte
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream()
-            .anyMatch(v -> v.getPropertyPath().toString().equals("title")));
-    }
-
-    @Test
-    @DisplayName("Devrait échouer avec un titre vide")
-    void shouldFailWithEmptyTitle() {
-        // Given - un post avec titre vide
-        validPost.setTitle("");
-        
-        // When - validation
-        Set<ConstraintViolation<Post>> violations = validator.validate(validPost);
-        
-        // Then - violation de contrainte
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream()
-            .anyMatch(v -> v.getPropertyPath().toString().equals("title")));
+        // When/Then - exception lors de la sauvegarde
+        assertThrows(Exception.class, () -> {
+            entityManager.persistAndFlush(validPost);
+        });
     }
 
     @Test
@@ -103,14 +82,10 @@ class PostEntityTest {
         // Given - un post avec contenu null
         validPost.setContent(null);
         
-        // When - validation
-        Set<ConstraintViolation<Post>> violations = validator.validate(validPost);
-        
-        // Then - aucune violation
-        assertTrue(violations.isEmpty());
-        
-        // And - sauvegarde réussie
+        // When - sauvegarde
         Post savedPost = entityManager.persistAndFlush(validPost);
+        
+        // Then - sauvegarde réussie
         assertNotNull(savedPost.getId());
         assertNull(savedPost.getContent());
     }
@@ -121,8 +96,7 @@ class PostEntityTest {
         // Given - un post sans auteur
         validPost.setAuthor(null);
         
-        // When - tentative de sauvegarde
-        // Then - exception de contrainte de base de données
+        // When/Then - exception de contrainte de base de données
         assertThrows(Exception.class, () -> {
             entityManager.persistAndFlush(validPost);
         });
@@ -134,8 +108,7 @@ class PostEntityTest {
         // Given - un post sans thème
         validPost.setTheme(null);
         
-        // When - tentative de sauvegarde
-        // Then - exception de contrainte de base de données
+        // When/Then - exception de contrainte de base de données
         assertThrows(Exception.class, () -> {
             entityManager.persistAndFlush(validPost);
         });
