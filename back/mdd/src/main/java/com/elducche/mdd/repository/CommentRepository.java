@@ -1,6 +1,7 @@
 package com.elducche.mdd.repository;
 
 import com.elducche.mdd.entity.Comment;
+import com.elducche.mdd.entity.Post;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,8 @@ import java.util.Optional;
  */
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+    // Trouve les commentaires d'un post (pour les tests)
+    List<Comment> findByPost(Post post);
     
     /**
      * Trouve tous les commentaires d'un post avec leurs relations

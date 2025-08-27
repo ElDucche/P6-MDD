@@ -2,6 +2,8 @@ package com.elducche.mdd.repository;
 
 import com.elducche.mdd.entity.Subscription;
 import com.elducche.mdd.entity.SubscriptionId;
+import com.elducche.mdd.entity.User;
+import com.elducche.mdd.entity.Theme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,11 @@ import java.util.Optional;
  */
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, SubscriptionId> {
+    // Trouve les abonnements d'un utilisateur (pour les tests)
+    List<Subscription> findByUser(User user);
+
+    // Trouve les abonnements d'un thème (pour les tests)
+    List<Subscription> findByTheme(Theme theme);
     
     /**
      * Trouve tous les abonnements d'un utilisateur avec les thèmes
