@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.elducche.mdd.MddApplicationTests" time="10.134" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.elducche.mdd.MddApplicationTests" time="4.761" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,10 +13,9 @@
     <property name="java.vm.specification.version" value="21"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/workspaces/P6-MDD/back/mdd/target/surefire/surefirebooter-20250827093404349_3.jar /workspaces/P6-MDD/back/mdd/target/surefire 2025-08-27T09-34-04_232-jvmRun1 surefire-20250827093404349_1tmp surefire_0-20250827093404349_2tmp"/>
+    <property name="sun.java.command" value="/workspaces/P6-MDD/back/mdd/target/surefire/surefirebooter-20250827122955279_3.jar /workspaces/P6-MDD/back/mdd/target/surefire 2025-08-27T12-29-55_179-jvmRun1 surefire-20250827122955279_1tmp surefire_0-20250827122955279_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/workspaces/P6-MDD/back/mdd/target/test-classes:/workspaces/P6-MDD/back/mdd/target/classes:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/home/codespace/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/codespace/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/codespace/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/codespace/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/codespace/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/home/codespace/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/codespace/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/home/codespace/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/home/codespace/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/home/codespace/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/home/codespace/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/home/codespace/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/home/codespace/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/codespace/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/home/codespace/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/codespace/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/codespace/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/codespace/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/codespace/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/codespace/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/codespace/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/codespace/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/home/codespace/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/home/codespace/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/codespace/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/codespace/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/codespace/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/home/codespace/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/home/codespace/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/home/codespace/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/codespace/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/codespace/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/home/codespace/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/home/codespace/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/home/codespace/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/codespace/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/codespace/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/codespace/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/home/codespace/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/home/codespace/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/home/codespace/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/codespace/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/home/codespace/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/codespace/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/codespace/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/codespace/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/codespace/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/home/codespace/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/codespace/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/home/codespace/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/codespace/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/codespace/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/codespace/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/codespace/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/home/codespace/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/home/codespace/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:"/>
-    <property name="test" value="MddApplicationTests"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/codespace"/>
     <property name="user.language" value="en"/>
@@ -31,7 +30,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="/workspaces/P6-MDD/back/mdd/target/surefire/surefirebooter-20250827093404349_3.jar"/>
+    <property name="surefire.real.class.path" value="/workspaces/P6-MDD/back/mdd/target/surefire/surefirebooter-20250827122955279_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.8+9-Ubuntu-0ubuntu124.04.1"/>
     <property name="user.name" value="codespace"/>
@@ -49,7 +48,7 @@
     <property name="user.dir" value="/workspaces/P6-MDD/back/mdd"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="24801"/>
+    <property name="PID" value="10978"/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
@@ -62,9 +61,9 @@
     <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
     <property name="LOGGED_APPLICATION_NAME" value="[mdd-application-test] "/>
   </properties>
-  <testcase name="applicationPropertiesAreLoaded" classname="com.elducche.mdd.MddApplicationTests" time="0.813">
-    <system-out><![CDATA[09:34:05.351 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.elducche.mdd.MddApplicationTests]: MddApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-09:34:05.482 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.elducche.mdd.MddApplication for test class com.elducche.mdd.MddApplicationTests
+  <testcase name="applicationPropertiesAreLoaded" classname="com.elducche.mdd.MddApplicationTests" time="0.046">
+    <system-out><![CDATA[12:30:04.706 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.elducche.mdd.MddApplicationTests]: MddApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:30:04.757 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.elducche.mdd.MddApplication for test class com.elducche.mdd.MddApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -74,41 +73,40 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-09:34:06.154 [main] INFO  c.elducche.mdd.MddApplicationTests - Starting MddApplicationTests using Java 21.0.8 with PID 24801 (started by codespace in /workspaces/P6-MDD/back/mdd)
-09:34:06.154 [main] DEBUG c.elducche.mdd.MddApplicationTests - Running with Spring Boot v3.2.5, Spring v6.1.6
-09:34:06.155 [main] INFO  c.elducche.mdd.MddApplicationTests - The following 1 profile is active: "test"
-09:34:07.419 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-09:34:07.510 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 84 ms. Found 5 JPA repository interfaces.
-09:34:08.280 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-09:34:08.336 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-09:34:08.368 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-09:34:08.656 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-09:34:08.682 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-09:34:08.906 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-09:34:08.908 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-09:34:08.932 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-09:34:10.194 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-09:34:10.209 [main] DEBUG org.hibernate.SQL - 
+12:30:04.855 [main] INFO  c.elducche.mdd.MddApplicationTests - Starting MddApplicationTests using Java 21.0.8 with PID 10978 (started by codespace in /workspaces/P6-MDD/back/mdd)
+12:30:04.855 [main] DEBUG c.elducche.mdd.MddApplicationTests - Running with Spring Boot v3.2.5, Spring v6.1.6
+12:30:04.855 [main] INFO  c.elducche.mdd.MddApplicationTests - The following 1 profile is active: "test"
+12:30:05.446 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+12:30:05.459 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 5 JPA repository interfaces.
+12:30:05.848 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+12:30:05.850 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+12:30:05.854 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+12:30:05.855 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:30:05.874 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn40: url=jdbc:h2:mem:testdb user=SA
+12:30:05.875 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:30:05.881 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+12:30:06.156 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+12:30:06.157 [main] DEBUG org.hibernate.SQL - 
     drop table if exists comments cascade 
 Hibernate: 
     drop table if exists comments cascade 
-09:34:10.213 [main] DEBUG org.hibernate.SQL - 
+12:30:06.159 [main] DEBUG org.hibernate.SQL - 
     drop table if exists posts cascade 
 Hibernate: 
     drop table if exists posts cascade 
-09:34:10.213 [main] DEBUG org.hibernate.SQL - 
+12:30:06.159 [main] DEBUG org.hibernate.SQL - 
     drop table if exists subscriptions cascade 
 Hibernate: 
     drop table if exists subscriptions cascade 
-09:34:10.213 [main] DEBUG org.hibernate.SQL - 
+12:30:06.159 [main] DEBUG org.hibernate.SQL - 
     drop table if exists themes cascade 
 Hibernate: 
     drop table if exists themes cascade 
-09:34:10.214 [main] DEBUG org.hibernate.SQL - 
+12:30:06.159 [main] DEBUG org.hibernate.SQL - 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-09:34:10.218 [main] DEBUG org.hibernate.SQL - 
+12:30:06.162 [main] DEBUG org.hibernate.SQL - 
     create table comments (
         author_id bigint not null,
         created_at timestamp(6),
@@ -128,7 +126,7 @@ Hibernate:
         content TEXT not null,
         primary key (id)
     )
-09:34:10.230 [main] DEBUG org.hibernate.SQL - 
+12:30:06.165 [main] DEBUG org.hibernate.SQL - 
     create table posts (
         author_id bigint not null,
         created_at timestamp(6),
@@ -150,7 +148,7 @@ Hibernate:
         title varchar(255) not null,
         primary key (id)
     )
-09:34:10.232 [main] DEBUG org.hibernate.SQL - 
+12:30:06.166 [main] DEBUG org.hibernate.SQL - 
     create table subscriptions (
         subscribed_at timestamp(6),
         theme_id bigint not null,
@@ -164,7 +162,7 @@ Hibernate:
         user_id bigint not null,
         primary key (theme_id, user_id)
     )
-09:34:10.236 [main] DEBUG org.hibernate.SQL - 
+12:30:06.169 [main] DEBUG org.hibernate.SQL - 
     create table themes (
         created_at timestamp(6),
         id bigint generated by default as identity,
@@ -182,7 +180,7 @@ Hibernate:
         title varchar(255) not null,
         primary key (id)
     )
-09:34:10.239 [main] DEBUG org.hibernate.SQL - 
+12:30:06.172 [main] DEBUG org.hibernate.SQL - 
     create table users (
         created_at timestamp(6),
         id bigint generated by default as identity,
@@ -202,7 +200,7 @@ Hibernate:
         username varchar(255) not null unique,
         primary key (id)
     )
-09:34:10.242 [main] DEBUG org.hibernate.SQL - 
+12:30:06.174 [main] DEBUG org.hibernate.SQL - 
     alter table if exists comments 
        add constraint FKn2na60ukhs76ibtpt9burkm27 
        foreign key (author_id) 
@@ -212,7 +210,7 @@ Hibernate:
        add constraint FKn2na60ukhs76ibtpt9burkm27 
        foreign key (author_id) 
        references users
-09:34:10.257 [main] DEBUG org.hibernate.SQL - 
+12:30:06.177 [main] DEBUG org.hibernate.SQL - 
     alter table if exists comments 
        add constraint FKh4c7lvsc298whoyd4w9ta25cr 
        foreign key (post_id) 
@@ -222,7 +220,7 @@ Hibernate:
        add constraint FKh4c7lvsc298whoyd4w9ta25cr 
        foreign key (post_id) 
        references posts
-09:34:10.261 [main] DEBUG org.hibernate.SQL - 
+12:30:06.182 [main] DEBUG org.hibernate.SQL - 
     alter table if exists posts 
        add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
        foreign key (author_id) 
@@ -232,7 +230,7 @@ Hibernate:
        add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
        foreign key (author_id) 
        references users
-09:34:10.263 [main] DEBUG org.hibernate.SQL - 
+12:30:06.184 [main] DEBUG org.hibernate.SQL - 
     alter table if exists posts 
        add constraint FKpvlwa732hkbn743dvsx81krrq 
        foreign key (theme_id) 
@@ -242,7 +240,7 @@ Hibernate:
        add constraint FKpvlwa732hkbn743dvsx81krrq 
        foreign key (theme_id) 
        references themes
-09:34:10.265 [main] DEBUG org.hibernate.SQL - 
+12:30:06.187 [main] DEBUG org.hibernate.SQL - 
     alter table if exists subscriptions 
        add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
        foreign key (theme_id) 
@@ -252,7 +250,7 @@ Hibernate:
        add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
        foreign key (theme_id) 
        references themes
-09:34:10.268 [main] DEBUG org.hibernate.SQL - 
+12:30:06.191 [main] DEBUG org.hibernate.SQL - 
     alter table if exists subscriptions 
        add constraint FKhro52ohfqfbay9774bev0qinr 
        foreign key (user_id) 
@@ -262,52 +260,46 @@ Hibernate:
        add constraint FKhro52ohfqfbay9774bev0qinr 
        foreign key (user_id) 
        references users
-09:34:10.274 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-09:34:10.714 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-09:34:11.220 [main] INFO  com.elducche.mdd.security.JwtUtil - JWT Util initialisé avec succès
-09:34:11.903 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-09:34:11.933 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+12:30:06.195 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+12:30:06.291 [main] INFO  com.elducche.mdd.security.JwtUtil - JWT Util initialisé avec succès
+12:30:06.650 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+12:30:06.719 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: b4c5a56a-b049-4ccc-b652-ad61ed3ed483
+Using generated security password: 1d8b802a-9081-46bd-be25-58b823632c80
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-09:34:12.719 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-09:34:12.856 [main] INFO  c.elducche.mdd.MddApplicationTests - Started MddApplicationTests in 7.179 seconds (process running for 8.408)
-09:34:13.665 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-09:34:13.666 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-09:34:13.668 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
-09:34:13.693 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-09:34:13.695 [main] DEBUG org.hibernate.SQL - 
+12:30:07.891 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+12:30:07.996 [main] INFO  c.elducche.mdd.MddApplicationTests - Started MddApplicationTests in 3.222 seconds (process running for 12.634)
+12:30:08.036 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+12:30:08.037 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+12:30:08.038 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+12:30:08.046 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+12:30:08.047 [main] DEBUG org.hibernate.SQL - 
     drop table if exists comments cascade 
 Hibernate: 
     drop table if exists comments cascade 
-09:34:13.698 [main] DEBUG org.hibernate.SQL - 
+12:30:08.049 [main] DEBUG org.hibernate.SQL - 
     drop table if exists posts cascade 
 Hibernate: 
     drop table if exists posts cascade 
-09:34:13.700 [main] DEBUG org.hibernate.SQL - 
+12:30:08.050 [main] DEBUG org.hibernate.SQL - 
     drop table if exists subscriptions cascade 
 Hibernate: 
     drop table if exists subscriptions cascade 
-09:34:13.701 [main] DEBUG org.hibernate.SQL - 
+12:30:08.050 [main] DEBUG org.hibernate.SQL - 
     drop table if exists themes cascade 
 Hibernate: 
     drop table if exists themes cascade 
-09:34:13.702 [main] DEBUG org.hibernate.SQL - 
+12:30:08.050 [main] DEBUG org.hibernate.SQL - 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-09:34:13.708 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-09:34:13.710 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+12:30:08.054 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+12:30:08.056 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
 ]]></system-out>
-    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/home/codespace/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-]]></system-err>
   </testcase>
-  <testcase name="contextLoads" classname="com.elducche.mdd.MddApplicationTests" time="0.037">
+  <testcase name="contextLoads" classname="com.elducche.mdd.MddApplicationTests" time="0.075">
     <system-out><![CDATA[
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -317,40 +309,40 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-09:34:13.785 [main] INFO  c.elducche.mdd.MddApplicationTests - Starting MddApplicationTests using Java 21.0.8 with PID 24801 (started by codespace in /workspaces/P6-MDD/back/mdd)
-09:34:13.785 [main] DEBUG c.elducche.mdd.MddApplicationTests - Running with Spring Boot v3.2.5, Spring v6.1.6
-09:34:13.785 [main] INFO  c.elducche.mdd.MddApplicationTests - The following 1 profile is active: "test"
-09:34:14.035 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-09:34:14.054 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 5 JPA repository interfaces.
-09:34:14.252 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-09:34:14.256 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-09:34:14.261 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-09:34:14.262 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-09:34:14.263 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb user=SA
-09:34:14.264 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-09:34:14.264 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-09:34:14.599 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-09:34:14.600 [main] DEBUG org.hibernate.SQL - 
+12:30:08.144 [main] INFO  c.elducche.mdd.MddApplicationTests - Starting MddApplicationTests using Java 21.0.8 with PID 10978 (started by codespace in /workspaces/P6-MDD/back/mdd)
+12:30:08.144 [main] DEBUG c.elducche.mdd.MddApplicationTests - Running with Spring Boot v3.2.5, Spring v6.1.6
+12:30:08.144 [main] INFO  c.elducche.mdd.MddApplicationTests - The following 1 profile is active: "test"
+12:30:08.401 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+12:30:08.415 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 5 JPA repository interfaces.
+12:30:08.558 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+12:30:08.560 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+12:30:08.563 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+12:30:08.564 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+12:30:08.566 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection conn50: url=jdbc:h2:mem:testdb user=SA
+12:30:08.566 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+12:30:08.566 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+12:30:08.758 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+12:30:08.759 [main] DEBUG org.hibernate.SQL - 
     drop table if exists comments cascade 
 Hibernate: 
     drop table if exists comments cascade 
-09:34:14.600 [main] DEBUG org.hibernate.SQL - 
+12:30:08.759 [main] DEBUG org.hibernate.SQL - 
     drop table if exists posts cascade 
 Hibernate: 
     drop table if exists posts cascade 
-09:34:14.601 [main] DEBUG org.hibernate.SQL - 
+12:30:08.759 [main] DEBUG org.hibernate.SQL - 
     drop table if exists subscriptions cascade 
 Hibernate: 
     drop table if exists subscriptions cascade 
-09:34:14.602 [main] DEBUG org.hibernate.SQL - 
+12:30:08.759 [main] DEBUG org.hibernate.SQL - 
     drop table if exists themes cascade 
 Hibernate: 
     drop table if exists themes cascade 
-09:34:14.602 [main] DEBUG org.hibernate.SQL - 
+12:30:08.759 [main] DEBUG org.hibernate.SQL - 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-09:34:14.603 [main] DEBUG org.hibernate.SQL - 
+12:30:08.760 [main] DEBUG org.hibernate.SQL - 
     create table comments (
         author_id bigint not null,
         created_at timestamp(6),
@@ -370,7 +362,7 @@ Hibernate:
         content TEXT not null,
         primary key (id)
     )
-09:34:14.604 [main] DEBUG org.hibernate.SQL - 
+12:30:08.761 [main] DEBUG org.hibernate.SQL - 
     create table posts (
         author_id bigint not null,
         created_at timestamp(6),
@@ -392,7 +384,7 @@ Hibernate:
         title varchar(255) not null,
         primary key (id)
     )
-09:34:14.607 [main] DEBUG org.hibernate.SQL - 
+12:30:08.763 [main] DEBUG org.hibernate.SQL - 
     create table subscriptions (
         subscribed_at timestamp(6),
         theme_id bigint not null,
@@ -406,7 +398,7 @@ Hibernate:
         user_id bigint not null,
         primary key (theme_id, user_id)
     )
-09:34:14.608 [main] DEBUG org.hibernate.SQL - 
+12:30:08.765 [main] DEBUG org.hibernate.SQL - 
     create table themes (
         created_at timestamp(6),
         id bigint generated by default as identity,
@@ -424,7 +416,7 @@ Hibernate:
         title varchar(255) not null,
         primary key (id)
     )
-09:34:14.612 [main] DEBUG org.hibernate.SQL - 
+12:30:08.766 [main] DEBUG org.hibernate.SQL - 
     create table users (
         created_at timestamp(6),
         id bigint generated by default as identity,
@@ -444,7 +436,7 @@ Hibernate:
         username varchar(255) not null unique,
         primary key (id)
     )
-09:34:14.613 [main] DEBUG org.hibernate.SQL - 
+12:30:08.771 [main] DEBUG org.hibernate.SQL - 
     alter table if exists comments 
        add constraint FKn2na60ukhs76ibtpt9burkm27 
        foreign key (author_id) 
@@ -454,7 +446,7 @@ Hibernate:
        add constraint FKn2na60ukhs76ibtpt9burkm27 
        foreign key (author_id) 
        references users
-09:34:14.615 [main] DEBUG org.hibernate.SQL - 
+12:30:08.772 [main] DEBUG org.hibernate.SQL - 
     alter table if exists comments 
        add constraint FKh4c7lvsc298whoyd4w9ta25cr 
        foreign key (post_id) 
@@ -464,7 +456,7 @@ Hibernate:
        add constraint FKh4c7lvsc298whoyd4w9ta25cr 
        foreign key (post_id) 
        references posts
-09:34:14.618 [main] DEBUG org.hibernate.SQL - 
+12:30:08.775 [main] DEBUG org.hibernate.SQL - 
     alter table if exists posts 
        add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
        foreign key (author_id) 
@@ -474,7 +466,7 @@ Hibernate:
        add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
        foreign key (author_id) 
        references users
-09:34:14.620 [main] DEBUG org.hibernate.SQL - 
+12:30:08.779 [main] DEBUG org.hibernate.SQL - 
     alter table if exists posts 
        add constraint FKpvlwa732hkbn743dvsx81krrq 
        foreign key (theme_id) 
@@ -484,7 +476,7 @@ Hibernate:
        add constraint FKpvlwa732hkbn743dvsx81krrq 
        foreign key (theme_id) 
        references themes
-09:34:14.623 [main] DEBUG org.hibernate.SQL - 
+12:30:08.780 [main] DEBUG org.hibernate.SQL - 
     alter table if exists subscriptions 
        add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
        foreign key (theme_id) 
@@ -494,7 +486,7 @@ Hibernate:
        add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
        foreign key (theme_id) 
        references themes
-09:34:14.626 [main] DEBUG org.hibernate.SQL - 
+12:30:08.782 [main] DEBUG org.hibernate.SQL - 
     alter table if exists subscriptions 
        add constraint FKhro52ohfqfbay9774bev0qinr 
        foreign key (user_id) 
@@ -504,43 +496,43 @@ Hibernate:
        add constraint FKhro52ohfqfbay9774bev0qinr 
        foreign key (user_id) 
        references users
-09:34:14.630 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-09:34:14.672 [main] INFO  com.elducche.mdd.security.JwtUtil - JWT Util initialisé avec succès
-09:34:14.903 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-09:34:14.911 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+12:30:08.785 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+12:30:08.853 [main] INFO  com.elducche.mdd.security.JwtUtil - JWT Util initialisé avec succès
+12:30:09.027 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+12:30:09.043 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: c4fc0443-1043-4939-b448-c87804ea2188
+Using generated security password: d594e7bb-53c1-4801-ab37-d385a3d9e93c
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-09:34:15.148 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-09:34:15.197 [main] INFO  c.elducche.mdd.MddApplicationTests - Started MddApplicationTests in 1.475 seconds (process running for 10.749)
-09:34:15.210 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
-09:34:15.210 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
-09:34:15.212 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
-09:34:15.227 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-09:34:15.227 [main] DEBUG org.hibernate.SQL - 
+12:30:09.281 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+12:30:09.357 [main] INFO  c.elducche.mdd.MddApplicationTests - Started MddApplicationTests in 1.295 seconds (process running for 13.995)
+12:30:09.395 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+12:30:09.397 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+12:30:09.400 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+12:30:09.415 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+12:30:09.415 [main] DEBUG org.hibernate.SQL - 
     drop table if exists comments cascade 
 Hibernate: 
     drop table if exists comments cascade 
-09:34:15.228 [main] DEBUG org.hibernate.SQL - 
+12:30:09.416 [main] DEBUG org.hibernate.SQL - 
     drop table if exists posts cascade 
 Hibernate: 
     drop table if exists posts cascade 
-09:34:15.231 [main] DEBUG org.hibernate.SQL - 
+12:30:09.422 [main] DEBUG org.hibernate.SQL - 
     drop table if exists subscriptions cascade 
 Hibernate: 
     drop table if exists subscriptions cascade 
-09:34:15.232 [main] DEBUG org.hibernate.SQL - 
+12:30:09.423 [main] DEBUG org.hibernate.SQL - 
     drop table if exists themes cascade 
 Hibernate: 
     drop table if exists themes cascade 
-09:34:15.233 [main] DEBUG org.hibernate.SQL - 
+12:30:09.423 [main] DEBUG org.hibernate.SQL - 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-09:34:15.235 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
-09:34:15.238 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+12:30:09.428 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+12:30:09.441 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
 ]]></system-out>
   </testcase>
 </testsuite>
