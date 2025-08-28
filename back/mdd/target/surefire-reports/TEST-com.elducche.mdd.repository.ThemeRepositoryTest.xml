@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.elducche.mdd.repository.ThemeRepositoryTest" time="2.689" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.elducche.mdd.repository.ThemeRepositoryTest" time="2.691" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -14,7 +14,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="FR"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire/surefirebooter-20250828121433257_3.jar /Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire 2025-08-28T12-14-33_226-jvmRun1 surefire-20250828121433257_1tmp surefire_0-20250828121433257_2tmp"/>
+    <property name="sun.java.command" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire/surefirebooter-20250828122041100_3.jar /Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire 2025-08-28T12-20-41_073-jvmRun1 surefire-20250828122041100_1tmp surefire_0-20250828122041100_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/test-classes:/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/classes:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/guillaumeleduc/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/Users/guillaumeleduc/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/guillaumeleduc/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/guillaumeleduc/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/Users/guillaumeleduc/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/guillaumeleduc/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/Users/guillaumeleduc/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/Users/guillaumeleduc/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/guillaumeleduc/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/guillaumeleduc/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/Users/guillaumeleduc/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/guillaumeleduc/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/Users/guillaumeleduc/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/guillaumeleduc/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/Users/guillaumeleduc/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/guillaumeleduc/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/guillaumeleduc/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/guillaumeleduc/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/Users/guillaumeleduc/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/Users/guillaumeleduc/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/Users/guillaumeleduc/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/guillaumeleduc/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/Users/guillaumeleduc/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/guillaumeleduc/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/guillaumeleduc/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/Users/guillaumeleduc/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/guillaumeleduc/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/Users/guillaumeleduc/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/Users/guillaumeleduc/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:"/>
@@ -33,7 +33,7 @@
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire/surefirebooter-20250828121433257_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire/surefirebooter-20250828122041100_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="23.0.2"/>
@@ -52,7 +52,7 @@
     <property name="user.dir" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd"/>
     <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="43925"/>
+    <property name="PID" value="46540"/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/guillaumeleduc/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
@@ -66,9 +66,9 @@
     <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
     <property name="LOGGED_APPLICATION_NAME" value="[mdd-application-test] "/>
   </properties>
-  <testcase name="shouldReturnEmptyIfTitleNotFound" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.364">
-    <system-out><![CDATA[12:14:33.823 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.elducche.mdd.repository.ThemeRepositoryTest]: ThemeRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-12:14:33.889 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.elducche.mdd.MddApplication for test class com.elducche.mdd.repository.ThemeRepositoryTest
+  <testcase name="shouldReturnEmptyIfTitleNotFound" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.348">
+    <system-out><![CDATA[12:20:41.659 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.elducche.mdd.repository.ThemeRepositoryTest]: ThemeRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:20:41.734 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.elducche.mdd.MddApplication for test class com.elducche.mdd.repository.ThemeRepositoryTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -78,40 +78,40 @@
  =========|_|==============|___/=/_/_/_/
 &amp#27;[32m :: Spring Boot :: &amp#27;[39m              &amp#27;[2m (v3.2.5)&amp#27;[0;39m
 
-12:14:34.113 [main] INFO  c.e.m.repository.ThemeRepositoryTest - Starting ThemeRepositoryTest using Java 23.0.2 with PID 43925 (started by guillaumeleduc in /Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd)
-12:14:34.114 [main] DEBUG c.e.m.repository.ThemeRepositoryTest - Running with Spring Boot v3.2.5, Spring v6.1.6
-12:14:34.114 [main] INFO  c.e.m.repository.ThemeRepositoryTest - The following 1 profile is active: "test"
-12:14:34.292 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-12:14:34.325 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 30 ms. Found 5 JPA repository interfaces.
-12:14:34.349 [main] INFO  o.s.b.t.a.j.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version
-12:14:34.416 [main] INFO  o.s.j.d.e.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:0bc6b2dd-80d4-4a7f-9d44-bbdadc27c3d6;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-12:14:34.619 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-12:14:34.655 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-12:14:34.674 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-12:14:34.802 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-12:14:34.835 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-12:14:35.401 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-12:14:35.409 [main] DEBUG org.hibernate.SQL - 
+12:20:41.975 [main] INFO  c.e.m.repository.ThemeRepositoryTest - Starting ThemeRepositoryTest using Java 23.0.2 with PID 46540 (started by guillaumeleduc in /Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd)
+12:20:41.975 [main] DEBUG c.e.m.repository.ThemeRepositoryTest - Running with Spring Boot v3.2.5, Spring v6.1.6
+12:20:41.975 [main] INFO  c.e.m.repository.ThemeRepositoryTest - The following 1 profile is active: "test"
+12:20:42.172 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+12:20:42.205 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 5 JPA repository interfaces.
+12:20:42.231 [main] INFO  o.s.b.t.a.j.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version
+12:20:42.295 [main] INFO  o.s.j.d.e.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:e7f44480-f525-45f2-8524-52a0c2a4dafd;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+12:20:42.499 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+12:20:42.534 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+12:20:42.550 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+12:20:42.676 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+12:20:42.706 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+12:20:43.283 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+12:20:43.291 [main] DEBUG org.hibernate.SQL - 
     drop table if exists comments cascade 
 Hibernate: 
     drop table if exists comments cascade 
-12:14:35.411 [main] DEBUG org.hibernate.SQL - 
+12:20:43.293 [main] DEBUG org.hibernate.SQL - 
     drop table if exists posts cascade 
 Hibernate: 
     drop table if exists posts cascade 
-12:14:35.411 [main] DEBUG org.hibernate.SQL - 
+12:20:43.293 [main] DEBUG org.hibernate.SQL - 
     drop table if exists subscriptions cascade 
 Hibernate: 
     drop table if exists subscriptions cascade 
-12:14:35.411 [main] DEBUG org.hibernate.SQL - 
+12:20:43.293 [main] DEBUG org.hibernate.SQL - 
     drop table if exists themes cascade 
 Hibernate: 
     drop table if exists themes cascade 
-12:14:35.411 [main] DEBUG org.hibernate.SQL - 
+12:20:43.293 [main] DEBUG org.hibernate.SQL - 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-12:14:35.414 [main] DEBUG org.hibernate.SQL - 
+12:20:43.296 [main] DEBUG org.hibernate.SQL - 
     create table comments (
         author_id bigint not null,
         created_at timestamp(6),
@@ -131,7 +131,7 @@ Hibernate:
         content TEXT not null,
         primary key (id)
     )
-12:14:35.419 [main] DEBUG org.hibernate.SQL - 
+12:20:43.300 [main] DEBUG org.hibernate.SQL - 
     create table posts (
         author_id bigint not null,
         created_at timestamp(6),
@@ -153,7 +153,7 @@ Hibernate:
         title varchar(255) not null,
         primary key (id)
     )
-12:14:35.420 [main] DEBUG org.hibernate.SQL - 
+12:20:43.301 [main] DEBUG org.hibernate.SQL - 
     create table subscriptions (
         subscribed_at timestamp(6),
         theme_id bigint not null,
@@ -167,7 +167,7 @@ Hibernate:
         user_id bigint not null,
         primary key (theme_id, user_id)
     )
-12:14:35.421 [main] DEBUG org.hibernate.SQL - 
+12:20:43.302 [main] DEBUG org.hibernate.SQL - 
     create table themes (
         created_at timestamp(6),
         id bigint generated by default as identity,
@@ -185,7 +185,7 @@ Hibernate:
         title varchar(255) not null,
         primary key (id)
     )
-12:14:35.422 [main] DEBUG org.hibernate.SQL - 
+12:20:43.303 [main] DEBUG org.hibernate.SQL - 
     create table users (
         created_at timestamp(6),
         id bigint generated by default as identity,
@@ -205,7 +205,7 @@ Hibernate:
         username varchar(255) not null unique,
         primary key (id)
     )
-12:14:35.423 [main] DEBUG org.hibernate.SQL - 
+12:20:43.304 [main] DEBUG org.hibernate.SQL - 
     alter table if exists comments 
        add constraint FKn2na60ukhs76ibtpt9burkm27 
        foreign key (author_id) 
@@ -215,7 +215,7 @@ Hibernate:
        add constraint FKn2na60ukhs76ibtpt9burkm27 
        foreign key (author_id) 
        references users
-12:14:35.430 [main] DEBUG org.hibernate.SQL - 
+12:20:43.310 [main] DEBUG org.hibernate.SQL - 
     alter table if exists comments 
        add constraint FKh4c7lvsc298whoyd4w9ta25cr 
        foreign key (post_id) 
@@ -225,7 +225,7 @@ Hibernate:
        add constraint FKh4c7lvsc298whoyd4w9ta25cr 
        foreign key (post_id) 
        references posts
-12:14:35.431 [main] DEBUG org.hibernate.SQL - 
+12:20:43.311 [main] DEBUG org.hibernate.SQL - 
     alter table if exists posts 
        add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
        foreign key (author_id) 
@@ -235,7 +235,7 @@ Hibernate:
        add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
        foreign key (author_id) 
        references users
-12:14:35.432 [main] DEBUG org.hibernate.SQL - 
+12:20:43.312 [main] DEBUG org.hibernate.SQL - 
     alter table if exists posts 
        add constraint FKpvlwa732hkbn743dvsx81krrq 
        foreign key (theme_id) 
@@ -245,7 +245,7 @@ Hibernate:
        add constraint FKpvlwa732hkbn743dvsx81krrq 
        foreign key (theme_id) 
        references themes
-12:14:35.432 [main] DEBUG org.hibernate.SQL - 
+12:20:43.313 [main] DEBUG org.hibernate.SQL - 
     alter table if exists subscriptions 
        add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
        foreign key (theme_id) 
@@ -255,7 +255,7 @@ Hibernate:
        add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
        foreign key (theme_id) 
        references themes
-12:14:35.433 [main] DEBUG org.hibernate.SQL - 
+12:20:43.314 [main] DEBUG org.hibernate.SQL - 
     alter table if exists subscriptions 
        add constraint FKhro52ohfqfbay9774bev0qinr 
        foreign key (user_id) 
@@ -265,10 +265,10 @@ Hibernate:
        add constraint FKhro52ohfqfbay9774bev0qinr 
        foreign key (user_id) 
        references users
-12:14:35.435 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-12:14:35.598 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-12:14:35.999 [main] INFO  c.e.m.repository.ThemeRepositoryTest - Started ThemeRepositoryTest in 2.075 seconds (process running for 2.695)
-12:14:36.349 [main] DEBUG org.hibernate.SQL - 
+12:20:43.316 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+12:20:43.454 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+12:20:43.859 [main] INFO  c.e.m.repository.ThemeRepositoryTest - Started ThemeRepositoryTest in 2.087 seconds (process running for 2.73)
+12:20:44.195 [main] DEBUG org.hibernate.SQL - 
     select
         t1_0.id,
         t1_0.created_at,
@@ -297,8 +297,8 @@ WARNING: If a serviceability tool is not in use, please run with -Djdk.instrumen
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
 ]]></system-err>
   </testcase>
-  <testcase name="shouldSaveTheme" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.028">
-    <system-out><![CDATA[12:14:36.386 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldSaveTheme" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.022">
+    <system-out><![CDATA[12:20:44.228 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         themes
@@ -314,8 +314,8 @@ Hibernate:
         (?, ?, ?, ?, default)
 ]]></system-out>
   </testcase>
-  <testcase name="shouldDeleteTheme" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.014">
-    <system-out><![CDATA[12:14:36.398 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldDeleteTheme" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.012">
+    <system-out><![CDATA[12:20:44.237 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         themes
@@ -331,8 +331,8 @@ Hibernate:
         (?, ?, ?, ?, default)
 ]]></system-out>
   </testcase>
-  <testcase name="shouldFindThemeByTitle" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.007">
-    <system-out><![CDATA[12:14:36.413 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldFindThemeByTitle" classname="com.elducche.mdd.repository.ThemeRepositoryTest" time="0.005">
+    <system-out><![CDATA[12:20:44.249 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         themes
@@ -346,7 +346,7 @@ Hibernate:
         (created_at, description, title, updated_at, id) 
     values
         (?, ?, ?, ?, default)
-12:14:36.416 [main] DEBUG org.hibernate.SQL - 
+12:20:44.251 [main] DEBUG org.hibernate.SQL - 
     select
         t1_0.id,
         t1_0.created_at,

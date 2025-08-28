@@ -64,8 +64,10 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         log.debug("Récupération de l'utilisateur avec l'ID : {}", id);
         
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok)
-                   .orElse(ResponseEntity.notFound().build());
+        return authUtil.executeWithAuth(userId -> {
+            Optional<User> user = userService.getUserById(id);
+            return user.map(ResponseEntity::ok)
+                       .orElse(ResponseEntity.notFound().build());
+        });
     }
 }
