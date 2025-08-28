@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
 
 /**
  * DTO pour les requêtes de création de commentaire
