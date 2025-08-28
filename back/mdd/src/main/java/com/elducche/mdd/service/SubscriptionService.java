@@ -100,7 +100,7 @@ public class SubscriptionService {
             SubscriptionId subscriptionId = new SubscriptionId(userId, themeId);
             if (subscriptionRepository.existsById(subscriptionId)) {
                 log.info("L'utilisateur {} est déjà abonné au thème {}", userId, themeId);
-                return subscriptionRepository.findById(subscriptionId);
+                throw new IllegalStateException("L'utilisateur est déjà abonné à ce thème");
             }
             
             // Création de l'abonnement
@@ -114,6 +114,9 @@ public class SubscriptionService {
             
             return Optional.of(savedSubscription);
             
+        } catch (IllegalStateException e) {
+            // Re-throw les exceptions métier pour que le contrôleur puisse les gérer
+            throw e;
         } catch (Exception e) {
             log.error("Erreur lors de l'abonnement de l'utilisateur {} au thème {}: {}", 
                      userId, themeId, e.getMessage());

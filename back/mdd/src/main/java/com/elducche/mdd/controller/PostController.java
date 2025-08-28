@@ -80,13 +80,63 @@ public class PostController {
     @PostMapping
     public ResponseEntity<?> createPost(@Valid @RequestBody PostCreateRequest request) {
         return authUtil.executeWithAuthHandleErrors(userId -> {
-            Optional<Post> post = postService.createPost(request, userId);
+            try {
+                Optional<Post> post = postService.createPost(request, userId);
+                if (post.isPresent()) {
+                    PostDTO postDTO = entityMapper.toPostDTO(post.get());
+                    return ResponseEntity.status(HttpStatus.CREATED).body(postDTO);
+                } else {
+                    return ResponseEntity.badRequest().body("Erreur lors de la création du post");
+                }
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage().contains("Thème non trouvé")) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Thème non trouvé");
+                }
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Met à jour un post existant
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @Valid @RequestBody PostCreateRequest request) {
+        return authUtil.executeWithAuthHandleErrors(userId -> {
+            Optional<Post> post = postService.updatePost(id, request, userId);
             if (post.isPresent()) {
                 PostDTO postDTO = entityMapper.toPostDTO(post.get());
-                return ResponseEntity.status(HttpStatus.CREATED).body(postDTO);
+                return ResponseEntity.ok(postDTO);
             } else {
-                return ResponseEntity.badRequest().body("Erreur lors de la création du post");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Vous n'avez pas l'autorisation de modifier ce post");
             }
+        });
+    }
+
+    /**
+     * Supprime un post
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        return authUtil.executeWithAuthHandleErrors(userId -> {
+            boolean deleted = postService.deletePost(id, userId);
+            if (deleted) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Vous n'avez pas l'autorisation de supprimer ce post");
+            }
+        });
+    }
+
+    /**
+     * Récupère le feed personnalisé de l'utilisateur
+     */
+    @GetMapping("/feed")
+    public ResponseEntity<List<PostDTO>> getUserFeed() {
+        return authUtil.executeWithAuth(userId -> {
+            List<Post> posts = postService.getPersonalizedFeed(userId);
+            List<PostDTO> postDTOs = posts.stream().map(entityMapper::toPostDTO).toList();
+            return ResponseEntity.ok(postDTOs);
         });
     }
 }

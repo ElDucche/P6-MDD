@@ -49,10 +49,14 @@ public class SubscriptionController {
         log.debug("Création d'un abonnement au thème ID : {}", request.getThemeId());
         
         return authUtil.executeWithAuthHandleErrors(userId -> {
-            Subscription subscription = subscriptionService.subscribeToTheme(userId, request.getThemeId());
-            if (subscription != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(subscription);
-            } else {
+            try {
+                Subscription subscription = subscriptionService.subscribeToTheme(userId, request.getThemeId());
+                if (subscription != null) {
+                    return ResponseEntity.status(HttpStatus.CREATED).body(subscription);
+                } else {
+                    return ResponseEntity.badRequest().body("Impossible de créer l'abonnement");
+                }
+            } catch (IllegalStateException e) {
                 return ResponseEntity.badRequest().body("Impossible de créer l'abonnement");
             }
         });

@@ -181,7 +181,7 @@ class CommentControllerTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validCommentRequest)))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -189,7 +189,7 @@ class CommentControllerTest extends BaseIntegrationTest {
     void testGetCommentsByPost_Unauthorized() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/comments/post/{postId}", testPost.getId()))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test

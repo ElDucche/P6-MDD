@@ -114,7 +114,7 @@ public class PostService {
             Optional<Theme> themeOpt = themeRepository.findById(request.getThemeId());
             if (themeOpt.isEmpty()) {
                 log.warn("Tentative de création de post avec thème inexistant: {}", request.getThemeId());
-                return Optional.empty();
+                throw new IllegalArgumentException("Thème non trouvé");
             }
             
             // Création du post
@@ -130,6 +130,9 @@ public class PostService {
             // Retourner le post avec ses relations
             return postRepository.findByIdWithAuthorAndTheme(savedPost.getId());
             
+        } catch (IllegalArgumentException e) {
+            // Re-throw les exceptions métier pour que le contrôleur puisse les gérer
+            throw e;
         } catch (Exception e) {
             log.error("Erreur lors de la création du post par l'utilisateur {}: {}", authorId, e.getMessage());
             return Optional.empty();

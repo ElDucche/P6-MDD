@@ -105,7 +105,7 @@ class PostControllerTest extends BaseIntegrationTest {
     void testGetAllPosts_Unauthorized() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/posts"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -250,11 +250,11 @@ class PostControllerTest extends BaseIntegrationTest {
     @DisplayName("Endpoints nécessitent une authentification")
     void testEndpoints_RequireAuthentication() throws Exception {
         // Test des endpoints qui nécessitent une authentification
-        mockMvc.perform(get("/api/posts")).andExpect(status().isUnauthorized());
-        mockMvc.perform(get("/api/posts/1")).andExpect(status().isUnauthorized());
-        mockMvc.perform(post("/api/posts")).andExpect(status().isUnauthorized());
-        mockMvc.perform(put("/api/posts/1")).andExpect(status().isUnauthorized());
-        mockMvc.perform(delete("/api/posts/1")).andExpect(status().isUnauthorized());
-        mockMvc.perform(get("/api/posts/feed")).andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/posts")).andExpect(status().isForbidden());
+        mockMvc.perform(get("/api/posts/1")).andExpect(status().isForbidden());
+        mockMvc.perform(post("/api/posts")).andExpect(status().isForbidden());
+        mockMvc.perform(put("/api/posts/1")).andExpect(status().isForbidden());
+        mockMvc.perform(delete("/api/posts/1")).andExpect(status().isForbidden());
+        mockMvc.perform(get("/api/posts/feed")).andExpect(status().isForbidden());
     }
 }
