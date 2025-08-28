@@ -73,16 +73,22 @@ public class EntityMapper {
             return null;
         }
         
-        CommentDTO.AuthorDTO authorDTO = new CommentDTO.AuthorDTO(
-            comment.getAuthor().getId(),
-            comment.getAuthor().getUsername(),
-            comment.getAuthor().getEmail()
-        );
+        CommentDTO.AuthorDTO authorDTO = null;
+        if (comment.getAuthor() != null) {
+            authorDTO = new CommentDTO.AuthorDTO(
+                comment.getAuthor().getId(),
+                comment.getAuthor().getUsername(),
+                comment.getAuthor().getEmail()
+            );
+        }
         
-        CommentDTO.PostInfoDTO postDTO = new CommentDTO.PostInfoDTO(
-            comment.getPost().getId(),
-            comment.getPost().getTitle()
-        );
+        CommentDTO.PostInfoDTO postDTO = null;
+        if (comment.getPost() != null) {
+            postDTO = new CommentDTO.PostInfoDTO(
+                comment.getPost().getId(),
+                comment.getPost().getTitle()
+            );
+        }
         
         return new CommentDTO(
             comment.getId(),
@@ -102,17 +108,23 @@ public class EntityMapper {
             return null;
         }
         
-        SubscriptionDTO.UserDTO userDTO = new SubscriptionDTO.UserDTO(
-            subscription.getUser().getId(),
-            subscription.getUser().getUsername(),
-            subscription.getUser().getEmail()
-        );
+        SubscriptionDTO.UserDTO userDTO = null;
+        if (subscription.getUser() != null) {
+            userDTO = new SubscriptionDTO.UserDTO(
+                subscription.getUser().getId(),
+                subscription.getUser().getUsername(),
+                subscription.getUser().getEmail()
+            );
+        }
         
-        SubscriptionDTO.ThemeDTO themeDTO = new SubscriptionDTO.ThemeDTO(
-            subscription.getTheme().getId(),
-            subscription.getTheme().getTitle(),
-            subscription.getTheme().getDescription()
-        );
+        SubscriptionDTO.ThemeDTO themeDTO = null;
+        if (subscription.getTheme() != null) {
+            themeDTO = new SubscriptionDTO.ThemeDTO(
+                subscription.getTheme().getId(),
+                subscription.getTheme().getTitle(),
+                subscription.getTheme().getDescription()
+            );
+        }
         
         return new SubscriptionDTO(
             subscription.getId().getUserId(),

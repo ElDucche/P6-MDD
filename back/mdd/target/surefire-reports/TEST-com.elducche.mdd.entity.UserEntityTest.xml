@@ -1,268 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.elducche.mdd.entity.UserEntityTest" time="7.032" tests="7" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.elducche.mdd.entity.UserEntityTest" time="0.029" tests="7" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="java.specification.version" value="21"/>
+    <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/workspaces/P6-MDD/back/mdd/target/test-classes:/workspaces/P6-MDD/back/mdd/target/classes:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/home/codespace/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/codespace/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/codespace/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/codespace/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/codespace/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/home/codespace/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/codespace/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/home/codespace/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/home/codespace/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/home/codespace/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/home/codespace/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/home/codespace/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/home/codespace/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/codespace/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/home/codespace/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/codespace/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/codespace/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/codespace/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/codespace/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/codespace/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/codespace/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/codespace/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/home/codespace/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/home/codespace/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/codespace/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/codespace/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/codespace/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/home/codespace/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/home/codespace/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/home/codespace/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/codespace/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/codespace/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/home/codespace/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/home/codespace/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/home/codespace/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/codespace/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/codespace/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/codespace/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/home/codespace/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/home/codespace/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/home/codespace/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/codespace/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/home/codespace/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/codespace/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/codespace/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/codespace/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/codespace/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/home/codespace/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/codespace/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/home/codespace/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/codespace/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/codespace/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/codespace/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/codespace/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/home/codespace/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/home/codespace/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:"/>
-    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="java.class.path" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/test-classes:/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/classes:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/guillaumeleduc/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/Users/guillaumeleduc/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/guillaumeleduc/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/guillaumeleduc/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/Users/guillaumeleduc/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/guillaumeleduc/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/Users/guillaumeleduc/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/Users/guillaumeleduc/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/guillaumeleduc/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/guillaumeleduc/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/Users/guillaumeleduc/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/guillaumeleduc/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/Users/guillaumeleduc/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/guillaumeleduc/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/Users/guillaumeleduc/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/guillaumeleduc/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/guillaumeleduc/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/guillaumeleduc/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/Users/guillaumeleduc/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/Users/guillaumeleduc/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/Users/guillaumeleduc/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/guillaumeleduc/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/Users/guillaumeleduc/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/guillaumeleduc/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/guillaumeleduc/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/Users/guillaumeleduc/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/guillaumeleduc/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/Users/guillaumeleduc/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/Users/guillaumeleduc/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="java.vendor.url" value="https://ubuntu.com/"/>
-    <property name="user.timezone" value="Etc/UTC"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="Europe/Paris"/>
     <property name="org.jboss.logging.provider" value="slf4j"/>
-    <property name="os.name" value="Linux"/>
-    <property name="java.vm.specification.version" value="21"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="23"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/workspaces/P6-MDD/back/mdd/target/surefire/surefirebooter-20250827153426292_3.jar /workspaces/P6-MDD/back/mdd/target/surefire 2025-08-27T15-34-26_155-jvmRun1 surefire-20250827153426292_1tmp surefire_0-20250827153426292_2tmp"/>
+    <property name="user.country" value="FR"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire/surefirebooter-20250828121433257_3.jar /Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire 2025-08-28T12-14-33_226-jvmRun1 surefire-20250828121433257_1tmp surefire_0-20250828121433257_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/workspaces/P6-MDD/back/mdd/target/test-classes:/workspaces/P6-MDD/back/mdd/target/classes:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/home/codespace/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/codespace/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/codespace/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/codespace/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/codespace/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/home/codespace/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/codespace/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/home/codespace/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/home/codespace/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/home/codespace/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/home/codespace/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/home/codespace/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/home/codespace/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/codespace/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/home/codespace/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/codespace/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/codespace/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/codespace/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/codespace/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/codespace/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/codespace/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/codespace/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/home/codespace/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/home/codespace/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/home/codespace/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/codespace/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/codespace/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/codespace/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/home/codespace/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/home/codespace/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/home/codespace/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/home/codespace/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/codespace/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/codespace/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/home/codespace/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/home/codespace/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/home/codespace/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/home/codespace/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/home/codespace/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/home/codespace/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/codespace/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/codespace/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/codespace/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/home/codespace/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/home/codespace/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/home/codespace/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/codespace/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/home/codespace/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/codespace/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/codespace/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/codespace/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/codespace/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/codespace/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/home/codespace/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/codespace/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/home/codespace/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/codespace/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/codespace/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/codespace/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/codespace/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/home/codespace/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/home/codespace/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/home/codespace/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/home/codespace/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/test-classes:/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/classes:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/guillaumeleduc/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/Users/guillaumeleduc/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/guillaumeleduc/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/guillaumeleduc/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/Users/guillaumeleduc/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/guillaumeleduc/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/Users/guillaumeleduc/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/Users/guillaumeleduc/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/guillaumeleduc/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/guillaumeleduc/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/Users/guillaumeleduc/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/guillaumeleduc/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/guillaumeleduc/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/guillaumeleduc/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/guillaumeleduc/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/Users/guillaumeleduc/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/Users/guillaumeleduc/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/guillaumeleduc/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/Users/guillaumeleduc/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/Users/guillaumeleduc/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/Users/guillaumeleduc/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/guillaumeleduc/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/guillaumeleduc/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/guillaumeleduc/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/Users/guillaumeleduc/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/Users/guillaumeleduc/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/Users/guillaumeleduc/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/guillaumeleduc/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/Users/guillaumeleduc/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/guillaumeleduc/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/guillaumeleduc/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/guillaumeleduc/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/Users/guillaumeleduc/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/guillaumeleduc/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/Users/guillaumeleduc/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/Users/guillaumeleduc/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/Users/guillaumeleduc/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/Users/guillaumeleduc/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="/home/codespace"/>
-    <property name="user.language" value="en"/>
+    <property name="user.home" value="/Users/guillaumeleduc"/>
+    <property name="user.language" value="fr"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2025-07-15"/>
-    <property name="java.home" value="/usr/lib/jvm/java-21-openjdk-amd64"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home"/>
     <property name="file.separator" value="/"/>
-    <property name="basedir" value="/workspaces/P6-MDD/back/mdd"/>
-    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="basedir" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="/workspaces/P6-MDD/back/mdd/target/surefire/surefirebooter-20250827153426292_3.jar"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd/target/surefire/surefirebooter-20250828121433257_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="21.0.8+9-Ubuntu-0ubuntu124.04.1"/>
-    <property name="user.name" value="codespace"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="23.0.2"/>
+    <property name="user.name" value="guillaumeleduc"/>
     <property name="stdout.encoding" value="UTF-8"/>
     <property name="path.separator" value=":"/>
-    <property name="os.version" value="6.8.0-1030-azure"/>
+    <property name="os.version" value="15.6"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
-    <property name="localRepository" value="/home/codespace/.m2/repository"/>
-    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-21"/>
-    <property name="java.io.tmpdir" value="/tmp"/>
-    <property name="java.version" value="21.0.8"/>
-    <property name="user.dir" value="/workspaces/P6-MDD/back/mdd"/>
-    <property name="os.arch" value="amd64"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/guillaumeleduc/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/lx/zsztlrsd541f686btq_vzlyc0000gn/T/"/>
+    <property name="java.version" value="23.0.2"/>
+    <property name="user.dir" value="/Users/guillaumeleduc/Documents/OPC/Projet 6 - MDD/P6-MDD/back/mdd"/>
+    <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="90178"/>
+    <property name="PID" value="43925"/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
-    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/guillaumeleduc/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.vendor" value="Ubuntu"/>
-    <property name="java.vm.version" value="21.0.8+9-Ubuntu-0ubuntu124.04.1"/>
-    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
-    <property name="java.class.version" value="65.0"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="23.0.2"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="67.0"/>
     <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
     <property name="LOGGED_APPLICATION_NAME" value="[mdd-application-test] "/>
   </properties>
-  <testcase name="shouldRespectUsernameUniqueness" classname="com.elducche.mdd.entity.UserEntityTest" time="0.106">
-    <system-out><![CDATA[15:34:30.555 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.elducche.mdd.entity.UserEntityTest]: UserEntityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-15:34:30.890 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.elducche.mdd.MddApplication for test class com.elducche.mdd.entity.UserEntityTest
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
- :: Spring Boot ::                (v3.2.5)
-
-15:34:31.785 [main] INFO  c.elducche.mdd.entity.UserEntityTest - Starting UserEntityTest using Java 21.0.8 with PID 90178 (started by codespace in /workspaces/P6-MDD/back/mdd)
-15:34:31.788 [main] DEBUG c.elducche.mdd.entity.UserEntityTest - Running with Spring Boot v3.2.5, Spring v6.1.6
-15:34:31.788 [main] INFO  c.elducche.mdd.entity.UserEntityTest - The following 1 profile is active: "test"
-15:34:32.630 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-15:34:32.834 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 165 ms. Found 5 JPA repository interfaces.
-15:34:32.928 [main] INFO  o.s.b.t.a.j.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor - Replacing 'dataSource' DataSource bean with embedded version
-15:34:33.116 [main] INFO  o.s.j.d.e.EmbeddedDatabaseFactory - Starting embedded database: url='jdbc:h2:mem:4a3604d8-ca49-4c07-8fe5-9bf10a803bc3;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-15:34:33.569 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-15:34:33.665 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-15:34:33.733 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-15:34:33.910 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-15:34:33.975 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-15:34:35.286 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-15:34:35.308 [main] DEBUG org.hibernate.SQL - 
-    drop table if exists comments cascade 
-Hibernate: 
-    drop table if exists comments cascade 
-15:34:35.313 [main] DEBUG org.hibernate.SQL - 
-    drop table if exists posts cascade 
-Hibernate: 
-    drop table if exists posts cascade 
-15:34:35.314 [main] DEBUG org.hibernate.SQL - 
-    drop table if exists subscriptions cascade 
-Hibernate: 
-    drop table if exists subscriptions cascade 
-15:34:35.314 [main] DEBUG org.hibernate.SQL - 
-    drop table if exists themes cascade 
-Hibernate: 
-    drop table if exists themes cascade 
-15:34:35.314 [main] DEBUG org.hibernate.SQL - 
-    drop table if exists users cascade 
-Hibernate: 
-    drop table if exists users cascade 
-15:34:35.322 [main] DEBUG org.hibernate.SQL - 
-    create table comments (
-        author_id bigint not null,
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        post_id bigint not null,
-        updated_at timestamp(6),
-        content TEXT not null,
-        primary key (id)
-    )
-Hibernate: 
-    create table comments (
-        author_id bigint not null,
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        post_id bigint not null,
-        updated_at timestamp(6),
-        content TEXT not null,
-        primary key (id)
-    )
-15:34:35.338 [main] DEBUG org.hibernate.SQL - 
-    create table posts (
-        author_id bigint not null,
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        theme_id bigint not null,
-        updated_at timestamp(6),
-        content TEXT,
-        title varchar(255) not null,
-        primary key (id)
-    )
-Hibernate: 
-    create table posts (
-        author_id bigint not null,
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        theme_id bigint not null,
-        updated_at timestamp(6),
-        content TEXT,
-        title varchar(255) not null,
-        primary key (id)
-    )
-15:34:35.344 [main] DEBUG org.hibernate.SQL - 
-    create table subscriptions (
-        subscribed_at timestamp(6),
-        theme_id bigint not null,
-        user_id bigint not null,
-        primary key (theme_id, user_id)
-    )
-Hibernate: 
-    create table subscriptions (
-        subscribed_at timestamp(6),
-        theme_id bigint not null,
-        user_id bigint not null,
-        primary key (theme_id, user_id)
-    )
-15:34:35.348 [main] DEBUG org.hibernate.SQL - 
-    create table themes (
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        updated_at timestamp(6),
-        description TEXT,
-        title varchar(255) not null,
-        primary key (id)
-    )
-Hibernate: 
-    create table themes (
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        updated_at timestamp(6),
-        description TEXT,
-        title varchar(255) not null,
-        primary key (id)
-    )
-15:34:35.351 [main] DEBUG org.hibernate.SQL - 
-    create table users (
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        updated_at timestamp(6),
-        email varchar(255) not null unique,
-        password varchar(255) not null,
-        username varchar(255) not null unique,
-        primary key (id)
-    )
-Hibernate: 
-    create table users (
-        created_at timestamp(6),
-        id bigint generated by default as identity,
-        updated_at timestamp(6),
-        email varchar(255) not null unique,
-        password varchar(255) not null,
-        username varchar(255) not null unique,
-        primary key (id)
-    )
-15:34:35.354 [main] DEBUG org.hibernate.SQL - 
-    alter table if exists comments 
-       add constraint FKn2na60ukhs76ibtpt9burkm27 
-       foreign key (author_id) 
-       references users
-Hibernate: 
-    alter table if exists comments 
-       add constraint FKn2na60ukhs76ibtpt9burkm27 
-       foreign key (author_id) 
-       references users
-15:34:35.366 [main] DEBUG org.hibernate.SQL - 
-    alter table if exists comments 
-       add constraint FKh4c7lvsc298whoyd4w9ta25cr 
-       foreign key (post_id) 
-       references posts
-Hibernate: 
-    alter table if exists comments 
-       add constraint FKh4c7lvsc298whoyd4w9ta25cr 
-       foreign key (post_id) 
-       references posts
-15:34:35.367 [main] DEBUG org.hibernate.SQL - 
-    alter table if exists posts 
-       add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
-       foreign key (author_id) 
-       references users
-Hibernate: 
-    alter table if exists posts 
-       add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
-       foreign key (author_id) 
-       references users
-15:34:35.369 [main] DEBUG org.hibernate.SQL - 
-    alter table if exists posts 
-       add constraint FKpvlwa732hkbn743dvsx81krrq 
-       foreign key (theme_id) 
-       references themes
-Hibernate: 
-    alter table if exists posts 
-       add constraint FKpvlwa732hkbn743dvsx81krrq 
-       foreign key (theme_id) 
-       references themes
-15:34:35.371 [main] DEBUG org.hibernate.SQL - 
-    alter table if exists subscriptions 
-       add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
-       foreign key (theme_id) 
-       references themes
-Hibernate: 
-    alter table if exists subscriptions 
-       add constraint FK6xta1tpjwyg0lw9y5qymb8gly 
-       foreign key (theme_id) 
-       references themes
-15:34:35.372 [main] DEBUG org.hibernate.SQL - 
-    alter table if exists subscriptions 
-       add constraint FKhro52ohfqfbay9774bev0qinr 
-       foreign key (user_id) 
-       references users
-Hibernate: 
-    alter table if exists subscriptions 
-       add constraint FKhro52ohfqfbay9774bev0qinr 
-       foreign key (user_id) 
-       references users
-15:34:35.378 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-15:34:35.934 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-15:34:37.100 [main] INFO  c.elducche.mdd.entity.UserEntityTest - Started UserEntityTest in 6.031 seconds (process running for 10.631)
-15:34:37.167 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldRespectUsernameUniqueness" classname="com.elducche.mdd.entity.UserEntityTest" time="0.004">
+    <system-out><![CDATA[12:14:36.581 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.elducche.mdd.entity.UserEntityTest]: UserEntityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:14:36.583 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.elducche.mdd.MddApplication for test class com.elducche.mdd.entity.UserEntityTest
+12:14:36.585 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -276,7 +83,7 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.203 [main] DEBUG org.hibernate.SQL - 
+12:14:36.586 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -290,13 +97,14 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.207 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
-15:34:37.207 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_4D ON PUBLIC.USERS(USERNAME NULLS FIRST) VALUES ( /* 1 */ 'testuser' )"; SQL statement:
+12:14:36.587 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
+12:14:36.587 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Violation d'index unique ou clé primaire: "PUBLIC.CONSTRAINT_INDEX_4D ON PUBLIC.USERS(USERNAME NULLS FIRST) VALUES ( /* 20 */ 'testuser' )"
+Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_4D ON PUBLIC.USERS(USERNAME NULLS FIRST) VALUES ( /* 20 */ 'testuser' )"; SQL statement:
 insert into users (created_at,email,password,updated_at,username,id) values (?,?,?,?,?,default) [23505-224]
 ]]></system-out>
   </testcase>
-  <testcase name="shouldFailWithNullUsername" classname="com.elducche.mdd.entity.UserEntityTest" time="0.022">
-    <system-out><![CDATA[15:34:37.237 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldFailWithNullUsername" classname="com.elducche.mdd.entity.UserEntityTest" time="0.003">
+    <system-out><![CDATA[12:14:36.589 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -310,13 +118,14 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.240 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23502, SQLState: 23502
-15:34:37.240 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - NULL not allowed for column "USERNAME"; SQL statement:
+12:14:36.590 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23502, SQLState: 23502
+12:14:36.590 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - NULL non permis pour la colonne "USERNAME"
+NULL not allowed for column "USERNAME"; SQL statement:
 insert into users (created_at,email,password,updated_at,username,id) values (?,?,?,?,?,default) [23502-224]
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCreateValidUser" classname="com.elducche.mdd.entity.UserEntityTest" time="0.018">
-    <system-out><![CDATA[15:34:37.257 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldCreateValidUser" classname="com.elducche.mdd.entity.UserEntityTest" time="0.002">
+    <system-out><![CDATA[12:14:36.592 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -332,8 +141,8 @@ Hibernate:
         (?, ?, ?, ?, ?, default)
 ]]></system-out>
   </testcase>
-  <testcase name="shouldFailWithNullEmail" classname="com.elducche.mdd.entity.UserEntityTest" time="0.017">
-    <system-out><![CDATA[15:34:37.280 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldFailWithNullEmail" classname="com.elducche.mdd.entity.UserEntityTest" time="0.003">
+    <system-out><![CDATA[12:14:36.594 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -347,13 +156,14 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.283 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23502, SQLState: 23502
-15:34:37.284 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - NULL not allowed for column "EMAIL"; SQL statement:
+12:14:36.594 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23502, SQLState: 23502
+12:14:36.594 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - NULL non permis pour la colonne "EMAIL"
+NULL not allowed for column "EMAIL"; SQL statement:
 insert into users (created_at,email,password,updated_at,username,id) values (?,?,?,?,?,default) [23502-224]
 ]]></system-out>
   </testcase>
-  <testcase name="shouldUpdateTimestampsAutomatically" classname="com.elducche.mdd.entity.UserEntityTest" time="0.035">
-    <system-out><![CDATA[15:34:37.297 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldUpdateTimestampsAutomatically" classname="com.elducche.mdd.entity.UserEntityTest" time="0.007">
+    <system-out><![CDATA[12:14:36.598 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -367,7 +177,7 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.311 [main] DEBUG org.hibernate.SQL - 
+12:14:36.601 [main] DEBUG org.hibernate.SQL - 
     update
         users 
     set
@@ -391,8 +201,8 @@ Hibernate:
         id=?
 ]]></system-out>
   </testcase>
-  <testcase name="shouldRespectEmailUniqueness" classname="com.elducche.mdd.entity.UserEntityTest" time="0.017">
-    <system-out><![CDATA[15:34:37.332 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldRespectEmailUniqueness" classname="com.elducche.mdd.entity.UserEntityTest" time="0.003">
+    <system-out><![CDATA[12:14:36.605 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -406,7 +216,7 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.335 [main] DEBUG org.hibernate.SQL - 
+12:14:36.606 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -420,13 +230,14 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.337 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
-15:34:37.337 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_4 ON PUBLIC.USERS(EMAIL NULLS FIRST) VALUES ( /* 7 */ 'test@example.com' )"; SQL statement:
+12:14:36.606 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
+12:14:36.606 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Violation d'index unique ou clé primaire: "PUBLIC.CONSTRAINT_INDEX_4 ON PUBLIC.USERS(EMAIL NULLS FIRST) VALUES ( /* 26 */ 'test@example.com' )"
+Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_4 ON PUBLIC.USERS(EMAIL NULLS FIRST) VALUES ( /* 26 */ 'test@example.com' )"; SQL statement:
 insert into users (created_at,email,password,updated_at,username,id) values (?,?,?,?,?,default) [23505-224]
 ]]></system-out>
   </testcase>
-  <testcase name="shouldFailWithNullPassword" classname="com.elducche.mdd.entity.UserEntityTest" time="0.011">
-    <system-out><![CDATA[15:34:37.355 [main] DEBUG org.hibernate.SQL - 
+  <testcase name="shouldFailWithNullPassword" classname="com.elducche.mdd.entity.UserEntityTest" time="0.002">
+    <system-out><![CDATA[12:14:36.608 [main] DEBUG org.hibernate.SQL - 
     insert 
     into
         users
@@ -440,8 +251,9 @@ Hibernate:
         (created_at, email, password, updated_at, username, id) 
     values
         (?, ?, ?, ?, ?, default)
-15:34:37.356 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23502, SQLState: 23502
-15:34:37.356 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - NULL not allowed for column "PASSWORD"; SQL statement:
+12:14:36.608 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23502, SQLState: 23502
+12:14:36.608 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - NULL non permis pour la colonne "PASSWORD"
+NULL not allowed for column "PASSWORD"; SQL statement:
 insert into users (created_at,email,password,updated_at,username,id) values (?,?,?,?,?,default) [23502-224]
 ]]></system-out>
   </testcase>

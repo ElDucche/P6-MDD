@@ -32,13 +32,13 @@ public class AuthController {
         
         try {
             LoginResponse response = authService.register(request);
-            if (response != null) {
+            if (response.getToken() != null) {
                 log.info("Inscription réussie pour l'email: {}", request.getEmail());
                 return ResponseEntity.ok(response);
             } else {
                 log.warn("Échec de l'inscription pour l'email: {}", request.getEmail());
                 return ResponseEntity.badRequest()
-                    .body("Erreur lors de l'inscription. Vérifiez vos données ou essayez un autre email.");
+                    .body(response.getMessage());
             }
         } catch (Exception e) {
             log.error("Erreur lors de l'inscription pour l'email {}: {}", request.getEmail(), e.getMessage());
@@ -56,13 +56,13 @@ public class AuthController {
         
         try {
             LoginResponse response = authService.login(request);
-            if (response != null) {
+            if (response.getToken() != null) {
                 log.info("Connexion réussie pour l'email: {}", request.getEmail());
                 return ResponseEntity.ok(response);
             } else {
                 log.warn("Échec de la connexion pour l'email: {}", request.getEmail());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Email ou mot de passe incorrect");
+                    .body("Identifiants invalides");
             }
         } catch (Exception e) {
             log.error("Erreur lors de la connexion pour l'email {}: {}", request.getEmail(), e.getMessage());

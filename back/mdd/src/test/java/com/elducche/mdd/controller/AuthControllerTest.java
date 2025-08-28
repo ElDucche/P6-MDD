@@ -5,6 +5,7 @@ import com.elducche.mdd.dto.RegisterRequest;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.UserRepository;
 import com.elducche.mdd.util.BaseIntegrationTest;
+import com.elducche.mdd.util.TestDataUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,22 +37,20 @@ class AuthControllerTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Préparer des données de test valides
+        // Créer un utilisateur existant avec TestDataUtil pour éviter les conflits
+        existingUser = TestDataUtil.createUniqueUser();
+        existingUser = userRepository.save(existingUser);
+
+        // Préparer des données de test valides avec un utilisateur unique
+        User tempUser = TestDataUtil.createUniqueUser();
         validRegisterRequest = new RegisterRequest();
-        validRegisterRequest.setEmail("test@example.com");
-        validRegisterRequest.setUsername("testuser");
+        validRegisterRequest.setEmail(tempUser.getEmail());
+        validRegisterRequest.setUsername(tempUser.getUsername());
         validRegisterRequest.setPassword("Password123!");
 
         validLoginRequest = new LoginRequest();
-        validLoginRequest.setEmail("existing@example.com");
+        validLoginRequest.setEmail(existingUser.getEmail());
         validLoginRequest.setPassword("Password123!");
-
-        // Créer un utilisateur existant pour les tests de login
-        existingUser = new User();
-        existingUser.setEmail("existing@example.com");
-        existingUser.setUsername("existinguser");
-        existingUser.setPassword(encodePassword("Password123!"));
-        userRepository.save(existingUser);
     }
 
     @Test
@@ -72,8 +71,8 @@ class AuthControllerTest extends BaseIntegrationTest {
     void testRegister_EmailAlreadyExists() throws Exception {
         // Given - Un utilisateur avec cet email existe déjà
         RegisterRequest duplicateEmailRequest = new RegisterRequest();
-        duplicateEmailRequest.setEmail("existing@example.com");
-        duplicateEmailRequest.setUsername("newuser");
+        duplicateEmailRequest.setEmail(existingUser.getEmail()); // Utiliser l'email de l'utilisateur existant
+        duplicateEmailRequest.setUsername(TestDataUtil.createUniqueUser().getUsername()); // Username unique
         duplicateEmailRequest.setPassword("Password123!");
 
         // When & Then
@@ -89,8 +88,8 @@ class AuthControllerTest extends BaseIntegrationTest {
     void testRegister_UsernameAlreadyExists() throws Exception {
         // Given - Un utilisateur avec ce username existe déjà
         RegisterRequest duplicateUsernameRequest = new RegisterRequest();
-        duplicateUsernameRequest.setEmail("new@example.com");
-        duplicateUsernameRequest.setUsername("existinguser");
+        duplicateUsernameRequest.setEmail(TestDataUtil.createUniqueUser().getEmail()); // Email unique
+        duplicateUsernameRequest.setUsername(existingUser.getUsername()); // Utiliser le username de l'utilisateur existant
         duplicateUsernameRequest.setPassword("Password123!");
 
         // When & Then
@@ -98,7 +97,7 @@ class AuthControllerTest extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(duplicateUsernameRequest)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(containsString("username")));
+                .andExpect(content().string(containsString("nom d'utilisateur")));
     }
 
     @Test
@@ -133,9 +132,10 @@ class AuthControllerTest extends BaseIntegrationTest {
     @Test
     @DisplayName("POST /api/auth/login - Échec avec email inexistant")
     void testLogin_UserNotFound() throws Exception {
-        // Given - Email inexistant
+        // Given - Email inexistant (créer un email unique qui n'existe pas en base)
+        User nonExistentUser = TestDataUtil.createUniqueUser();
         LoginRequest nonExistentUserRequest = new LoginRequest();
-        nonExistentUserRequest.setEmail("nonexistent@example.com");
+        nonExistentUserRequest.setEmail(nonExistentUser.getEmail()); // Email unique non sauvé
         nonExistentUserRequest.setPassword("Password123!");
 
         // When & Then
@@ -151,7 +151,7 @@ class AuthControllerTest extends BaseIntegrationTest {
     void testLogin_WrongPassword() throws Exception {
         // Given - Bon email, mauvais mot de passe
         LoginRequest wrongPasswordRequest = new LoginRequest();
-        wrongPasswordRequest.setEmail("existing@example.com");
+        wrongPasswordRequest.setEmail(existingUser.getEmail()); // Email de l'utilisateur existant
         wrongPasswordRequest.setPassword("WrongPassword123!");
 
         // When & Then

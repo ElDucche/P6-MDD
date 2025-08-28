@@ -3,9 +3,11 @@ package com.elducche.mdd.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +28,48 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     /**
+     * Gestion des erreurs JSON malformé
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException ex,
+            WebRequest request) {
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            "JSON malformé",
+            "Le format JSON fourni n'est pas valide",
+            request.getDescription(false),
+            LocalDateTime.now(),
+            null
+        );
+        
+        log.warn("JSON malformé: {}", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Gestion des erreurs de Content-Type non supporté
+     */
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMediaTypeNotSupportedException(
+            HttpMediaTypeNotSupportedException ex,
+            WebRequest request) {
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(),
+            "Type de média non supporté",
+            "Le Content-Type fourni n'est pas supporté",
+            request.getDescription(false),
+            LocalDateTime.now(),
+            null
+        );
+        
+        log.warn("Content-Type non supporté: {}", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    /**
      * Gestion des erreurs de validation des données
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -34,7 +78,7 @@ public class GlobalExceptionHandler {
             WebRequest request) {
         
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);

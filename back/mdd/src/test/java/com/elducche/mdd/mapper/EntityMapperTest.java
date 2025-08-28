@@ -165,8 +165,10 @@ class EntityMapperTest {
         assertThat(commentDTO.getAuthor().getId()).isEqualTo(testUser.getId());
         assertThat(commentDTO.getAuthor().getUsername()).isEqualTo(testUser.getUsername());
 
-        // Vérifier que le post n'est pas inclus pour éviter les références circulaires
-        assertThat(commentDTO.getPost()).isNull();
+        // Vérifier les informations du post
+        assertThat(commentDTO.getPost()).isNotNull();
+        assertThat(commentDTO.getPost().getId()).isEqualTo(testPost.getId());
+        assertThat(commentDTO.getPost().getTitle()).isEqualTo(testPost.getTitle());
     }
 
     @Test

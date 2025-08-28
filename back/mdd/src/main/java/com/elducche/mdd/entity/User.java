@@ -1,5 +1,6 @@
 package com.elducche.mdd.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.persistence.*;
@@ -30,6 +31,7 @@ public class User {
     private String username;
     
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
     
     @Column(name = "created_at")

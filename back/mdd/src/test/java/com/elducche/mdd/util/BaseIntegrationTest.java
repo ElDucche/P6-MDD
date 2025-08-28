@@ -1,10 +1,12 @@
 package com.elducche.mdd.util;
 
+import com.elducche.mdd.config.TestSecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -29,6 +31,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @AutoConfigureWebMvc
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Import(TestSecurityConfig.class)
 public abstract class BaseIntegrationTest {
 
     @Autowired
