@@ -1,7 +1,7 @@
 package com.elducche.mdd.controller;
 
 import com.elducche.mdd.dto.SubscriptionRequest;
-import com.elducche.mdd.entity.Subscription;
+import com.elducche.mdd.dto.SubscriptionResponseDTO;
 import com.elducche.mdd.service.SubscriptionService;
 import com.elducche.mdd.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +30,11 @@ public class SubscriptionController {
      * @return Liste des abonnements de l'utilisateur
      */
     @GetMapping
-    public ResponseEntity<List<Subscription>> getUserSubscriptions() {
+    public ResponseEntity<List<SubscriptionResponseDTO>> getUserSubscriptions() {
         log.debug("Récupération des abonnements de l'utilisateur connecté");
         
         return authUtil.executeWithAuth(userId -> {
-            List<Subscription> subscriptions = subscriptionService.getUserSubscriptions(userId);
+            List<SubscriptionResponseDTO> subscriptions = subscriptionService.getUserSubscriptionsDTO(userId);
             return ResponseEntity.ok(subscriptions);
         });
     }
@@ -45,21 +45,16 @@ public class SubscriptionController {
      * @return L'abonnement créé ou erreur
      */
     @PostMapping
-    public ResponseEntity<?> subscribeToTheme(@Valid @RequestBody SubscriptionRequest request) {
+    public ResponseEntity<SubscriptionResponseDTO> subscribeToTheme(@Valid @RequestBody SubscriptionRequest request) {
         log.debug("Création d'un abonnement au thème ID : {}", request.getThemeId());
         
-        return authUtil.executeWithAuthHandleErrors(userId -> {
-            try {
-                Subscription subscription = subscriptionService.subscribeToTheme(userId, request.getThemeId());
-                if (subscription != null) {
-                    return ResponseEntity.status(HttpStatus.CREATED).body(subscription);
-                } else {
-                    return ResponseEntity.badRequest().body("Impossible de créer l'abonnement");
-                }
-            } catch (IllegalStateException e) {
-                return ResponseEntity.badRequest().body("Impossible de créer l'abonnement");
-            }
-        });
+        Long userId = authUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        SubscriptionResponseDTO subscription = subscriptionService.subscribeToThemeDTO(userId, request.getThemeId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(subscription);
     }
 
     /**
@@ -68,16 +63,19 @@ public class SubscriptionController {
      * @return Confirmation de suppression
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> unsubscribeFromTheme(@PathVariable Long id) {
+    public ResponseEntity<Void> unsubscribeFromTheme(@PathVariable Long id) {
         log.debug("Suppression de l'abonnement ID : {}", id);
         
-        return authUtil.executeWithAuthHandleErrors(userId -> {
-            boolean deleted = subscriptionService.unsubscribeFromTheme(userId, id);
-            if (deleted) {
-                return ResponseEntity.noContent().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        });
+        Long userId = authUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        boolean deleted = subscriptionService.unsubscribeFromTheme(userId, id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

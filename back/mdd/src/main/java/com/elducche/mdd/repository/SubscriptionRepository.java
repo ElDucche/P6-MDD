@@ -5,9 +5,11 @@ import com.elducche.mdd.entity.SubscriptionId;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.entity.Theme;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param userId L'ID de l'utilisateur
      * @return Liste des abonnements avec les thèmes
      */
-    @Query("SELECT s FROM Subscription s JOIN FETCH s.theme WHERE s.user.id = :userId")
+    @Query("SELECT s FROM Subscription s JOIN FETCH s.theme WHERE s.id.userId = :userId")
     List<Subscription> findByUserIdWithTheme(@Param("userId") Long userId);
     
     /**
@@ -38,7 +40,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param themeId L'ID du thème
      * @return Liste des abonnements avec les utilisateurs
      */
-    @Query("SELECT s FROM Subscription s JOIN FETCH s.user WHERE s.theme.id = :themeId")
+    @Query("SELECT s FROM Subscription s JOIN FETCH s.user WHERE s.id.themeId = :themeId")
     List<Subscription> findByThemeIdWithUser(@Param("themeId") Long themeId);
     
     /**
@@ -46,7 +48,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param userId L'ID de l'utilisateur
      * @return Liste des IDs de thèmes
      */
-    @Query("SELECT s.theme.id FROM Subscription s WHERE s.user.id = :userId")
+    @Query("SELECT s.id.themeId FROM Subscription s WHERE s.id.userId = :userId")
     List<Long> findThemeIdsByUserId(@Param("userId") Long userId);
     
     /**
@@ -55,7 +57,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param themeId L'ID du thème
      * @return true si l'utilisateur est abonné
      */
-    @Query("SELECT COUNT(s) > 0 FROM Subscription s WHERE s.user.id = :userId AND s.theme.id = :themeId")
+    @Query("SELECT COUNT(s) > 0 FROM Subscription s WHERE s.id.userId = :userId AND s.id.themeId = :themeId")
     boolean existsByUserIdAndThemeId(@Param("userId") Long userId, @Param("themeId") Long themeId);
     
     /**
@@ -64,7 +66,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param themeId L'ID du thème
      * @return Optional contenant l'abonnement
      */
-    @Query("SELECT s FROM Subscription s WHERE s.user.id = :userId AND s.theme.id = :themeId")
+    @Query("SELECT s FROM Subscription s WHERE s.id.userId = :userId AND s.id.themeId = :themeId")
     Optional<Subscription> findByUserIdAndThemeId(@Param("userId") Long userId, @Param("themeId") Long themeId);
     
     /**
@@ -72,6 +74,9 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param userId L'ID de l'utilisateur
      * @param themeId L'ID du thème
      */
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Subscription s WHERE s.id.userId = :userId AND s.id.themeId = :themeId")
     void deleteByUserIdAndThemeId(@Param("userId") Long userId, @Param("themeId") Long themeId);
     
     /**
@@ -79,22 +84,26 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
      * @param themeId L'ID du thème
      * @return Nombre d'abonnés
      */
-    long countByThemeId(Long themeId);
+    @Query("SELECT COUNT(s) FROM Subscription s WHERE s.id.themeId = :themeId")
+    long countByThemeId(@Param("themeId") Long themeId);
     
     /**
      * Récupère tous les abonnements d'un utilisateur (simple)
      */
-    List<Subscription> findByUserId(Long userId);
+    @Query("SELECT s FROM Subscription s WHERE s.id.userId = :userId")
+    List<Subscription> findByUserId(@Param("userId") Long userId);
     
     /**
      * Récupère tous les abonnements d'un thème (simple)
      */
-    List<Subscription> findByThemeId(Long themeId);
+    @Query("SELECT s FROM Subscription s WHERE s.id.themeId = :themeId")
+    List<Subscription> findByThemeId(@Param("themeId") Long themeId);
     
     /**
      * Compte le nombre d'abonnements d'un utilisateur
      * @param userId L'ID de l'utilisateur
      * @return Nombre d'abonnements
      */
-    long countByUserId(Long userId);
+    @Query("SELECT COUNT(s) FROM Subscription s WHERE s.id.userId = :userId")
+    long countByUserId(@Param("userId") Long userId);
 }

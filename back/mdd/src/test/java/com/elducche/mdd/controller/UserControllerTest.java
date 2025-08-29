@@ -49,11 +49,11 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/users/me - Récupération du profil utilisateur connecté")
+    @DisplayName("GET /api/user/me - Récupération du profil utilisateur connecté")
     @WithMockUser
     void testGetCurrentUser_Success() throws Exception {
         // When & Then
-        mockMvc.perform(get("/api/users/me")
+        mockMvc.perform(get("/api/user/me")
                 .with(SecurityTestUtils.authenticatedUser(testUser)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -64,19 +64,19 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/users/me - Échec sans authentification")
+    @DisplayName("GET /api/user/me - Échec sans authentification")
     void testGetCurrentUser_Unauthorized() throws Exception {
         // When & Then
-        mockMvc.perform(get("/api/users/me"))
+        mockMvc.perform(get("/api/user/me"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @DisplayName("PUT /api/users/me - Mise à jour du profil réussie")
+    @DisplayName("PUT /api/user/me - Mise à jour du profil réussie")
     @WithMockUser
     void testUpdateCurrentUser_Success() throws Exception {
         // When & Then
-        mockMvc.perform(put("/api/users/me")
+        mockMvc.perform(put("/api/user/me")
                 .with(SecurityTestUtils.authenticatedUser(testUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validUpdateRequest)))
@@ -87,7 +87,7 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/users/me - Échec avec email déjà utilisé")
+    @DisplayName("PUT /api/user/me - Échec avec email déjà utilisé")
     @WithMockUser
     void testUpdateCurrentUser_EmailAlreadyExists() throws Exception {
         // Given - Créer un autre utilisateur avec l'email qu'on veut utiliser
@@ -101,16 +101,16 @@ class UserControllerTest extends BaseIntegrationTest {
         validUpdateRequest.setEmail("existing@example.com");
 
         // When & Then
-        mockMvc.perform(put("/api/users/me")
+        mockMvc.perform(put("/api/user/me")
                 .with(SecurityTestUtils.authenticatedUser(testUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validUpdateRequest)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(containsString("email")));
+                .andExpect(content().string(containsString("Email déjà utilisé")));
     }
 
     @Test
-    @DisplayName("PUT /api/users/me - Échec avec username déjà utilisé")
+    @DisplayName("PUT /api/user/me - Échec avec username déjà utilisé")
     @WithMockUser
     void testUpdateCurrentUser_UsernameAlreadyExists() throws Exception {
         // Given - Créer un autre utilisateur avec le username qu'on veut utiliser
@@ -124,7 +124,7 @@ class UserControllerTest extends BaseIntegrationTest {
         validUpdateRequest.setUsername("existinguser");
 
         // When & Then
-        mockMvc.perform(put("/api/users/me")
+        mockMvc.perform(put("/api/user/me")
                 .with(SecurityTestUtils.authenticatedUser(testUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validUpdateRequest)))
@@ -133,7 +133,7 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/users/me - Échec avec données invalides")
+    @DisplayName("PUT /api/user/me - Échec avec données invalides")
     @WithMockUser
     void testUpdateCurrentUser_InvalidData() throws Exception {
         // Given - Données invalides
@@ -142,7 +142,7 @@ class UserControllerTest extends BaseIntegrationTest {
         invalidRequest.setUsername(""); // Vide
 
         // When & Then
-        mockMvc.perform(put("/api/users/me")
+        mockMvc.perform(put("/api/user/me")
                 .with(SecurityTestUtils.authenticatedUser(testUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(invalidRequest)))
@@ -150,20 +150,20 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/users/me - Échec sans authentification")
+    @DisplayName("PUT /api/user/me - Échec sans authentification")
     void testUpdateCurrentUser_Unauthorized() throws Exception {
         // When & Then
-        mockMvc.perform(put("/api/users/me")
+        mockMvc.perform(put("/api/user/me")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validUpdateRequest)))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @DisplayName("GET /api/users/{id} - Récupération d'un utilisateur par ID")
+    @DisplayName("GET /api/user/{id} - Récupération d'un utilisateur par ID")
     void testGetUserById_Success() throws Exception {
         // When & Then
-        mockMvc.perform(get("/api/users/{id}", testUser.getId())
+        mockMvc.perform(get("/api/user/{id}", testUser.getId())
                 .with(SecurityTestUtils.authenticatedUser(testUser)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -174,19 +174,19 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/users/{id} - Échec avec ID inexistant")
+    @DisplayName("GET /api/user/{id} - Échec avec ID inexistant")
     void testGetUserById_NotFound() throws Exception {
         // When & Then
-        mockMvc.perform(get("/api/users/{id}", 99999L)
+        mockMvc.perform(get("/api/user/{id}", 99999L)
                 .with(SecurityTestUtils.authenticatedUser(testUser)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("GET /api/users/{id} - Échec sans authentification")
+    @DisplayName("GET /api/user/{id} - Échec sans authentification")
     void testGetUserById_Unauthorized() throws Exception {
         // When & Then
-        mockMvc.perform(get("/api/users/{id}", testUser.getId()))
+        mockMvc.perform(get("/api/user/{id}", testUser.getId()))
                 .andExpect(status().isUnauthorized());
     }
 }

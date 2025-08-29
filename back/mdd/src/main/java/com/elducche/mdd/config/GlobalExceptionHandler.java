@@ -1,5 +1,6 @@
 package com.elducche.mdd.config;
 
+import com.elducche.mdd.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +79,33 @@ public class GlobalExceptionHandler {
         String requiredType = requiredTypeClass != null ? requiredTypeClass.getSimpleName() : "inconnu";
         return ResponseEntity.badRequest()
                 .body("Paramètre invalide: " + ex.getName() + " doit être de type " + requiredType);
+    }
+
+    /**
+     * Gestion des ressources non trouvées
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        log.warn("Ressource non trouvée: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    /**
+     * Gestion des erreurs métier (validation logique)
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.warn("Erreur de logique métier: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    /**
+     * Gestion des erreurs d'état métier (abonnement déjà existant, etc.)
+     */
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
+        log.warn("Erreur d'état métier: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     /**

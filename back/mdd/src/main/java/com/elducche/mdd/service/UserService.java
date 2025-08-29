@@ -1,7 +1,9 @@
 package com.elducche.mdd.service;
 
 import com.elducche.mdd.dto.UpdateUserProfileRequest;
+import com.elducche.mdd.dto.UserResponse;
 import com.elducche.mdd.entity.User;
+import com.elducche.mdd.exception.ResourceNotFoundException;
 import com.elducche.mdd.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,68 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     
     /**
+     * Récupère le profil utilisateur par email
+     */
+    public UserResponse getUserProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+        
+        return new UserResponse(user.getId(), user.getEmail(), user.getUsername(), 
+                              user.getCreatedAt(), user.getUpdatedAt());
+    }
+
+    /**
+     * Récupère un utilisateur par son ID et retourne un UserResponse
+     */
+    public UserResponse getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
+        
+        return new UserResponse(user.getId(), user.getEmail(), user.getUsername(),
+                              user.getCreatedAt(), user.getUpdatedAt());
+    }
+
+    /**
+     * Met à jour le profil utilisateur par email
+     */
+    public UserResponse updateUserProfile(String email, UpdateUserProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+        
+        // Mise à jour du nom d'utilisateur
+        if (request.getUsername() != null && !request.getUsername().trim().isEmpty() &&
+            !request.getUsername().equals(user.getUsername())) {
+            
+            if (userRepository.existsByUsername(request.getUsername())) {
+                log.warn("Tentative de mise à jour avec username existant: {}", request.getUsername());
+                throw new IllegalArgumentException("Ce nom d'utilisateur est déjà pris");
+            }
+            user.setUsername(request.getUsername());
+        }
+        
+        // Mise à jour de l'email
+        if (request.getEmail() != null && !request.getEmail().trim().isEmpty() &&
+            !request.getEmail().equals(user.getEmail())) {
+            
+            if (userRepository.existsByEmail(request.getEmail())) {
+                log.warn("Tentative de mise à jour avec email existant: {}", request.getEmail());
+                throw new IllegalArgumentException("Email déjà utilisé");
+            }
+            user.setEmail(request.getEmail());
+        }
+        
+        // Mise à jour du mot de passe
+        if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        
+        User savedUser = userRepository.save(user);
+        log.info("Profil mis à jour pour l'utilisateur email: {}", email);
+        return new UserResponse(savedUser.getId(), savedUser.getEmail(), savedUser.getUsername(),
+                              savedUser.getCreatedAt(), savedUser.getUpdatedAt());
+    }
+
+    /**
      * Trouve un utilisateur par son ID
      */
     public Optional<User> findById(Long id) {
@@ -42,7 +106,7 @@ public class UserService {
     /**
      * Alias pour findById (compatibilité avec les contrôleurs)
      */
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> findUserById(Long id) {
         return findById(id);
     }
     
