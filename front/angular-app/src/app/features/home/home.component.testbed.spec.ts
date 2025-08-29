@@ -10,7 +10,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 // Mock Components
 @Component({
   selector: 'app-article-card',
-  template: '<div>Article Card Mock</div>'
+  template: '<div>Article Card Mock</div>',
+  standalone: true
 })
 class MockArticleCardComponent {
   @Input() post: any;
@@ -18,7 +19,8 @@ class MockArticleCardComponent {
 
 @Component({
   selector: 'app-create-article-modal',
-  template: '<div>Create Article Modal Mock</div>'
+  template: '<div>Create Article Modal Mock</div>',
+  standalone: true
 })
 class MockCreateArticleModalComponent {
   @Output() articleCreated = new EventEmitter<any>();
@@ -74,12 +76,12 @@ describe('HomeComponent (TestBed)', () => {
 
   beforeEach(async () => {
     const themeServiceMock = {
-      getAllThemes: jest.fn(),
+      getAllThemes: jest.fn().mockReturnValue(of(mockThemes)),
     };
 
     const postServiceMock = {
-      getAllPosts: jest.fn(),
-      getPostsFromSubscribedThemes: jest.fn(),
+      getAllPosts: jest.fn().mockReturnValue(of(mockPosts)),
+      getPostsFromSubscribedThemes: jest.fn().mockReturnValue(of(mockPosts)),
     };
 
     await TestBed.configureTestingModule({
@@ -128,8 +130,11 @@ describe('HomeComponent (TestBed)', () => {
       expect(postService.getPostsFromSubscribedThemes).toHaveBeenCalled();
       expect(postService.getAllPosts).toHaveBeenCalled();
       expect(component.themes()).toEqual(mockThemes);
-      expect(component.myFeedPosts()).toEqual(mockPosts);
-      expect(component.allPosts()).toEqual(mockPosts);
+      // Posts are sorted by creation date (desc), so check content rather than exact order
+      expect(component.myFeedPosts()).toEqual(expect.arrayContaining(mockPosts));
+      expect(component.allPosts()).toEqual(expect.arrayContaining(mockPosts));
+      expect(component.myFeedPosts().length).toBe(2);
+      expect(component.allPosts().length).toBe(2);
     });
 
     it('should handle themes loading error', () => {
@@ -152,13 +157,19 @@ describe('HomeComponent (TestBed)', () => {
   describe('Modal Management', () => {
     it('should open create article modal', () => {
       // Arrange
-      const modalSpy = jest.spyOn(component.createArticleModal, 'openModal');
+      fixture.detectChanges(); // Ensure ViewChild is initialized
+      
+      // Mock the createArticleModal by directly setting it
+      const mockModal = {
+        openModal: jest.fn()
+      } as any;
+      component.createArticleModal = mockModal;
 
       // Act
       component.openCreateArticleModal();
 
       // Assert
-      expect(modalSpy).toHaveBeenCalled();
+      expect(mockModal.openModal).toHaveBeenCalled();
     });
 
     it('should handle article creation and reload posts', () => {
