@@ -7,6 +7,59 @@ Transformation complète du projet P6-MDD d'une architecture microservices vers 
 
 ## 📋 Étapes Complétées
 
+## ÉTAPE 3 : Tests des Composants Frontend - Priority 1 (EN COURS) ✅
+
+**Date**: 15 janvier 2025
+**Objectif**: Tests complets des composants prioritaires Angular avec couverture maximale
+
+### Composants Priority 1 Core - Tests Terminés ✅ (85 tests)
+
+#### AlertComponent (27 tests) ✅
+- **Fonctionnalités testées**:
+  - Initialisation et injection des services
+  - Affichage dynamique des alertes (success, error, info, warning)
+  - Gestion des classes CSS dynamiques avec computed signals
+  - Fonctionnalité de fermeture manuelle
+  - Auto-fermeture après 5 secondes avec timers Jest
+  - Structure du template et contrôle de flux moderne (@if)
+  - Gestion des cas limites et performance
+- **Techniques utilisées**: Jest fake timers, Angular Signals testing, computed properties validation
+- **Points notables**: Correction des timers avec Jest au lieu de fakeAsync, gestion robuste des effets Angular
+
+#### ArticleCardComponent (31 tests) ✅
+- **Fonctionnalités testées**:
+  - Initialisation avec inputs requis et optionnels
+  - Validation des propriétés OnPush et performance
+  - Troncature intelligente du contenu (150 caractères + "...")
+  - Navigation vers les détails d'article
+  - Gestion des DatePipe et formatage des dates
+  - Rendu du template avec données dynamiques
+  - Cas limites (IDs négatifs, contenu vide, caractères spéciaux)
+  - Tests de performance avec gros volumes de données
+- **Techniques utilisées**: Router mocking, input signal testing, template validation avec DebugElement
+- **Points notables**: Tests complets des inputs/outputs Angular modernes, validation des interactions utilisateur
+
+#### CreateArticleModalComponent (27 tests) ✅
+- **Fonctionnalités testées**:
+  - Initialisation avec services injectés (ThemeService, PostService)
+  - Validation complète des formulaires réactifs (title, content, themeId)
+  - Gestion modale (ouverture, fermeture, reset)
+  - Création d'articles avec gestion d'erreurs
+  - Chargement des thèmes avec états de loading
+  - Émission d'événements (output events)
+  - Gestion des cas limites et validation des données
+  - Tests de performance et soumissions multiples
+- **Techniques utilisées**: Mock services, FormBuilder testing, Observable error handling, DOM manipulation testing
+- **Points notables**: Mock services simplifiés pour éviter les dépendances complexes, tests complets des formulaires réactifs
+
+### Résultats ÉTAPE 3 - Priority 1
+- **Tests composants**: 85/85 ✅ (100% de réussite)
+- **Couverture fonctionnelle**: Complète sur tous les composants prioritaires
+- **Patterns Angular 20**: Signals, standalone components, computed properties, effects, reactive forms
+- **Techniques de test**: Jest, mocking avancé, async testing, performance testing
+
+---
+
 ### ✅ Étape 1 : Structure du Projet Monolithique
 **Date :** 10 août 2025  
 **Objectif :** Création de la structure Maven pour l'application monolithique `mdd`
@@ -216,25 +269,123 @@ Transformation complète du projet P6-MDD d'une architecture microservices vers 
 
 ---
 
+## ✅ Étape 9 : Tests Frontend - Services et Core (29 août 2025)
+**Objectif :** Mise en place d'une stratégie complète de tests pour le frontend Angular 20
+
+### Phase 1 : Migration Jest ✅ TERMINÉE
+**Infrastructure de test modernisée :**
+- ✅ **Migration Karma → Jest** : Configuration complète Jest avec Angular 20
+- ✅ **Configuration package.json** : Scripts de test (test, test:watch, test:coverage, test:ci)
+- ✅ **Jest setup** : Support TypeScript, modules ES6, environnement jsdom
+- ✅ **Nettoyage** : Suppression des fichiers Karma/Jasmine obsolètes
+
+### Phase 2 : Tests des Services d'Authentification (Priority 1) ✅ TERMINÉE
+**Services critiques testés (25 tests) :**
+- ✅ **AuthService** : 19 tests
+  - Gestion JWT avec localStorage mocking
+  - Login/register avec HttpClientTestingModule
+  - Décodage JWT avec atob() et gestion d'erreurs
+  - Extraction utilisateur depuis token
+  - Gestion des cas limites (tokens malformés)
+- ✅ **AuthInterceptor** : 6 tests
+  - Intercepteur moderne HttpInterceptorFn (Angular 18+)
+  - Injection automatique du token JWT
+  - Gestion erreurs 401 avec logout automatique
+  - Intégration AlertService pour notifications
+  - Tests avec runInInjectionContext pour l'injection moderne
+
+### Phase 3 : Tests des Services Business (Priority 2) ✅ TERMINÉE
+**Services métier testés (114 tests) :**
+- ✅ **UserService** : 17 tests
+  - CRUD utilisateur complet (/api/users/me)
+  - Validation des données et gestion d'erreurs
+  - Tests de mise à jour partielle (username/email)
+  - Gestion des conflits et autorisations
+- ✅ **PostService** : 24 tests
+  - Récupération posts (tous, par thème, par ID, abonnés)
+  - Création de posts avec validation
+  - Gestion des thèmes et auteurs
+  - Tests de contenu long et caractères spéciaux
+- ✅ **ThemeService** : 19 tests
+  - Liste complète des thèmes
+  - Récupération par ID avec gestion d'erreurs
+  - Tests de performance (100+ thèmes)
+  - Gestion des descriptions longues
+- ✅ **SubscriptionService** : 31 tests
+  - Abonnement/désabonnement à des thèmes
+  - Vérification statut abonnement (isSubscribed)
+  - Recherche d'abonnements (findSubscriptionByThemeId)
+  - Gestion de la logique métier complexe
+- ✅ **CommentService** : 23 tests
+  - CRUD commentaires complet
+  - Récupération par post avec pagination
+  - Validation contenu et autorisations
+  - Workflow complet (create → get → delete)
+
+### Phase 4 : Tests des Services Utilitaires (Priority 3) ✅ TERMINÉE
+**Services utilitaires testés (70 tests) :**
+- ✅ **ConfigService** : 43 tests
+  - Configuration des endpoints API centralisée
+  - Gestion des environnements (dev/prod)
+  - Validation de tous les endpoints (auth, users, posts, themes, subscriptions, comments)
+  - Tests de cohérence et d'intégration
+  - Gestion des URLs avec/sans trailing slashes
+- ✅ **AlertService** : 27 tests
+  - Gestion des alertes avec Angular Signals
+  - Types d'alertes (success, error, info, warning)
+  - Tests de performance et mémoire
+  - Gestion des messages longs et caractères spéciaux
+  - Réactivité des signals
+
+### Résultats Techniques
+**✅ ÉTAPE 2 COMPLÈTE : 209/209 tests réussis (100%)**
+
+**Stratégies de test établies :**
+- **HttpClientTestingModule** : Mocking complet des appels API
+- **Jest mocking patterns** : localStorage, services, injection context
+- **Angular Testing utilities** : TestBed, injection, signals
+- **RxJS testing** : Observables, error handling, async patterns
+- **Modern Angular patterns** : Standalone components, inject(), signals
+
+**Problèmes résolus :**
+- **localStorage mocking** : Configuration Jest pour retourner null au lieu d'undefined
+- **Angular injection context** : runInInjectionContext pour intercepteurs modernes
+- **TypeScript compilation** : Résolution des conflits de types jasmine/jest
+- **HTTP error scenarios** : Tests exhaustifs des codes d'erreur (400, 401, 403, 404, 500)
+
+**Architecture testée :**
+- **Services d'authentification** : JWT, localStorage, intercepteurs HTTP
+- **Services métier** : CRUD complet pour tous les domaines (users, posts, themes, subscriptions, comments)
+- **Services utilitaires** : Configuration centralisée, système d'alertes
+- **Intégration** : Communication entre services, gestion d'erreurs globale
+
+**Total des tests :** 414 tests implémentés
+- **Backend :** 205 tests (services+contrôleurs ✅, entités ✅, intégration 🔄, base ✅)
+- **Frontend :** 209 tests (services+core ✅)
+
+---
+
 ## 🎯 Prochaines Étapes
 
-### Étape 7 : Configuration Spring Security
-- Configuration SecurityFilterChain
-- Gestion des endpoints publics/privés
-- Intégration JwtAuthenticationFilter
-- Gestion CORS pour le frontend
+## 🎯 Prochaines Étapes
 
-### Étape 8 : Tests et Validation
-- Tests unitaires des services
-- Tests d'intégration des contrôleurs
-- Validation avec Postman
-- Tests de sécurité
+### Étape 10 : Tests Frontend - Composants (Angular 20)
+- Tests des composants d'authentification (login, register)
+- Tests des composants métier (articles, profil, themes)
+- Tests d'intégration des composants avec services
+- Tests des guards et routing
 
-### Étape 9 : Docker et Déploiement
-- Configuration docker-compose monolithique
-- Variables d'environnement
-- Script de démarrage
-- Documentation déploiement
+### Étape 11 : Tests Frontend - Intégration E2E
+- Tests bout-en-bout avec le backend
+- Validation des flux utilisateur complets
+- Tests de performance frontend
+- Validation cross-browser
+
+### Étape 12 : Docker et Déploiement Final
+- Configuration docker-compose monolithique optimisée
+- Variables d'environnement production
+- Scripts de démarrage automatisés
+- Documentation déploiement complète
 
 ---
 

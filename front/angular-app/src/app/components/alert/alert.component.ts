@@ -30,10 +30,22 @@ export class AlertComponent {
     }
   });
 
+  private autoCloseTimer: number | null = null;
+
   constructor() {
     effect(() => {
+      // Clear existing timer
+      if (this.autoCloseTimer) {
+        clearTimeout(this.autoCloseTimer);
+        this.autoCloseTimer = null;
+      }
+
+      // Set new timer if alert exists
       if (this.alert()) {
-        const timer = setTimeout(() => this.closeAlert(), 5000);
+        this.autoCloseTimer = window.setTimeout(() => {
+          this.closeAlert();
+          this.autoCloseTimer = null;
+        }, 5000);
       }
     });
   }
