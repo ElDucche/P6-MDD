@@ -80,7 +80,7 @@ class ThemeControllerTest extends BaseIntegrationTest {
     void testGetAllThemes_Unauthorized() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/themes"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -113,7 +113,7 @@ class ThemeControllerTest extends BaseIntegrationTest {
     void testGetThemeById_Unauthorized() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/themes/{id}", testTheme1.getId()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -168,8 +168,8 @@ class ThemeControllerTest extends BaseIntegrationTest {
     @DisplayName("Endpoints nécessitent une authentification")
     void testEndpoints_RequireAuthentication() throws Exception {
         // Test des endpoints qui nécessitent une authentification
-        mockMvc.perform(get("/api/themes")).andExpect(status().isForbidden());
-        mockMvc.perform(get("/api/themes/1")).andExpect(status().isForbidden());
+        mockMvc.perform(get("/api/themes")).andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/themes/1")).andExpect(status().isUnauthorized());
     }
 
     @Test

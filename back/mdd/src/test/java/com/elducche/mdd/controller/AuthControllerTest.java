@@ -60,7 +60,7 @@ class AuthControllerTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validRegisterRequest)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.token", notNullValue()))
                 .andExpect(jsonPath("$.message", containsString("réussie")));

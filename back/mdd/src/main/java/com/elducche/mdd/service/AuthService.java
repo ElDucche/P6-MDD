@@ -3,6 +3,7 @@ package com.elducche.mdd.service;
 import com.elducche.mdd.dto.LoginRequest;
 import com.elducche.mdd.dto.LoginResponse;
 import com.elducche.mdd.dto.RegisterRequest;
+import com.elducche.mdd.dto.UserResponse;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.UserRepository;
 import com.elducche.mdd.security.JwtUtil;
@@ -64,7 +65,15 @@ public class AuthService {
             String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getUsername());
             log.info("Connexion réussie pour l'utilisateur: {}", user.getEmail());
             
-            return LoginResponse.success(token);
+            // Création de la réponse utilisateur (sans le mot de passe)
+            UserResponse userResponse = new UserResponse();
+            userResponse.setId(user.getId());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setCreatedAt(user.getCreatedAt());
+            userResponse.setUpdatedAt(user.getUpdatedAt());
+            
+            return LoginResponse.success(token, userResponse);
             
         } catch (Exception e) {
             log.error("Erreur lors de la connexion pour {}: {}", loginRequest.getEmail(), e.getMessage());
@@ -100,7 +109,15 @@ public class AuthService {
             // Génération du token JWT pour connexion automatique
             String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getId(), savedUser.getUsername());
             
-            return LoginResponse.success(token);
+            // Création de la réponse utilisateur (sans le mot de passe)
+            UserResponse userResponse = new UserResponse();
+            userResponse.setId(savedUser.getId());
+            userResponse.setEmail(savedUser.getEmail());
+            userResponse.setUsername(savedUser.getUsername());
+            userResponse.setCreatedAt(savedUser.getCreatedAt());
+            userResponse.setUpdatedAt(savedUser.getUpdatedAt());
+            
+            return LoginResponse.registered(token, userResponse);
             
         } catch (Exception e) {
             log.error("Erreur lors de l'inscription pour {}: {}", registerRequest.getEmail(), e.getMessage());

@@ -68,7 +68,7 @@ class UserControllerTest extends BaseIntegrationTest {
     void testGetCurrentUser_Unauthorized() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/users/me"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -156,7 +156,7 @@ class UserControllerTest extends BaseIntegrationTest {
         mockMvc.perform(put("/api/users/me")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(validUpdateRequest)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -187,6 +187,6 @@ class UserControllerTest extends BaseIntegrationTest {
     void testGetUserById_Unauthorized() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/users/{id}", testUser.getId()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 }

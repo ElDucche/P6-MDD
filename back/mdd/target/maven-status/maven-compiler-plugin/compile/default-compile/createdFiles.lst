@@ -1,4 +1,5 @@
 com/elducche/mdd/dto/SubscriptionDTO$ThemeDTO.class
+com/elducche/mdd/config/GlobalExceptionHandler.class
 com/elducche/mdd/service/CommentService.class
 com/elducche/mdd/entity/Comment.class
 com/elducche/mdd/service/ThemeService.class
@@ -9,7 +10,6 @@ com/elducche/mdd/security/SecurityUtil.class
 com/elducche/mdd/controller/ThemeController.class
 com/elducche/mdd/dto/LoginRequest.class
 com/elducche/mdd/MddApplication.class
-com/elducche/mdd/exception/GlobalExceptionHandler.class
 com/elducche/mdd/dto/PostDTO.class
 com/elducche/mdd/dto/UpdateUserProfileRequest.class
 com/elducche/mdd/mapper/EntityMapper.class
@@ -38,7 +38,6 @@ com/elducche/mdd/dto/PostDTO$AuthorDTO.class
 com/elducche/mdd/dto/SubscriptionDTO$UserDTO.class
 com/elducche/mdd/dto/CommentCreateRequest.class
 com/elducche/mdd/security/JwtAuthenticationFilter.class
-com/elducche/mdd/exception/GlobalExceptionHandler$ErrorResponse.class
 com/elducche/mdd/controller/UserController.class
 com/elducche/mdd/service/UserService.class
 com/elducche/mdd/repository/UserRepository.class

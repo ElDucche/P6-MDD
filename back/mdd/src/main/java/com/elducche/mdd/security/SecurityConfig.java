@@ -55,6 +55,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
+                // Endpoints de santé publics (pour monitoring)
+                .requestMatchers(HttpMethod.GET, "/api/health", "/api/info").permitAll()
+                
                 // Tous les autres endpoints nécessitent une authentification JWT
                 .anyRequest().authenticated()
             )

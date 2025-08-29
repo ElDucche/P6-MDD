@@ -206,9 +206,9 @@ class SubscriptionControllerTest extends BaseIntegrationTest {
     @DisplayName("Endpoints nécessitent une authentification")
     void testEndpoints_RequireAuthentication() throws Exception {
         // Test des endpoints qui nécessitent une authentification
-        mockMvc.perform(get("/api/subscriptions")).andExpect(status().isForbidden());
-        mockMvc.perform(post("/api/subscriptions")).andExpect(status().isForbidden());
-        mockMvc.perform(delete("/api/subscriptions/1")).andExpect(status().isForbidden());
+        mockMvc.perform(get("/api/subscriptions")).andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/subscriptions")).andExpect(status().isUnauthorized());
+        mockMvc.perform(delete("/api/subscriptions/1")).andExpect(status().isUnauthorized());
     }
 
     @Test

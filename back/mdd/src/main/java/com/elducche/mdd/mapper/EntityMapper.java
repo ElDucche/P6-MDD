@@ -2,6 +2,7 @@ package com.elducche.mdd.mapper;
 
 import com.elducche.mdd.dto.PostDTO;
 import com.elducche.mdd.dto.CommentDTO;
+import com.elducche.mdd.dto.CommentResponseDTO;
 import com.elducche.mdd.dto.SubscriptionDTO;
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.entity.Comment;
@@ -98,6 +99,41 @@ public class EntityMapper {
             authorDTO,
             postDTO
         );
+    }
+    
+    /**
+     * Convertit un Comment en CommentResponseDTO avec informations complètes
+     */
+    public CommentResponseDTO toCommentResponseDTO(Comment comment) {
+        if (comment == null) {
+            return null;
+        }
+        
+        CommentResponseDTO.UserInfo authorInfo = null;
+        if (comment.getAuthor() != null) {
+            authorInfo = CommentResponseDTO.UserInfo.builder()
+                .id(comment.getAuthor().getId())
+                .username(comment.getAuthor().getUsername())
+                .email(comment.getAuthor().getEmail())
+                .build();
+        }
+        
+        CommentResponseDTO.PostInfo postInfo = null;
+        if (comment.getPost() != null) {
+            postInfo = CommentResponseDTO.PostInfo.builder()
+                .id(comment.getPost().getId())
+                .title(comment.getPost().getTitle())
+                .build();
+        }
+        
+        return CommentResponseDTO.builder()
+            .id(comment.getId())
+            .content(comment.getContent())
+            .createdAt(comment.getCreatedAt())
+            .updatedAt(comment.getUpdatedAt())
+            .author(authorInfo)
+            .post(postInfo)
+            .build();
     }
     
     /**

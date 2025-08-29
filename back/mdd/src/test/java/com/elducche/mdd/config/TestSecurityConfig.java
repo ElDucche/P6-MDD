@@ -1,5 +1,7 @@
 package com.elducche.mdd.config;
 
+import com.elducche.mdd.security.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -9,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -20,6 +23,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @TestConfiguration
 @EnableWebSecurity
 public class TestSecurityConfig {
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
      * Configuration simplifiée pour les tests
@@ -40,9 +46,30 @@ public class TestSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/**", "OPTIONS")).permitAll()
                 
+                // Endpoints de santé publics (pour monitoring)
+                .requestMatchers(new AntPathRequestMatcher("/api/health")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/info")).permitAll()
+                
                 // Tous les autres endpoints nécessitent une authentification
                 .anyRequest().authenticated()
-            );
+            )
+            
+            // Configuration des exceptions d'authentification et d'autorisation
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(401);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Token manquant ou invalide\"}");
+                })
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.setStatus(403);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\":\"Forbidden\",\"message\":\"Accès refusé\"}");
+                })
+            )
+            
+            // Ajouter le filtre JWT avant le filtre d'authentification standard
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
             
         return http.build();
     }

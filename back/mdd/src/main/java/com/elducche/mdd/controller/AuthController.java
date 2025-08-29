@@ -34,7 +34,7 @@ public class AuthController {
             LoginResponse response = authService.register(request);
             if (response.getToken() != null) {
                 log.info("Inscription réussie pour l'email: {}", request.getEmail());
-                return ResponseEntity.ok(response);
+                return ResponseEntity.status(HttpStatus.CREATED).body(response);
             } else {
                 log.warn("Échec de l'inscription pour l'email: {}", request.getEmail());
                 return ResponseEntity.badRequest()
