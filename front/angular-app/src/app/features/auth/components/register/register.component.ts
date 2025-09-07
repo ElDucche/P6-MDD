@@ -20,17 +20,19 @@ export class RegisterComponent {
 
   constructor(private readonly fb: FormBuilder, private readonly authService: AuthService, private readonly router: Router) {
     this.form = this.fb.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]]
     });
   }
 
   onSubmit() {
-    if (this.form.valid) {
+    // Réinitialiser les messages avant traitement
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    
+    if (this.form.valid && !this.isLoading()) {
       this.isLoading.set(true);
-      this.errorMessage.set('');
-      this.successMessage.set('');
       
       this.authService.register(this.form.value).subscribe({
         next: () => {

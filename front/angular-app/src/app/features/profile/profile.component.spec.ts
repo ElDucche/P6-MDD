@@ -1,449 +1,611 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
+import { Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { of, throwError } from 'rxjs';
+
 import { ProfileComponent } from './profile.component';
-import { UserService, SubscriptionService, ThemeService } from '@shared/services';
+import { UserService } from '../../shared/services/user.service';
+import { SubscriptionService } from '../../shared/services/subscription.service';
+import { ThemeService } from '../../shared/services/theme.service';
 import { AuthService } from '../auth/auth.service';
-import { AlertService } from '@core/services/alert.service';
-import { User, Theme, Subscription } from '@shared/interfaces';
-import { of, throwError, Observable } from 'rxjs';
-import { signal, computed } from '@angular/core';
-
-// Classe de test pour ProfileComponent qui simule la logique métier
-class TestProfileComponent {
-  // Signals pour reproduire l'état du composant
-  readonly user = signal<User | undefined>(undefined);
-  readonly isEditModalOpen = signal(false);
-  readonly isLoading = signal(true);
-  readonly isLoadingSubscriptions = signal(false);
-  readonly subscribedThemes = signal<any[]>([]);
-
-  editForm: any;
-
-  readonly userInitial = computed(() => {
-    const currentUser = this.user();
-    return currentUser?.username?.charAt(0).toUpperCase() || '';
-  });
-
-  constructor() {
-    // Simuler la création du formulaire
-    this.editForm = {
-      value: { username: '', email: '', password: '' },
-      valid: true,
-      patchValue: jest.fn(),
-      reset: jest.fn(),
-      get: jest.fn().mockReturnValue({ hasError: jest.fn(() => false), value: '' })
-    };
-    
-    // Simuler l'initialisation
-    this.initializeTest();
-  }
-
-  private initializeTest(): void {
-    // Simuler les données initiales
-    this.loadUserProfileTest();
-  }
-
-  private loadUserProfileTest(): void {
-    this.isLoading.set(true);
-    
-    // Simuler un utilisateur
-    const mockUser: User = {
-      id: 1,
-      username: 'testuser',
-      email: 'test@example.com'
-    };
-
-    // Simuler le chargement réussi
-    setTimeout(() => {
-      this.user.set(mockUser);
-      this.editForm.patchValue({
-        username: mockUser.username,
-        email: mockUser.email,
-        password: ''
-      });
-      this.loadUserSubscriptionsTest();
-    }, 10);
-  }
-
-  private loadUserSubscriptionsTest(): void {
-    this.isLoadingSubscriptions.set(true);
-    
-    const mockThemes = [
-      {
-        id: 1,
-        title: 'Technology',
-        description: 'Tech articles',
-        subscribedAt: new Date('2024-01-01')
-      },
-      {
-        id: 2,
-        title: 'Science',
-        description: 'Science articles',
-        subscribedAt: new Date('2024-01-02')
-      }
-    ];
-
-    setTimeout(() => {
-      this.subscribedThemes.set(mockThemes);
-      this.isLoadingSubscriptions.set(false);
-      this.isLoading.set(false);
-    }, 10);
-  }
-
-  // Méthodes de test pour couvrir les actions utilisateur
-  testOpenEditModal(): void {
-    const currentUser = this.user();
-    if (currentUser) {
-      this.editForm.patchValue({
-        username: currentUser.username,
-        email: currentUser.email,
-        password: ''
-      });
-    }
-    this.isEditModalOpen.set(true);
-  }
-
-  testCloseEditModal(): void {
-    this.isEditModalOpen.set(false);
-    this.editForm.reset();
-  }
-
-  testUpdateProfile(): void {
-    if (this.editForm.valid) {
-      const formValue = this.editForm.value;
-      
-      const updateData: any = {
-        username: formValue.username,
-        email: formValue.email
-      };
-
-      if (formValue.password?.trim()) {
-        updateData.password = formValue.password;
-      }
-
-      // Simuler la mise à jour réussie
-      const updatedUser: User = {
-        ...this.user()!,
-        username: updateData.username,
-        email: updateData.email
-      };
-
-      this.user.set(updatedUser);
-      this.testCloseEditModal();
-    }
-  }
-
-  testUnsubscribeFromTheme(themeId: number): void {
-    const currentThemes = this.subscribedThemes();
-    const updatedThemes = currentThemes.filter((t: any) => t.id !== themeId);
-    this.subscribedThemes.set(updatedThemes);
-  }
-
-  testFormValidation(): boolean {
-    return this.editForm.valid;
-  }
-
-  testUserInitial(): string {
-    return this.userInitial();
-  }
-
-  // Méthodes pour tester les erreurs
-  testLoadUserError(): void {
-    this.isLoading.set(true);
-    setTimeout(() => {
-      this.user.set(undefined);
-      this.isLoading.set(false);
-    }, 10);
-  }
-
-  testLoadSubscriptionsError(): void {
-    // Set some initial themes first
-    this.subscribedThemes.set([
-      { id: 1, title: 'Theme 1', description: 'Test theme' },
-      { id: 2, title: 'Theme 2', description: 'Another theme' }
-    ]);
-    this.isLoadingSubscriptions.set(true);
-    setTimeout(() => {
-      this.subscribedThemes.set([]);
-      this.isLoadingSubscriptions.set(false);
-    }, 50);
-  }
-
-  testUpdateProfileError(): void {
-    // Simuler une erreur de mise à jour
-    console.error('Erreur lors de la mise à jour');
-  }
-
-  testUnsubscribeError(themeId: number): void {
-    // Simuler une erreur de désabonnement
-    console.error('Erreur lors du désabonnement');
-  }
-
-  // Getters pour accéder aux propriétés
-  getUser() { return this.user(); }
-  getIsEditModalOpen() { return this.isEditModalOpen(); }
-  getIsLoading() { return this.isLoading(); }
-  getIsLoadingSubscriptions() { return this.isLoadingSubscriptions(); }
-  getSubscribedThemes() { return this.subscribedThemes(); }
-}
+import { AlertService } from '../../core/services/alert.service';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
+  let mockUserService: any;
+  let mockSubscriptionService: any;
+  let mockThemeService: any;
+  let mockAuthService: any;
+  let mockAlertService: any;
+  let mockRouter: any;
+  let mockFormBuilder: FormBuilder;
 
   beforeEach(async () => {
+    // Mock services for unit tests
+    mockUserService = {
+      getUser: jest.fn(),
+      updateUser: jest.fn()
+    };
+
+    mockSubscriptionService = {
+      getUserSubscriptions: jest.fn(),
+      unsubscribe: jest.fn()
+    };
+
+    mockThemeService = {
+      getTheme: jest.fn()
+    };
+
+    mockAuthService = {
+      logout: jest.fn()
+    };
+
+    mockAlertService = {
+      showAlert: jest.fn()
+    };
+
+    mockRouter = {
+      navigate: jest.fn()
+    };
+
+    mockFormBuilder = new FormBuilder();
+
     await TestBed.configureTestingModule({
       imports: [ProfileComponent],
       providers: [
         provideHttpClient(),
-        provideRouter([])
+        provideRouter([]),
+        { provide: UserService, useValue: mockUserService },
+        { provide: SubscriptionService, useValue: mockSubscriptionService },
+        { provide: ThemeService, useValue: mockThemeService },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: AlertService, useValue: mockAlertService },
+        { provide: Router, useValue: mockRouter },
+        { provide: FormBuilder, useValue: mockFormBuilder }
       ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
+    
+    // Setup default mocks
+    mockUserService.getUser.mockReturnValue(of({
+      id: 1,
+      username: 'testuser',
+      email: 'test@example.com'
+    }));
+
+    mockSubscriptionService.getUserSubscriptions.mockReturnValue(of([
+      {
+        id: { userId: 1, themeId: 1 },
+        user: { id: 1, username: 'testuser', email: 'test@example.com' },
+        theme: { id: 1, title: 'Angular', description: 'Angular development' },
+        createdAt: '2023-01-01T00:00:00Z'
+      }
+    ]));
+
+    mockUserService.updateUser.mockReturnValue(of({
+      id: 1,
+      username: 'updateduser',
+      email: 'updated@example.com'
+    }));
+
+    mockSubscriptionService.unsubscribe.mockReturnValue(of(undefined));
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('Component Creation', () => {
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should initialize with default values', () => {
+      // Since ngOnInit is called in fixture.detectChanges(), the component will load user data
+      // We need to reset the component to test initial values before ngOnInit
+      const freshComponent = new ProfileComponent(
+        mockUserService,
+        mockAuthService,
+        mockAlertService,
+        mockSubscriptionService,
+        mockThemeService,
+        mockRouter,
+        mockFormBuilder
+      );
+      
+      expect(freshComponent['user']()).toBeUndefined();
+      expect(freshComponent['isLoading']()).toBe(true);
+      expect(freshComponent['isLoadingSubscriptions']()).toBe(false);
+      expect(freshComponent['subscribedThemes']()).toEqual([]);
+    });
+
+    it('should initialize form correctly', () => {
+      expect(component['editForm']).toBeDefined();
+      expect(component['editForm'].get('username')).toBeTruthy();
+      expect(component['editForm'].get('email')).toBeTruthy();
+      expect(component['editForm'].get('password')).toBeTruthy();
+    });
   });
 
-  // Tests avec la classe de test personnalisée
-  describe('ProfileComponent Business Logic Tests', () => {
-    let testComponent: TestProfileComponent;
-
-    beforeEach(() => {
-      testComponent = new TestProfileComponent();
+  describe('User Initial Computed Property', () => {
+    it('should compute userInitial correctly with user', () => {
+      component['user'].set({ id: 1, username: 'testuser', email: 'test@example.com' });
+      expect(component['userInitial']()).toBe('T');
     });
 
-    it('should initialize with loading state', () => {
-      expect(testComponent.getIsLoading()).toBe(true);
+    it('should compute userInitial as empty when no user', () => {
+      component['user'].set(undefined);
+      expect(component['userInitial']()).toBe('');
     });
 
-    it('should load user profile and subscriptions', (done) => {
-      setTimeout(() => {
-        expect(testComponent.getUser()).toBeDefined();
-        expect(testComponent.getUser()?.username).toBe('testuser');
-        expect(testComponent.getUser()?.email).toBe('test@example.com');
-        expect(testComponent.getIsLoading()).toBe(false);
-        done();
-      }, 900); // Attendre plus longtemps que le délai artificiel de 800ms
+    it('should compute userInitial as empty when username is empty', () => {
+      component['user'].set({ id: 1, username: '', email: 'test@example.com' });
+      expect(component['userInitial']()).toBe('');
     });
 
-    it('should load user subscriptions', (done) => {
-      setTimeout(() => {
-        expect(testComponent.getSubscribedThemes().length).toBe(2);
-        expect(testComponent.getSubscribedThemes()[0].title).toBe('Technology');
-        expect(testComponent.getIsLoadingSubscriptions()).toBe(false);
-        done();
-      }, 50);
+    it('should compute userInitial as empty when username is null', () => {
+      component['user'].set({ id: 1, username: null as any, email: 'test@example.com' });
+      expect(component['userInitial']()).toBe('');
     });
 
-    it('should calculate user initial correctly', (done) => {
-      setTimeout(() => {
-        expect(testComponent.testUserInitial()).toBe('T');
-        done();
-      }, 50);
+    it('should handle user with undefined username in userInitial', () => {
+      component['user'].set({ id: 1, username: undefined as any, email: 'test@example.com' });
+      expect(component['userInitial']()).toBe('');
     });
 
-    it('should open edit modal', () => {
-      testComponent.testOpenEditModal();
-      expect(testComponent.getIsEditModalOpen()).toBe(true);
-    });
-
-    it('should close edit modal and reset form', () => {
-      testComponent.testOpenEditModal();
-      testComponent.testCloseEditModal();
-      expect(testComponent.getIsEditModalOpen()).toBe(false);
-      expect(testComponent.editForm.reset).toHaveBeenCalled();
-    });
-
-    it('should update profile when form is valid', (done) => {
-      setTimeout(() => {
-        testComponent.editForm.value = {
-          username: 'newusername',
-          email: 'newemail@example.com',
-          password: ''
-        };
-        
-        testComponent.testUpdateProfile();
-        
-        expect(testComponent.getUser()?.username).toBe('newusername');
-        expect(testComponent.getUser()?.email).toBe('newemail@example.com');
-        expect(testComponent.getIsEditModalOpen()).toBe(false);
-        done();
-      }, 50);
-    });
-
-    it('should unsubscribe from theme', (done) => {
-      setTimeout(() => {
-        const initialCount = testComponent.getSubscribedThemes().length;
-        testComponent.testUnsubscribeFromTheme(1);
-        expect(testComponent.getSubscribedThemes().length).toBe(initialCount - 1);
-        expect(testComponent.getSubscribedThemes().find((t: any) => t.id === 1)).toBeUndefined();
-        done();
-      }, 50);
-    });
-
-    it('should handle form validation', () => {
-      expect(testComponent.testFormValidation()).toBe(true);
-    });
-
-    it('should handle user loading error', (done) => {
-      testComponent.testLoadUserError();
-      expect(testComponent.getIsLoading()).toBe(true);
-      
-      setTimeout(() => {
-        expect(testComponent.getUser()).toBeUndefined();
-        expect(testComponent.getIsLoading()).toBe(false);
-        done();
-      }, 100);
-    });
-
-    it('should handle subscriptions loading error', (done) => {
-      testComponent.testLoadSubscriptionsError();
-      expect(testComponent.getIsLoadingSubscriptions()).toBe(true);
-      
-      setTimeout(() => {
-        expect(testComponent.getSubscribedThemes().length).toBe(0);
-        expect(testComponent.getIsLoadingSubscriptions()).toBe(false);
-        done();
-      }, 100);
-    });
-
-    it('should handle update profile error', () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-      testComponent.testUpdateProfileError();
-      expect(consoleSpy).toHaveBeenCalledWith('Erreur lors de la mise à jour');
-      consoleSpy.mockRestore();
-    });
-
-    it('should handle unsubscribe error', () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-      testComponent.testUnsubscribeError(1);
-      expect(consoleSpy).toHaveBeenCalledWith('Erreur lors du désabonnement');
-      consoleSpy.mockRestore();
-    });
-
-    it('should handle empty user initial when no user', () => {
-      testComponent.user.set(undefined);
-      expect(testComponent.testUserInitial()).toBe('');
-    });
-
-    it('should handle user with empty username', () => {
-      testComponent.user.set({
-        id: 1,
-        username: '',
-        email: 'test@example.com'
-      });
-      expect(testComponent.testUserInitial()).toBe('');
-    });
-
-    it('should handle form with whitespace password', () => {
-      testComponent.editForm.value = {
-        username: 'newusername',
-        email: 'newemail@example.com',
-        password: '   ' // Whitespace password
-      };
-      
-      testComponent.testUpdateProfile();
-      expect(testComponent.editForm.value.password).toBe('   ');
-    });
-
-    it('should handle unsubscribing from non-existent theme', (done) => {
-      setTimeout(() => {
-        const initialCount = testComponent.getSubscribedThemes().length;
-        testComponent.testUnsubscribeFromTheme(999); // Non-existent theme ID
-        expect(testComponent.getSubscribedThemes().length).toBe(initialCount); // No change
-        done();
-      }, 50);
-    });
-
-    it('should handle loading states correctly', () => {
-      expect(testComponent.getIsLoading()).toBe(true);
-      expect(testComponent.getIsLoadingSubscriptions()).toBe(false);
-      
-      testComponent.testLoadSubscriptionsError();
-      expect(testComponent.getIsLoadingSubscriptions()).toBe(true);
-    });
-
-    it('should maintain form state during modal operations', (done) => {
-      setTimeout(() => {
-        testComponent.testOpenEditModal();
-        expect(testComponent.editForm.patchValue).toHaveBeenCalled();
-        
-        testComponent.testCloseEditModal();
-        expect(testComponent.editForm.reset).toHaveBeenCalled();
-        done();
-      }, 50);
-    });
-
-    it('should handle invalid form validation', () => {
-      testComponent.user.set({
+    it('should compute userInitial with different username cases', () => {
+      component['user'].set({
         id: 1,
         username: 'testuser',
         email: 'test@example.com'
       });
-      
-      // Mock the form to be invalid
-      Object.defineProperty(testComponent.editForm, 'valid', {
-        get: () => false,
-        configurable: true
-      });
-      
-      testComponent.testUpdateProfile();
-      
-      // Profile should not update when form is invalid
-      expect(testComponent.getUser()?.username).toBe('testuser'); // Original value
-    });
+      expect(component['userInitial']()).toBe('T');
 
-    it('should handle computed userInitial with different username cases', () => {
-      testComponent.user.set({
-        id: 1,
-        username: 'testuser',
-        email: 'test@example.com'
-      });
-      expect(testComponent.testUserInitial()).toBe('T');
-
-      testComponent.user.set({
+      component['user'].set({
         id: 1,
         username: 'lowercase',
         email: 'test@example.com'
       });
-      expect(testComponent.testUserInitial()).toBe('L');
+      expect(component['userInitial']()).toBe('L');
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should call loadUserProfile', () => {
+      const loadUserProfileSpy = jest.spyOn(component as any, 'loadUserProfile');
+      component.ngOnInit();
+      expect(loadUserProfileSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('loadUserProfile method', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
     });
 
-    it('should handle multiple subscription operations', (done) => {
-      setTimeout(() => {
-        // Initially 2 themes
-        expect(testComponent.getSubscribedThemes().length).toBe(2);
-        
-        // Unsubscribe from first theme
-        testComponent.testUnsubscribeFromTheme(1);
-        expect(testComponent.getSubscribedThemes().length).toBe(1);
-        
-        // Unsubscribe from second theme
-        testComponent.testUnsubscribeFromTheme(2);
-        expect(testComponent.getSubscribedThemes().length).toBe(0);
-        done();
-      }, 50);
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should load user profile successfully', () => {
+      component['loadUserProfile']();
+
+      expect(component['isLoading']()).toBe(true);
+      expect(mockUserService.getUser).toHaveBeenCalled();
+
+      // Fast-forward timers to simulate async completion
+      jest.advanceTimersByTime(1000);
+
+      expect(component['user']()).toEqual({
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com'
+      });
+      expect(component['isLoading']()).toBe(false);
+    });
+
+    it('should handle user loading error', () => {
+      const error = new Error('Failed to load user');
+      mockUserService.getUser.mockReturnValue(throwError(() => error));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      component['loadUserProfile']();
+
+      expect(component['isLoading']()).toBe(false);
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Impossible de charger le profil utilisateur'
+      });
+      expect(consoleSpy).toHaveBeenCalledWith('Erreur lors du chargement du profil:', error);
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should patch form with user data', () => {
+      const patchValueSpy = jest.spyOn(component['editForm'], 'patchValue');
+      
+      component['loadUserProfile']();
+
+      expect(patchValueSpy).toHaveBeenCalledWith({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: ''
+      });
+    });
+
+    it('should handle user with missing data', () => {
+      mockUserService.getUser.mockReturnValue(of({
+        id: 1,
+        username: null,
+        email: null
+      }));
+
+      const patchValueSpy = jest.spyOn(component['editForm'], 'patchValue');
+      
+      component['loadUserProfile']();
+
+      expect(patchValueSpy).toHaveBeenCalledWith({
+        username: '',
+        email: '',
+        password: ''
+      });
+    });
+  });
+
+  describe('loadUserSubscriptions method', () => {
+    it('should load subscriptions successfully', () => {
+      component['loadUserSubscriptions']();
+
+      expect(mockSubscriptionService.getUserSubscriptions).toHaveBeenCalled();
+
+      const themes = component['subscribedThemes']();
+      expect(themes).toHaveLength(1);
+      expect(themes[0].title).toBe('Angular');
+      expect(themes[0].subscribedAt).toBeInstanceOf(Date);
+      expect(component['isLoadingSubscriptions']()).toBe(false);
+    });
+
+    it('should handle empty subscriptions', () => {
+      mockSubscriptionService.getUserSubscriptions.mockReturnValue(of([]));
+
+      component['loadUserSubscriptions']();
+
+      expect(component['subscribedThemes']()).toEqual([]);
+      expect(component['isLoadingSubscriptions']()).toBe(false);
+    });
+
+    it('should handle subscriptions loading error', () => {
+      const error = new Error('Failed to load subscriptions');
+      mockSubscriptionService.getUserSubscriptions.mockReturnValue(throwError(() => error));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      component['loadUserSubscriptions']();
+
+      expect(component['isLoadingSubscriptions']()).toBe(false);
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Erreur lors du chargement de vos abonnements'
+      });
+      expect(consoleSpy).toHaveBeenCalledWith('Erreur lors du chargement des abonnements:', error);
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should handle subscriptions without createdAt', () => {
+      mockSubscriptionService.getUserSubscriptions.mockReturnValue(of([
+        {
+          id: { userId: 1, themeId: 1 },
+          user: { id: 1, username: 'testuser', email: 'test@example.com' },
+          theme: { id: 1, title: 'Angular', description: 'Angular development' },
+          createdAt: undefined
+        }
+      ]));
+
+      component['loadUserSubscriptions']();
+
+      const themes = component['subscribedThemes']();
+      expect(themes[0].subscribedAt).toBeInstanceOf(Date);
+    });
+  });
+
+  describe('updateProfile method', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should update profile when form is valid', () => {
+      Object.defineProperty(component['editForm'], 'valid', { value: true });
+      component['editForm'].patchValue({
+        username: 'newusername',
+        email: 'newemail@example.com',
+        password: 'newpassword'
+      });
+
+      component['updateProfile']();
+
+      expect(mockUserService.updateUser).toHaveBeenCalledWith({
+        username: 'newusername',
+        email: 'newemail@example.com',
+        password: 'newpassword'
+      });
+
+      expect(component['user']()).toEqual({
+        id: 1,
+        username: 'updateduser',
+        email: 'updated@example.com'
+      });
+
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'success',
+        message: 'Profil mis à jour avec succès. Vous allez être déconnecté pour actualiser votre session.'
+      });
+
+      jest.advanceTimersByTime(2000);
+      expect(mockAuthService.logout).toHaveBeenCalled();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/login']);
+    });
+
+    it('should not include password if empty', () => {
+      Object.defineProperty(component['editForm'], 'valid', { value: true });
+      component['editForm'].patchValue({
+        username: 'newusername',
+        email: 'newemail@example.com',
+        password: ''
+      });
+
+      component['updateProfile']();
+
+      expect(mockUserService.updateUser).toHaveBeenCalledWith({
+        username: 'newusername',
+        email: 'newemail@example.com'
+      });
+    });
+
+    it('should not include password if only whitespace', () => {
+      Object.defineProperty(component['editForm'], 'valid', { value: true });
+      component['editForm'].patchValue({
+        username: 'newusername',
+        email: 'newemail@example.com',
+        password: '   '
+      });
+
+      component['updateProfile']();
+
+      expect(mockUserService.updateUser).toHaveBeenCalledWith({
+        username: 'newusername',
+        email: 'newemail@example.com'
+      });
+    });
+
+    it('should not update when form is invalid', () => {
+      Object.defineProperty(component['editForm'], 'valid', { value: false });
+
+      component['updateProfile']();
+
+      expect(mockUserService.updateUser).not.toHaveBeenCalled();
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Veuillez corriger les erreurs du formulaire'
+      });
+    });
+
+    it('should handle update error', () => {
+      Object.defineProperty(component['editForm'], 'valid', { value: true });
+      const error = new Error('Update failed');
+      mockUserService.updateUser.mockReturnValue(throwError(() => error));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      component['updateProfile']();
+
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Erreur lors de la mise à jour du profil'
+      });
+      expect(consoleSpy).toHaveBeenCalledWith('Erreur lors de la mise à jour:', error);
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should handle null form values in updateProfile', () => {
+      Object.defineProperty(component['editForm'], 'valid', { value: true });
+      
+      // Mock the form value getter to return null values
+      Object.defineProperty(component['editForm'], 'value', {
+        get: () => ({
+          username: null,
+          email: null,
+          password: null
+        }),
+        configurable: true
+      });
+
+      component['updateProfile']();
+
+      expect(mockUserService.updateUser).toHaveBeenCalledWith({
+        username: null,
+        email: null
+      });
+    });
+  });
+
+  describe('unsubscribeFromTheme method', () => {
+    beforeEach(() => {
+      component['subscribedThemes'].set([
+        { 
+          id: 1, 
+          title: 'Angular', 
+          description: 'Angular development',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          subscribedAt: new Date() 
+        },
+        { 
+          id: 2, 
+          title: 'React', 
+          description: 'React development',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          subscribedAt: new Date() 
+        }
+      ]);
+    });
+
+    it('should unsubscribe from theme successfully', () => {
+      component['unsubscribeFromTheme'](1);
+
+      expect(mockSubscriptionService.unsubscribe).toHaveBeenCalledWith(1);
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'success',
+        message: 'Vous vous êtes désabonné de "Angular"'
+      });
+
+      const themes = component['subscribedThemes']();
+      expect(themes).toHaveLength(1);
+      expect(themes.find(t => t.id === 1)).toBeUndefined();
+    });
+
+    it('should handle unsubscribe from non-existent theme', () => {
+      component['unsubscribeFromTheme'](999);
+
+      expect(mockSubscriptionService.unsubscribe).not.toHaveBeenCalled();
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Abonnement introuvable'
+      });
+    });
+
+    it('should handle unsubscribe error', () => {
+      const error = new Error('Unsubscribe failed');
+      mockSubscriptionService.unsubscribe.mockReturnValue(throwError(() => error));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      component['unsubscribeFromTheme'](1);
+
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Erreur lors du désabonnement'
+      });
+      expect(consoleSpy).toHaveBeenCalledWith('Erreur lors du désabonnement:', error);
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should use fallback theme name when title is missing', () => {
+      component['subscribedThemes'].set([
+        { 
+          id: 1, 
+          title: '', 
+          description: 'Angular development',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          subscribedAt: new Date() 
+        }
+      ]);
+
+      component['unsubscribeFromTheme'](1);
+
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'success',
+        message: 'Vous vous êtes désabonné de "ce thème"'
+      });
+    });
+
+    it('should handle empty subscriptions list for unsubscribe', () => {
+      component['subscribedThemes'].set([]);
+
+      component['unsubscribeFromTheme'](1);
+
+      expect(mockSubscriptionService.unsubscribe).not.toHaveBeenCalled();
+      expect(mockAlertService.showAlert).toHaveBeenCalledWith({
+        type: 'error',
+        message: 'Abonnement introuvable'
+      });
+    });
+
+    it('should handle multiple unsubscriptions', () => {
+      const initialThemes = [
+        { id: 1, title: 'Angular', description: 'Angular dev', createdAt: '2023-01-01', updatedAt: '2023-01-01', subscribedAt: new Date() },
+        { id: 2, title: 'React', description: 'React dev', createdAt: '2023-01-01', updatedAt: '2023-01-01', subscribedAt: new Date() }
+      ];
+
+      // Set initial themes
+      component['subscribedThemes'].set(initialThemes);
+      
+      // Mock subscription service for successful unsubscription
+      mockSubscriptionService.unsubscribe.mockReturnValue(of(void 0));
+
+      // First unsubscription
+      component['unsubscribeFromTheme'](1);
+      expect(component['subscribedThemes']()).toHaveLength(1);
+      expect(component['subscribedThemes']().find(t => t.id === 1)).toBeUndefined();
+
+      // Second unsubscription
+      component['unsubscribeFromTheme'](2);
+      expect(component['subscribedThemes']()).toHaveLength(0);
+      expect(component['subscribedThemes']().find(t => t.id === 2)).toBeUndefined();
+    });
+  });
+
+  describe('Form Control Getters', () => {
+    it('should return username control', () => {
+      const control = component['usernameControl'];
+      expect(control).toBe(component['editForm'].get('username'));
+    });
+
+    it('should return email control', () => {
+      const control = component['emailControl'];
+      expect(control).toBe(component['editForm'].get('email'));
+    });
+
+    it('should return password control', () => {
+      const control = component['passwordControl'];
+      expect(control).toBe(component['editForm'].get('password'));
+    });
+  });
+
+  describe('Component State Management', () => {
+    it('should have initial loading states', () => {
+      expect(component['isLoading']()).toBe(true); // Initial state
+      expect(component['isLoadingSubscriptions']()).toBe(false);
     });
 
     it('should handle edge cases for user data', () => {
       // Test with null/undefined username
-      testComponent.user.set({
+      component['user'].set({
         id: 1,
         username: null as any,
         email: 'test@example.com'
       });
-      expect(testComponent.testUserInitial()).toBe('');
+      expect(component['userInitial']()).toBe('');
 
       // Test with undefined user
-      testComponent.user.set(undefined);
-      expect(testComponent.testUserInitial()).toBe('');
+      component['user'].set(undefined);
+      expect(component['userInitial']()).toBe('');
+    });
+
+    it('should maintain form state during operations', () => {
+      const user = { id: 1, username: 'testuser', email: 'test@example.com' };
+      component['user'].set(user);
+      
+      const patchValueSpy = jest.spyOn(component['editForm'], 'patchValue');
+      const resetSpy = jest.spyOn(component['editForm'], 'reset');
+
+      // Simulate opening edit modal
+      component['editForm'].patchValue({
+        username: user.username,
+        email: user.email,
+        password: ''
+      });
+
+      expect(patchValueSpy).toHaveBeenCalled();
     });
   });
 });
