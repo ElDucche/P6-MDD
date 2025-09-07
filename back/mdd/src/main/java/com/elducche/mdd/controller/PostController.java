@@ -1,6 +1,6 @@
 package com.elducche.mdd.controller;
 
-import com.elducche.mdd.dto.CommentContentRequest;
+import com.elducche.mdd.dto.CommentCreateRequest;
 import com.elducche.mdd.dto.CommentCreateRequest;
 import com.elducche.mdd.dto.CommentResponseDTO;
 import com.elducche.mdd.dto.PostCreateRequest;
@@ -169,7 +169,7 @@ public class PostController {
      * @return Le commentaire créé ou erreur
      */
     @PostMapping("/{postId}/comments")
-    public ResponseEntity<?> createCommentOnPost(@PathVariable Long postId, @Valid @RequestBody CommentContentRequest request) {
+    public ResponseEntity<?> createCommentOnPost(@PathVariable Long postId, @Valid @RequestBody CommentCreateRequest request) {
         log.debug("Création d'un commentaire pour le post ID : {}", postId);
         
         return authUtil.executeWithAuthHandleErrors(userId -> {

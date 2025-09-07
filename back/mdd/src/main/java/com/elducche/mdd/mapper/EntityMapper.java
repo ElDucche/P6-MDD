@@ -1,9 +1,8 @@
 package com.elducche.mdd.mapper;
 
 import com.elducche.mdd.dto.PostDTO;
-import com.elducche.mdd.dto.CommentDTO;
 import com.elducche.mdd.dto.CommentResponseDTO;
-import com.elducche.mdd.dto.SubscriptionDTO;
+import com.elducche.mdd.dto.SubscriptionResponseDTO;
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.entity.Comment;
 import com.elducche.mdd.entity.Subscription;
@@ -67,41 +66,6 @@ public class EntityMapper {
     }
     
     /**
-     * Convertit un Comment en CommentDTO
-     */
-    public CommentDTO toCommentDTO(Comment comment) {
-        if (comment == null) {
-            return null;
-        }
-        
-        CommentDTO.AuthorDTO authorDTO = null;
-        if (comment.getAuthor() != null) {
-            authorDTO = new CommentDTO.AuthorDTO(
-                comment.getAuthor().getId(),
-                comment.getAuthor().getUsername(),
-                comment.getAuthor().getEmail()
-            );
-        }
-        
-        CommentDTO.PostInfoDTO postDTO = null;
-        if (comment.getPost() != null) {
-            postDTO = new CommentDTO.PostInfoDTO(
-                comment.getPost().getId(),
-                comment.getPost().getTitle()
-            );
-        }
-        
-        return new CommentDTO(
-            comment.getId(),
-            comment.getContent(),
-            comment.getCreatedAt(),
-            comment.getUpdatedAt(),
-            authorDTO,
-            postDTO
-        );
-    }
-    
-    /**
      * Convertit un Comment en CommentResponseDTO avec informations complètes
      */
     public CommentResponseDTO toCommentResponseDTO(Comment comment) {
@@ -137,37 +101,37 @@ public class EntityMapper {
     }
     
     /**
-     * Convertit un Subscription en SubscriptionDTO
+     * Convertit un Subscription en SubscriptionResponseDTO
      */
-    public SubscriptionDTO toSubscriptionDTO(Subscription subscription) {
+    public SubscriptionResponseDTO toSubscriptionResponseDTO(Subscription subscription) {
         if (subscription == null) {
             return null;
         }
         
-        SubscriptionDTO.UserDTO userDTO = null;
+        SubscriptionResponseDTO.UserInfo userInfo = null;
         if (subscription.getUser() != null) {
-            userDTO = new SubscriptionDTO.UserDTO(
+            userInfo = new SubscriptionResponseDTO.UserInfo(
                 subscription.getUser().getId(),
                 subscription.getUser().getUsername(),
                 subscription.getUser().getEmail()
             );
         }
         
-        SubscriptionDTO.ThemeDTO themeDTO = null;
+        SubscriptionResponseDTO.ThemeInfo themeInfo = null;
         if (subscription.getTheme() != null) {
-            themeDTO = new SubscriptionDTO.ThemeDTO(
+            themeInfo = new SubscriptionResponseDTO.ThemeInfo(
                 subscription.getTheme().getId(),
                 subscription.getTheme().getTitle(),
                 subscription.getTheme().getDescription()
             );
         }
         
-        return new SubscriptionDTO(
+        return new SubscriptionResponseDTO(
             subscription.getId().getUserId(),
             subscription.getId().getThemeId(),
             subscription.getSubscribedAt(),
-            userDTO,
-            themeDTO
+            userInfo,
+            themeInfo
         );
     }
 }
