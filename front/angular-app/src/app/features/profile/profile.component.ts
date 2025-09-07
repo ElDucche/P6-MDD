@@ -20,7 +20,6 @@ interface ThemeWithSubscription extends Theme {
 })
 export class ProfileComponent implements OnInit {
   protected readonly user = signal<User | undefined>(undefined);
-  protected readonly isDeleteConfirmOpen = signal(false);
   protected readonly isLoading = signal(true);
   protected readonly isLoadingSubscriptions = signal(false);
   
@@ -162,36 +161,6 @@ export class ProfileComponent implements OnInit {
         message: 'Veuillez corriger les erreurs du formulaire'
       });
     }
-  }
-
-  protected openDeleteConfirm(): void {
-    this.isDeleteConfirmOpen.set(true);
-  }
-
-  protected closeDeleteConfirm(): void {
-    this.isDeleteConfirmOpen.set(false);
-  }
-
-  protected deleteAccount(): void {
-    this.userService.deleteUser().subscribe({
-      next: () => {
-        this.alertService.showAlert({
-          type: 'success',
-          message: 'Compte supprimé avec succès'
-        });
-        // Déconnexion et redirection
-        this.authService.logout();
-        this.router.navigate(['/auth/login']);
-      },
-      error: (error: unknown) => {
-        console.error('Erreur lors de la suppression:', error);
-        this.alertService.showAlert({
-          type: 'error',
-          message: 'Erreur lors de la suppression du compte'
-        });
-        this.closeDeleteConfirm();
-      }
-    });
   }
 
   /**

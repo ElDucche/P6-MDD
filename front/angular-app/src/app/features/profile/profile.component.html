@@ -148,16 +148,6 @@
             </svg>
             Sauvegarder
           </button>
-          <button 
-            type="button" 
-            class="btn btn-error"
-            (click)="openDeleteConfirm()"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9zM4 5a2 2 0 012-2v1a1 1 0 002 0V3h2v1a1 1 0 002 0V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zM8 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 10-2 0v4a1 1 0 102 0V8z" clip-rule="evenodd" />
-            </svg>
-            Supprimer le compte
-          </button>
         </div>
       </form>
     </div>
@@ -224,31 +214,6 @@
   </div>
 </div>
 </div>
-
-<!-- Modal de confirmation de suppression uniquement -->
-<dialog class="modal" [class.modal-open]="isDeleteConfirmOpen()">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg text-error">Confirmer la suppression</h3>
-    <p class="py-4">
-      Êtes-vous sûr de vouloir supprimer votre compte ? 
-      <span class="font-semibold text-error">Cette action est irréversible.</span>
-    </p>
-    <div class="modal-action">
-      <button class="btn btn-ghost" (click)="closeDeleteConfirm()">
-        Annuler
-      </button>
-      <button class="btn btn-error" (click)="deleteAccount()">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9zM4 5a2 2 0 012-2v1a1 1 0 002 0V3h2v1a1 1 0 002 0V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zM8 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 10-2 0v4a1 1 0 102 0V8z" clip-rule="evenodd" />
-        </svg>
-        Supprimer définitivement
-      </button>
-    </div>
-  </div>
-  <form method="dialog" class="modal-backdrop">
-    <button type="button" (click)="closeDeleteConfirm()"></button>
-  </form>
-</dialog>
 
 } @else {
   <div class="text-center mt-8">

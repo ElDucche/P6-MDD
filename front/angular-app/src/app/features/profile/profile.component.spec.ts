@@ -14,7 +14,6 @@ class TestProfileComponent {
   // Signals pour reproduire l'état du composant
   readonly user = signal<User | undefined>(undefined);
   readonly isEditModalOpen = signal(false);
-  readonly isDeleteConfirmOpen = signal(false);
   readonly isLoading = signal(true);
   readonly isLoadingSubscriptions = signal(false);
   readonly subscribedThemes = signal<any[]>([]);
@@ -135,21 +134,6 @@ class TestProfileComponent {
     }
   }
 
-  testOpenDeleteConfirm(): void {
-    this.testCloseEditModal();
-    this.isDeleteConfirmOpen.set(true);
-  }
-
-  testCloseDeleteConfirm(): void {
-    this.isDeleteConfirmOpen.set(false);
-  }
-
-  testDeleteAccount(): void {
-    // Simuler la suppression du compte
-    this.user.set(undefined);
-    this.testCloseDeleteConfirm();
-  }
-
   testUnsubscribeFromTheme(themeId: number): void {
     const currentThemes = this.subscribedThemes();
     const updatedThemes = currentThemes.filter((t: any) => t.id !== themeId);
@@ -199,7 +183,6 @@ class TestProfileComponent {
   // Getters pour accéder aux propriétés
   getUser() { return this.user(); }
   getIsEditModalOpen() { return this.isEditModalOpen(); }
-  getIsDeleteConfirmOpen() { return this.isDeleteConfirmOpen(); }
   getIsLoading() { return this.isLoading(); }
   getIsLoadingSubscriptions() { return this.isLoadingSubscriptions(); }
   getSubscribedThemes() { return this.subscribedThemes(); }
@@ -293,26 +276,6 @@ describe('ProfileComponent', () => {
         expect(testComponent.getIsEditModalOpen()).toBe(false);
         done();
       }, 50);
-    });
-
-    it('should open delete confirmation modal', () => {
-      testComponent.testOpenEditModal();
-      testComponent.testOpenDeleteConfirm();
-      expect(testComponent.getIsEditModalOpen()).toBe(false);
-      expect(testComponent.getIsDeleteConfirmOpen()).toBe(true);
-    });
-
-    it('should close delete confirmation modal', () => {
-      testComponent.testOpenDeleteConfirm();
-      testComponent.testCloseDeleteConfirm();
-      expect(testComponent.getIsDeleteConfirmOpen()).toBe(false);
-    });
-
-    it('should delete account', () => {
-      testComponent.testOpenDeleteConfirm();
-      testComponent.testDeleteAccount();
-      expect(testComponent.getUser()).toBeUndefined();
-      expect(testComponent.getIsDeleteConfirmOpen()).toBe(false);
     });
 
     it('should unsubscribe from theme', (done) => {
@@ -467,25 +430,6 @@ describe('ProfileComponent', () => {
         expect(testComponent.getSubscribedThemes().length).toBe(0);
         done();
       }, 50);
-    });
-
-    it('should handle modal state transitions correctly', () => {
-      // Test modal state transitions
-      expect(testComponent.getIsEditModalOpen()).toBe(false);
-      expect(testComponent.getIsDeleteConfirmOpen()).toBe(false);
-      
-      // Open edit modal
-      testComponent.testOpenEditModal();
-      expect(testComponent.getIsEditModalOpen()).toBe(true);
-      
-      // Open delete confirm (should close edit modal)
-      testComponent.testOpenDeleteConfirm();
-      expect(testComponent.getIsEditModalOpen()).toBe(false);
-      expect(testComponent.getIsDeleteConfirmOpen()).toBe(true);
-      
-      // Close delete confirm
-      testComponent.testCloseDeleteConfirm();
-      expect(testComponent.getIsDeleteConfirmOpen()).toBe(false);
     });
 
     it('should handle edge cases for user data', () => {
