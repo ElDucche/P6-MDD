@@ -1,8 +1,6 @@
-/*
-	Installed from https://ui.angular-material.dev/api/registry/
-	Update this file using `@ngm-dev/cli update free-authentication/login-email-password`
+/**
+ * Composant de connexion par e-mail et mot de passe
 */
-
 import { Component, signal } from '@angular/core';
 import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
