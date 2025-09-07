@@ -20,7 +20,6 @@ interface ThemeWithSubscription extends Theme {
 })
 export class ProfileComponent implements OnInit {
   protected readonly user = signal<User | undefined>(undefined);
-  protected readonly isEditModalOpen = signal(false);
   protected readonly isDeleteConfirmOpen = signal(false);
   protected readonly isLoading = signal(true);
   protected readonly isLoadingSubscriptions = signal(false);
@@ -120,24 +119,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  protected openEditModal(): void {
-    // Réinitialiser le formulaire avec les valeurs actuelles
-    const currentUser = this.user();
-    if (currentUser) {
-      this.editForm.patchValue({
-        username: currentUser.username,
-        email: currentUser.email,
-        password: ''
-      });
-    }
-    this.isEditModalOpen.set(true);
-  }
-
-  protected closeEditModal(): void {
-    this.isEditModalOpen.set(false);
-    this.editForm.reset();
-  }
-
   protected updateProfile(): void {
     if (this.editForm.valid) {
       const formValue = this.editForm.value;
@@ -156,7 +137,6 @@ export class ProfileComponent implements OnInit {
       this.userService.updateUser(updateData).subscribe({
         next: (updatedUser) => {
           this.user.set(updatedUser);
-          this.closeEditModal();
           this.alertService.showAlert({
             type: 'success',
             message: 'Profil mis à jour avec succès. Vous allez être déconnecté pour actualiser votre session.'
@@ -185,7 +165,6 @@ export class ProfileComponent implements OnInit {
   }
 
   protected openDeleteConfirm(): void {
-    this.closeEditModal();
     this.isDeleteConfirmOpen.set(true);
   }
 

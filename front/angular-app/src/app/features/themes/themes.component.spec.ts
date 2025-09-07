@@ -4,12 +4,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 
 import { ThemesComponent } from './themes.component';
-import { ThemeService, SubscriptionService } from '../../shared/services';
+import { ThemeService } from '../../shared/services/theme.service';
+import { SubscriptionService } from '../../shared/services/subscription.service';
 import { AuthService } from '../auth/auth.service';
 import { ConfigService } from '../../core/services/config.service';
 import { Theme, Subscription } from '../../shared/interfaces';
 
-describe.skip('ThemesComponent', () => {
+describe('ThemesComponent', () => {
   let component: ThemesComponent;
   let fixture: ComponentFixture<ThemesComponent>;
   let themeService: jest.Mocked<ThemeService>;
@@ -57,21 +58,21 @@ describe.skip('ThemesComponent', () => {
 
   beforeEach(async () => {
     const themeServiceMock = {
-      getAllThemes: jest.fn()
+      getAllThemes: jest.fn().mockReturnValue(of(mockThemes))
     };
 
     const subscriptionServiceMock = {
-      getUserSubscriptions: jest.fn(),
-      subscribe: jest.fn(),
-      isSubscribed: jest.fn()
+      getUserSubscriptions: jest.fn().mockReturnValue(of(mockSubscriptions)),
+      subscribe: jest.fn().mockReturnValue(of(mockSubscriptions[0])),
+      isSubscribed: jest.fn().mockReturnValue(false)
     };
 
     const authServiceMock = {
-      getCurrentUserId: jest.fn()
+      getCurrentUserId: jest.fn().mockReturnValue(1)
     };
 
     const routerMock = {
-      navigate: jest.fn()
+      navigate: jest.fn().mockResolvedValue(true)
     };
 
     const configServiceMock = {
@@ -102,13 +103,6 @@ describe.skip('ThemesComponent', () => {
     subscriptionService = TestBed.inject(SubscriptionService) as jest.Mocked<SubscriptionService>;
     authService = TestBed.inject(AuthService) as jest.Mocked<AuthService>;
     router = TestBed.inject(Router) as jest.Mocked<Router>;
-
-    // Setup default mock returns
-    themeService.getAllThemes.mockReturnValue(of(mockThemes));
-    subscriptionService.getUserSubscriptions.mockReturnValue(of(mockSubscriptions));
-    subscriptionService.subscribe.mockReturnValue(of(mockSubscriptions[0]));
-    subscriptionService.isSubscribed.mockReturnValue(false);
-    authService.getCurrentUserId.mockReturnValue(1);
   });
 
   it('should create', () => {
@@ -131,7 +125,10 @@ describe.skip('ThemesComponent', () => {
   it('should handle themes loading error', () => {
     themeService.getAllThemes.mockReturnValue(throwError(() => new Error('API Error')));
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-
+    
+    // Recreate component after mock update
+    fixture = TestBed.createComponent(ThemesComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
 
     expect((component as any).themes()).toEqual([]);
@@ -144,7 +141,10 @@ describe.skip('ThemesComponent', () => {
   it('should handle subscriptions loading error', () => {
     subscriptionService.getUserSubscriptions.mockReturnValue(throwError(() => new Error('API Error')));
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-
+    
+    // Recreate component after mock update
+    fixture = TestBed.createComponent(ThemesComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
 
     expect((component as any).subscriptions()).toEqual([]);

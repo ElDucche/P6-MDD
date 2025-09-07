@@ -1,21 +1,20 @@
-import { Component, signal, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ThemeService, PostService } from '@shared/services';
 import { Theme, Post } from '@shared/interfaces';
 import { ArticleCardComponent } from '@components/article-card/article-card.component';
-import { CreateArticleModalComponent } from '@components/create-article-modal/create-article-modal.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ArticleCardComponent, CreateArticleModalComponent],
+  imports: [CommonModule, ArticleCardComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly postService = inject(PostService);
-  
-  @ViewChild('createArticleModal') createArticleModal!: CreateArticleModalComponent;
+  private readonly router = inject(Router);
   
   themes = signal<Theme[]>([]);
   myFeedPosts = signal<Post[]>([]);
@@ -117,14 +116,14 @@ export class HomeComponent implements OnInit {
   }
 
   openCreateArticleModal(): void {
-    this.createArticleModal.openModal();
+    this.router.navigate(['/create-article']);
   }
 
   /**
-   * Méthode appelée quand un nouvel article est créé
+   * Méthode appelée quand on revient de la création d'article
    * Recharge les listes d'articles pour afficher le nouveau post
    */
-  onArticleCreated(newPost: Post): void {
+  refreshPosts(): void {
     // Recharger Mon Fil et tous les posts
     this.loadMyFeedPosts();
     this.loadAllPosts();

@@ -1,6 +1,6 @@
 @if (isLoading()) {
 <!-- Loading Screen avec Skeleton -->
-<div class="max-w-lg mx-auto mt-8 space-y-6">
+<div class="max-w-2xl mx-auto mt-8 space-y-6">
   <!-- Skeleton pour la section profil -->
   <div class="card bg-base-100 shadow-xl">
     <div class="card-body">
@@ -12,8 +12,11 @@
         </div>
       </div>
       <div class="divider"></div>
-      <div class="card-actions justify-center">
-        <div class="skeleton h-12 w-40"></div>
+      <div class="space-y-4">
+        <div class="skeleton h-12 w-full"></div>
+        <div class="skeleton h-12 w-full"></div>
+        <div class="skeleton h-12 w-full"></div>
+        <div class="skeleton h-10 w-32"></div>
       </div>
     </div>
   </div>
@@ -48,37 +51,120 @@
 </div>
 
 } @else if (user()) {
-<!-- Section Informations Utilisateur -->
-<div class="card card-border max-w-lg mx-auto bg-base-100 mt-8">
-  <div class="card-body">
-    <div class="flex items-center space-x-4 mb-4">
-      <div class="avatar avatar-placeholder">
-        <div class="bg-neutral text-neutral-content rounded-full w-16 h-16 flex items-center justify-center">
-          <span class="text-xl font-semibold">{{ userInitial() }}</span>
+<!-- Section Informations Utilisateur avec Formulaire intégré -->
+<div class="max-w-2xl mx-auto mt-8 space-y-6">
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex items-center space-x-4 mb-6">
+        <div class="avatar avatar-placeholder">
+          <div class="bg-neutral text-neutral-content rounded-full w-16 h-16 flex items-center justify-center">
+            <span class="text-xl font-semibold">{{ userInitial() }}</span>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h2 class="card-title text-2xl">Mon Profil</h2>
+          <p class="text-base-content/70">Modifiez vos informations personnelles</p>
         </div>
       </div>
-      <div class="flex-1">
-        <h2 class="card-title text-2xl">{{ user()!.username }}</h2>
-        <p class="text-base-content/70">{{ user()!.email }}</p>
-      </div>
-    </div>
-    
-    <div class="divider"></div>
-    
-    <div class="card-actions justify-center">
-      <button class="btn btn-primary btn-wide" 
-              (click)="openEditModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.828-2.828z" />
-        </svg>
-        Modifier le profil
-      </button>
+      
+      <div class="divider"></div>
+      
+      <!-- Formulaire d'édition intégré -->
+      <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="space-y-4">
+        <div class="form-control w-full">
+          <label class="label" for="username">
+            <span class="label-text font-medium">Nom d'utilisateur</span>
+          </label>
+          <input 
+            id="username"
+            type="text" 
+            class="input input-bordered w-full"
+            [class.input-error]="usernameControl?.invalid && usernameControl?.touched"
+            formControlName="username"
+            required
+          />
+          @if (usernameControl?.invalid && usernameControl?.touched) {
+            <div class="label">
+              <span class="label-text-alt text-error">
+                @if (usernameControl?.errors?.['required']) {
+                  Le nom d'utilisateur est requis
+                }
+                @if (usernameControl?.errors?.['minlength']) {
+                  Le nom d'utilisateur doit contenir au moins 3 caractères
+                }
+              </span>
+            </div>
+          }
+        </div>
+        
+        <div class="form-control w-full">
+          <label class="label" for="email">
+            <span class="label-text font-medium">Email</span>
+          </label>
+          <input 
+            id="email"
+            type="email" 
+            class="input input-bordered w-full"
+            [class.input-error]="emailControl?.invalid && emailControl?.touched"
+            formControlName="email"
+            required
+          />
+          @if (emailControl?.invalid && emailControl?.touched) {
+            <div class="label">
+              <span class="label-text-alt text-error">
+                @if (emailControl?.errors?.['required']) {
+                  L'email est requis
+                }
+                @if (emailControl?.errors?.['email']) {
+                  Format d'email invalide
+                }
+              </span>
+            </div>
+          }
+        </div>
+        
+        <div class="form-control w-full">
+          <label class="label" for="password">
+            <span class="label-text font-medium">Nouveau mot de passe (optionnel)</span>
+          </label>
+          <input 
+            id="password"
+            type="password" 
+            class="input input-bordered w-full placeholder:text-base-content/50"
+            formControlName="password"
+            placeholder="Laisser vide pour ne pas changer"
+          />
+        </div>
+        
+        <div class="flex gap-3 pt-4">
+          <button 
+            type="submit" 
+            class="btn btn-primary flex-1"
+            [disabled]="editForm.invalid"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6a1 1 0 10-2 0v5.586l-1.293-1.293z" />
+              <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v1a1 1 0 11-2 0V4H7v1a1 1 0 11-2 0V4z" />
+            </svg>
+            Sauvegarder
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-error"
+            (click)="openDeleteConfirm()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9zM4 5a2 2 0 012-2v1a1 1 0 002 0V3h2v1a1 1 0 002 0V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zM8 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 10-2 0v4a1 1 0 102 0V8z" clip-rule="evenodd" />
+            </svg>
+            Supprimer le compte
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
 
 <!-- Section Thèmes Abonnés -->
-<div class="card card-border max-w-lg mx-auto bg-base-100 mt-6">
+<div class="card bg-base-100 shadow-xl">
   <div class="card-body">
     <div class="flex items-center justify-between mb-4">
       <h3 class="card-title text-xl">
@@ -137,101 +223,9 @@
     }
   </div>
 </div>
+</div>
 
-<!-- Modal d'édition du profil -->
-<dialog class="modal" [class.modal-open]="isEditModalOpen()">
-  <div class="modal-box max-w-md">
-    <h3 class="font-bold text-lg mb-4">Modifier le profil</h3>
-    
-    <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="space-y-4">
-      <div class="form-control w-full">
-        <label class="label" for="username">
-          <span class="label-text">Nom d'utilisateur</span>
-        </label>
-        <input 
-          id="username"
-          type="text" 
-          class="input input-bordered w-full"
-          [class.input-error]="usernameControl?.invalid && usernameControl?.touched"
-          formControlName="username"
-          required
-        />
-        @if (usernameControl?.invalid && usernameControl?.touched) {
-          <div class="label">
-            <span class="label-text-alt text-error">
-              @if (usernameControl?.errors?.['required']) {
-                Le nom d'utilisateur est requis
-              }
-              @if (usernameControl?.errors?.['minlength']) {
-                Le nom d'utilisateur doit contenir au moins 3 caractères
-              }
-            </span>
-          </div>
-        }
-      </div>
-      
-      <div class="form-control w-full">
-        <label class="label" for="email">
-          <span class="label-text">Email</span>
-        </label>
-        <input 
-          id="email"
-          type="email" 
-          class="input input-bordered w-full"
-          [class.input-error]="emailControl?.invalid && emailControl?.touched"
-          formControlName="email"
-          required
-        />
-        @if (emailControl?.invalid && emailControl?.touched) {
-          <div class="label">
-            <span class="label-text-alt text-error">
-              @if (emailControl?.errors?.['required']) {
-                L'email est requis
-              }
-              @if (emailControl?.errors?.['email']) {
-                Format d'email invalide
-              }
-            </span>
-          </div>
-        }
-      </div>
-      
-      <div class="form-control w-full">
-        <label class="label" for="password">
-          <span class="label-text">Nouveau mot de passe (optionnel)</span>
-        </label>
-        <input 
-          id="password"
-          type="password" 
-          class="input input-bordered w-full placeholder:text-base-content/50"
-          formControlName="password"
-          placeholder="Laisser vide pour ne pas changer"
-        />
-      </div>
-      
-      <div class="modal-action">
-        <button type="button" class="btn btn-ghost" (click)="closeEditModal()">
-          Annuler
-        </button>
-        <button type="button" class="btn btn-error" (click)="openDeleteConfirm()">
-          Supprimer le compte
-        </button>
-        <button 
-          type="submit" 
-          class="btn btn-primary"
-          [disabled]="editForm.invalid"
-        >
-          Sauvegarder
-        </button>
-      </div>
-    </form>
-  </div>
-  <form method="dialog" class="modal-backdrop">
-    <button type="button" (click)="closeEditModal()"></button>
-  </form>
-</dialog>
-
-<!-- Modal de confirmation de suppression -->
+<!-- Modal de confirmation de suppression uniquement -->
 <dialog class="modal" [class.modal-open]="isDeleteConfirmOpen()">
   <div class="modal-box">
     <h3 class="font-bold text-lg text-error">Confirmer la suppression</h3>
