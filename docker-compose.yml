@@ -14,9 +14,9 @@ services:
     container_name: mdd-postgres
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-mdd}
-      POSTGRES_USER: ${POSTGRES_USER:-mdd_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mdd_password}
+      POSTGRES_DB: ${POSTGRES_DB:-mdd_db}
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -34,10 +34,10 @@ services:
       - postgres
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${POSTGRES_DB:-mdd}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-mdd_user}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-mdd_password}
-      - JWT_SECRET=${JWT_SECRET:-monSecretJwtTresSolideEtComplexe}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${POSTGRES_DB:-mdd_db}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-user}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - JWT_SECRET=${JWT_SECRET:-u0C2cZ2Qb9mL5xN8pR3tV6yH1kJ4sM7nP0aB3dE6fH9jK2lN5qT8wY1uC4rV7xZ0}
     profiles: [all, backend]
 
   # Frontend Angular

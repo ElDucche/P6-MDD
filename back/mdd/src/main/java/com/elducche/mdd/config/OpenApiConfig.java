@@ -1,52 +1,37 @@
 package com.elducche.mdd.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.annotations.servers.Server;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Configuration OpenAPI/Swagger pour l'application MDD
- * 
- * Cette configuration génère automatiquement la documentation API
- * accessible via /swagger-ui.html et /v3/api-docs
- */
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
 @Configuration
-@OpenAPIDefinition(
-    info = @Info(
-        title = "MDD API",
-        version = "1.0.0",
-        description = "API REST pour l'application MDD - Réseau social de développeurs",
-        contact = @Contact(
-            name = "Équipe MDD",
-            email = "contact@mdd.com"
-        ),
-        license = @License(
-            name = "MIT License",
-            url = "https://opensource.org/licenses/MIT"
-        )
-    ),
-    servers = {
-        @Server(
-            description = "Serveur de développement",
-            url = "http://localhost:8080"
-        ),
-        @Server(
-            description = "Serveur de production",
-            url = "https://api.mdd.com"
-        )
-    }
-)
-@SecurityScheme(
-    name = "Bearer Authentication",
-    type = SecuritySchemeType.HTTP,
-    bearerFormat = "JWT",
-    scheme = "bearer",
-    description = "Token JWT obtenu via l'endpoint de connexion (/api/auth/login)"
-)
 public class OpenApiConfig {
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")))
+                .info(new Info()
+                        .title("API de Location")
+                        .description("API de gestion des locations")
+                        .version("1.0"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+    }
+     @Bean
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+                .group("public")
+                .pathsToMatch("/api/**")  // Limite aux chemins commençant par /api/
+                .packagesToScan("com.elducche.mdd.controller")  // Limite aux contrôleurs
+                .build();
+    }
 }

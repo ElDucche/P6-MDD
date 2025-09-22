@@ -12,5 +12,6 @@
         "chown": true,
         "/^Remove-Item\\b/i": true,
         "mvn": true
-    }
+    },
+    "java.configuration.updateBuildConfiguration": "automatic"
 }

@@ -6,9 +6,9 @@ spring:
     name: mdd-application
 
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:mdd}
-    username: ${POSTGRES_USER:mdd_user}
-    password: ${POSTGRES_PASSWORD:mdd_password}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:mdd_db}
+    username: ${POSTGRES_USER:user}
+    password: ${POSTGRES_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -27,20 +27,20 @@ spring:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:monSecretJwtTresSolideEtComplexe}
+  # Clé par défaut de 64+ octets pour HS512 (à surcharger en prod via env var JWT_SECRET)
+  secret: ${JWT_SECRET:u0C2cZ2Qb9mL5xN8pR3tV6yH1kJ4sM7nP0aB3dE6fH9jK2lN5qT8wY1uC4rV7xZ0}
   expiration: ${JWT_EXPIRATION:86400000}
 
-# OpenAPI/Swagger Configuration
+# Configuration OpenAPI
 springdoc:
   api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui/index.html
     enabled: true
-    operationsSorter: method
-    tagsSorter: alpha
-    tryItOutEnabled: true
-  packages-to-scan: com.elducche.mdd.controller
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+  paths-to-exclude: /error
 
 # Logging
 logging:

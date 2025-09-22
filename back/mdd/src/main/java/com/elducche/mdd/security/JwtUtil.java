@@ -32,8 +32,8 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        if (jwtSecret == null || jwtSecret.length() < 32) {
-            throw new IllegalArgumentException("JWT_SECRET doit être défini et contenir au moins 32 caractères.");
+        if (jwtSecret == null || jwtSecret.length() < 64) {
+            throw new IllegalArgumentException("JWT_SECRET doit être défini et contenir au moins 64 caractères pour HS512.");
         }
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
         log.info("JWT Util initialisé avec succès");

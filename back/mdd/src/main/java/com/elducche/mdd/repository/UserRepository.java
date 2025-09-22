@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.List;
+
 
 /**
  * Repository pour l'entité User
@@ -30,6 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     Optional<User> findByUsername(String username);
     
+    Optional<User> findByUsernameOrEmail(String usernameOrEmail);
     /**
      * Vérifie si un email existe déjà
      * @param email L'email à vérifier
