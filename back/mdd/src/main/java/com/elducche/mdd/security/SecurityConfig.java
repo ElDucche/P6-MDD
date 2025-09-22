@@ -53,11 +53,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Endpoints d'authentification publics
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                
+                .requestMatchers(HttpMethod.OPTIONS, "/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
                 // Endpoints de santé publics (pour monitoring)
-                .requestMatchers(HttpMethod.GET, "/api/health", "/api/info").permitAll()
-                
+                .requestMatchers(HttpMethod.GET, "/api/health", "/api/info", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
                 // Tous les autres endpoints nécessitent une authentification JWT
                 .anyRequest().authenticated()
             )

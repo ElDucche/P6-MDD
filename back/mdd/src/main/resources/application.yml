@@ -4,11 +4,11 @@ server:
 spring:
   application:
     name: mdd-application
-  
+
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:mdd_db}
-    username: ${POSTGRES_USER:user}
-    password: ${POSTGRES_PASSWORD:password}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:mdd}
+    username: ${POSTGRES_USER:mdd_user}
+    password: ${POSTGRES_PASSWORD:mdd_password}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -27,15 +27,15 @@ spring:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x4Y5z6A1b2C3d4E5f6G7h8}
-  expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+  secret: ${JWT_SECRET:monSecretJwtTresSolideEtComplexe}
+  expiration: ${JWT_EXPIRATION:86400000}
 
 # OpenAPI/Swagger Configuration
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger-ui/index.html
     enabled: true
     operationsSorter: method
     tagsSorter: alpha
