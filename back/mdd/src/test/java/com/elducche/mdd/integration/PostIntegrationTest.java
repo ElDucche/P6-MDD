@@ -286,8 +286,8 @@ class PostIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isCreated());
 
         // Connexion
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("post-integration@example.com");
+    LoginRequest loginRequest = new LoginRequest();
+    loginRequest.setIdentifier("post-integration@example.com");
         loginRequest.setPassword("?Password1");
 
         String response = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/login")

@@ -54,7 +54,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
 
         // Connexion pour obtenir le token
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("user.integration@example.com");
+        loginRequest.setIdentifier("user.integration@example.com");
         loginRequest.setPassword("Password123!");
 
         MvcResult loginResult = mockMvc.perform(post("/api/auth/login")

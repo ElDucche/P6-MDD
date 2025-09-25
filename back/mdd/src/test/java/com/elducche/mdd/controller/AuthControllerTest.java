@@ -49,7 +49,7 @@ class AuthControllerTest extends BaseIntegrationTest {
         validRegisterRequest.setPassword("Password123!");
 
         validLoginRequest = new LoginRequest();
-        validLoginRequest.setEmail(existingUser.getEmail());
+        validLoginRequest.setIdentifier(existingUser.getEmail()); // email ou username
         validLoginRequest.setPassword("Password123!");
     }
 
@@ -130,12 +130,31 @@ class AuthControllerTest extends BaseIntegrationTest {
     }
 
     @Test
+    @DisplayName("POST /api/auth/login - Connexion avec payload JSON explicite {identifier, password}")
+    void testLogin_WithExplicitIdentifierPayload() throws Exception {
+    // Construction manuelle du JSON pour s'assurer que la clef 'identifier' est bien traitée
+    String jsonPayload = "{\n" +
+        "  \"identifier\": \"" + existingUser.getEmail() + "\",\n" +
+        "  \"password\": \"Password123!\"\n" +
+        "}";
+
+    mockMvc.perform(post("/api/auth/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jsonPayload))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.token", notNullValue()))
+        .andExpect(jsonPath("$.user.email", is(existingUser.getEmail())))
+        .andExpect(jsonPath("$.user.username", is(existingUser.getUsername())));
+    }
+
+    @Test
     @DisplayName("POST /api/auth/login - Échec avec email inexistant")
     void testLogin_UserNotFound() throws Exception {
         // Given - Email inexistant (créer un email unique qui n'existe pas en base)
         User nonExistentUser = TestDataUtil.createUniqueUser();
         LoginRequest nonExistentUserRequest = new LoginRequest();
-        nonExistentUserRequest.setEmail(nonExistentUser.getEmail()); // Email unique non sauvé
+        nonExistentUserRequest.setIdentifier(nonExistentUser.getEmail()); // Email unique non sauvé
         nonExistentUserRequest.setPassword("Password123!");
 
         // When & Then
@@ -151,7 +170,7 @@ class AuthControllerTest extends BaseIntegrationTest {
     void testLogin_WrongPassword() throws Exception {
         // Given - Bon email, mauvais mot de passe
         LoginRequest wrongPasswordRequest = new LoginRequest();
-        wrongPasswordRequest.setEmail(existingUser.getEmail()); // Email de l'utilisateur existant
+        wrongPasswordRequest.setIdentifier(existingUser.getEmail()); // Email de l'utilisateur existant
         wrongPasswordRequest.setPassword("WrongPassword123!");
 
         // When & Then
@@ -167,7 +186,7 @@ class AuthControllerTest extends BaseIntegrationTest {
     void testLogin_InvalidData() throws Exception {
         // Given - Données invalides
         LoginRequest invalidRequest = new LoginRequest();
-        invalidRequest.setEmail("invalid-email");
+        invalidRequest.setIdentifier("invalid-email");
         invalidRequest.setPassword(""); // Vide
 
         // When & Then

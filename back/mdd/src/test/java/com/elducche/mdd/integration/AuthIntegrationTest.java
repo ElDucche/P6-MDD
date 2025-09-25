@@ -47,7 +47,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         validRegisterRequest.setPassword("Password123!");
 
         validLoginRequest = new LoginRequest();
-        validLoginRequest.setEmail("test.integration@example.com");
+        validLoginRequest.setIdentifier("test.integration@example.com");
         validLoginRequest.setPassword("Password123!");
     }
 
@@ -101,7 +101,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
 
         // 2. Tentative d'inscription avec le même email
         RegisterRequest duplicateRequest = new RegisterRequest();
-        duplicateRequest.setEmail("test.integration@example.com");
+        duplicateRequest.setEmail("test.integration@example.com"); // RegisterRequest conserve email
         duplicateRequest.setUsername("differentusername");
         duplicateRequest.setPassword("Password123!");
 
@@ -126,7 +126,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
 
         // 2. Tentative de connexion avec un mauvais mot de passe
         LoginRequest invalidRequest = new LoginRequest();
-        invalidRequest.setEmail("test.integration@example.com");
+        // Champ renommé dans LoginRequest: utiliser identifier (email ou username)
+        invalidRequest.setIdentifier("test.integration@example.com");
         invalidRequest.setPassword("WrongPassword");
 
         mockMvc.perform(post("/api/auth/login")

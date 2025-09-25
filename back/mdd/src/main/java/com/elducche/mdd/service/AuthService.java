@@ -42,41 +42,41 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     
     /**
-     * Connexion d'un utilisateur
+     * Connexion d'un utilisateur (email ou username accepté dans le champ identifiant)
      */
     public LoginResponse login(LoginRequest loginRequest) {
         try {
-            // Recherche de l'utilisateur par email ou par username
-            User user = userRepository.findByEmail(loginRequest.getEmail())
-                    .orElse(null);
-            
+            String identifier = loginRequest.getIdentifier();
+            // 1. tentative par email
+            User user = userRepository.findByEmail(identifier).orElse(null);
             if (user == null) {
-                log.warn("Tentative de connexion avec email inexistant: {}", loginRequest.getEmail());
+                // 2. tentative par username/email combiné
+                user = userRepository.findByEmailOrUsername(identifier).orElse(null);
+            }
+
+            if (user == null) {
+                log.warn("Tentative de connexion avec identifiant inexistant: {}", identifier);
                 return LoginResponse.error("Email ou mot de passe incorrect");
             }
-            
-            // Vérification du mot de passe
+
             if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                log.warn("Tentative de connexion avec mot de passe incorrect pour: {}", loginRequest.getEmail());
+                log.warn("Tentative de connexion avec mot de passe incorrect pour: {}", identifier);
                 return LoginResponse.error("Email ou mot de passe incorrect");
             }
-            
-            // Génération du token JWT avec toutes les informations utilisateur
+
             String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getUsername());
             log.info("Connexion réussie pour l'utilisateur: {}", user.getEmail());
-            
-            // Création de la réponse utilisateur (sans le mot de passe)
+
             UserResponse userResponse = new UserResponse();
             userResponse.setId(user.getId());
             userResponse.setEmail(user.getEmail());
             userResponse.setUsername(user.getUsername());
             userResponse.setCreatedAt(user.getCreatedAt());
             userResponse.setUpdatedAt(user.getUpdatedAt());
-            
+
             return LoginResponse.success(token, userResponse);
-            
         } catch (Exception e) {
-            log.error("Erreur lors de la connexion pour {}: {}", loginRequest.getEmail(), e.getMessage());
+            log.error("Erreur lors de la connexion pour {}: {}", loginRequest.getIdentifier(), e.getMessage());
             return LoginResponse.error("Erreur technique lors de la connexion");
         }
     }

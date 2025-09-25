@@ -309,7 +309,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
 
         // Connexion
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("subscription-integration@example.com");
+        loginRequest.setIdentifier("subscription-integration@example.com");
         loginRequest.setPassword("?Password1");
 
         String response = mockMvc.perform(post("/api/auth/login")

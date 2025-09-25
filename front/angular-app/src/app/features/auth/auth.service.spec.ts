@@ -10,7 +10,7 @@ describe('AuthService', () => {
 
   // Données de test
   const mockLoginCredentials = {
-    email: 'test@example.com',
+    identifier: 'test@example.com',
     password: 'password123'
   };
 

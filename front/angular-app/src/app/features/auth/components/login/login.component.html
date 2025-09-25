@@ -12,17 +12,12 @@
         
         <label class="form-control w-full">
           <div class="label">
-            <span class="label-text">Email</span>
+            <span class="label-text">Email ou Nom d'utilisateur</span>
           </div>
-          <input type="email" formControlName="email" class="input input-bordered w-full" />
-          @if ( (form.get('email')?.touched || form.get('email')?.dirty) && form.get('email')?.hasError('required') ) {
+          <input type="text" formControlName="identifier" class="input input-bordered w-full" />
+          @if ( (form.get('identifier')?.touched || form.get('identifier')?.dirty) && form.get('identifier')?.hasError('required') ) {
             <div class="label">
-              <span class="label-text-alt text-error">Email requis</span>
-            </div>
-          }
-          @if (form.get('email')?.hasError('email')) {
-            <div class="label">
-              <span class="label-text-alt text-error">Format d'email invalide</span>
+              <span class="label-text-alt text-error">Identifiant requis</span>
             </div>
           }
         </label>

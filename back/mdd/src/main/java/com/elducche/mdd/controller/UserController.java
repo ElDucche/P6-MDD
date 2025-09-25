@@ -20,7 +20,9 @@ import jakarta.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/users")
+// NOTE: Alignement du chemin avec les tests existants (UserControllerTest) qui appellent /api/user/... 
+// Si l'API publique devait rester /api/users, il faudrait ajuster les tests.
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 

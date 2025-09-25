@@ -199,7 +199,7 @@ class CommentIntegrationTest extends BaseIntegrationTest {
 
         // Connexion
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("comment-integration@example.com");
+    loginRequest.setIdentifier("comment-integration@example.com");
         loginRequest.setPassword("?Password1");
 
         String response = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/login")

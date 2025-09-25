@@ -21,13 +21,15 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private static final String ERREUR_INTERNE = "Erreur interne du serveur";
+
     private final AuthService authService;
 
     /**
      * Inscription d'un nouvel utilisateur
      */
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) {
         log.info("Tentative d'inscription pour l'email: {}", request.getEmail());
         
         try {
@@ -43,7 +45,7 @@ public class AuthController {
         } catch (Exception e) {
             log.error("Erreur lors de l'inscription pour l'email {}: {}", request.getEmail(), e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Erreur interne du serveur");
+                .body(ERREUR_INTERNE);
         }
     }
 
@@ -51,23 +53,23 @@ public class AuthController {
      * Connexion d'un utilisateur
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
-        log.info("Tentative de connexion pour l'email: {}", request.getEmail());
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest request) {
+        log.info("Tentative de connexion pour l'identifiant: {}", request.getIdentifier());
         
         try {
             LoginResponse response = authService.login(request);
             if (response.getToken() != null) {
-                log.info("Connexion réussie pour l'email: {}", request.getEmail());
+                log.info("Connexion réussie pour l'identifiant: {}", request.getIdentifier());
                 return ResponseEntity.ok(response);
             } else {
-                log.warn("Échec de la connexion pour l'email: {}", request.getEmail());
+                log.warn("Échec de la connexion pour l'identifiant: {}", request.getIdentifier());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Identifiants invalides");
             }
         } catch (Exception e) {
-            log.error("Erreur lors de la connexion pour l'email {}: {}", request.getEmail(), e.getMessage());
+            log.error("Erreur lors de la connexion pour l'identifiant {}: {}", request.getIdentifier(), e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Erreur interne du serveur");
+                .body(ERREUR_INTERNE);
         }
     }
 
@@ -75,7 +77,7 @@ public class AuthController {
      * Validation d'un token JWT
      */
     @GetMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+    public ResponseEntity<Object> validateToken(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         try {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -94,7 +96,7 @@ public class AuthController {
         } catch (Exception e) {
             log.error("Erreur lors de la validation du token: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Erreur interne du serveur");
+                .body(ERREUR_INTERNE);
         }
     }
 }

@@ -177,9 +177,10 @@ public class TestDataBuilder {
         return createLoginRequest("test@example.com", "password123");
     }
     
-    public static LoginRequest createLoginRequest(String email, String password) {
+    public static LoginRequest createLoginRequest(String identifier, String password) {
         LoginRequest request = new LoginRequest();
-        request.setEmail(email);
+        // Champ renommé: utiliser identifier (email ou username)
+        request.setIdentifier(identifier);
         request.setPassword(password);
         return request;
     }
