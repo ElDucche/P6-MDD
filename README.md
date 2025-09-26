@@ -97,7 +97,3 @@ Couverture : `front/angular-app/coverage/index.html`.
 | Connexion DB échoue | Vérifier conteneur postgres (`docker ps`) et credentials |
 | Front ne trouve pas l'API | Mauvaise valeur `apiUrl` / backend pas démarré |
 | Couverture insuffisante | Ajouter tests jusqu'à ≥ 70% instructions |
-
----
-Fin du guide simplifié.
-
