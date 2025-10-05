@@ -1,25 +1,34 @@
-# Utiliser une image Java 21 pour construire l'application
+## ================================
+## Stage 1 : Build
+## ================================
 FROM eclipse-temurin:21-jdk-alpine AS builder
+WORKDIR /workspace
 
-WORKDIR /app
+# Installation Maven (léger) + cache dépendances
+RUN apk add --no-cache maven
 
-# Copier les fichiers Maven
+# Copier uniquement le POM pour pré-télécharger les dépendances
 COPY pom.xml .
+RUN --mount=type=cache,target=/root/.m2 mvn -q -e dependency:go-offline
+
+# Copier le code source
 COPY src ./src
 
-# Installer Maven et construire l'application
-RUN apk add --no-cache maven && mvn clean package -DskipTests
+# Build (sans tests ici, ils tournent en CI hors image)
+RUN --mount=type=cache,target=/root/.m2 mvn -q -e clean package -DskipTests
 
-# Image finale
+## ================================
+## Stage 2 : Runtime
+## ================================
 FROM eclipse-temurin:21-jre-alpine
-
 WORKDIR /app
 
-# Copier le JAR depuis l'étape de construction
-COPY --from=builder /app/target/mdd-*.jar app.jar
+# Ajout d'un user non-root par sécurité
+RUN addgroup -S mdd && adduser -S mdd -G mdd
 
-# Exposer le port
+COPY --from=builder /workspace/target/mdd-*.jar app.jar
+
 EXPOSE 8080
+USER mdd
 
-# Commande pour démarrer l'application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]

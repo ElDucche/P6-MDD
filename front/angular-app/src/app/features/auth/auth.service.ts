@@ -25,7 +25,7 @@ export class AuthService {
     private readonly config: ConfigService
   ) { }
 
-  login(credentials: any): Observable<LoginResponse> {
+  login(credentials: { identifier: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.config.endpoints.auth.login, credentials).pipe(
       tap(response => {
         if (response?.token) {

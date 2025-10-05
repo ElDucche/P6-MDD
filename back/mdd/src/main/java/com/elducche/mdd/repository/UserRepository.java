@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
+
 /**
  * Repository pour l'entité User
  * 
@@ -45,9 +46,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
     
     /**
-     * Trouve un utilisateur par email ou username
-     * @param identifier Email ou username
-     * @return Optional contenant l'utilisateur s'il existe
+     * Recherche par email ou username (custom JPQL)
      */
     @Query("SELECT u FROM User u WHERE u.email = :identifier OR u.username = :identifier")
     Optional<User> findByEmailOrUsername(@Param("identifier") String identifier);

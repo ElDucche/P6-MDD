@@ -1,5 +1,5 @@
-version: '3.8'
 services:
+  # Base de données PostgreSQL (port hôte élevé pour éviter conflits)
   postgres:
     image: postgres:16
     container_name: mdd-postgres
@@ -12,3 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - ./script.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+# Volumes pour persistance des données
+volumes:
+  postgres_data:

@@ -1,8 +1,8 @@
 package com.elducche.mdd.mapper;
 
 import com.elducche.mdd.dto.PostDTO;
-import com.elducche.mdd.dto.CommentDTO;
-import com.elducche.mdd.dto.SubscriptionDTO;
+import com.elducche.mdd.dto.CommentResponseDTO;
+import com.elducche.mdd.dto.SubscriptionResponseDTO;
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.entity.Comment;
 import com.elducche.mdd.entity.Subscription;
@@ -66,60 +66,72 @@ public class EntityMapper {
     }
     
     /**
-     * Convertit un Comment en CommentDTO
+     * Convertit un Comment en CommentResponseDTO avec informations complètes
      */
-    public CommentDTO toCommentDTO(Comment comment) {
+    public CommentResponseDTO toCommentResponseDTO(Comment comment) {
         if (comment == null) {
             return null;
         }
         
-        CommentDTO.AuthorDTO authorDTO = new CommentDTO.AuthorDTO(
-            comment.getAuthor().getId(),
-            comment.getAuthor().getUsername(),
-            comment.getAuthor().getEmail()
-        );
+        CommentResponseDTO.UserInfo authorInfo = null;
+        if (comment.getAuthor() != null) {
+            authorInfo = CommentResponseDTO.UserInfo.builder()
+                .id(comment.getAuthor().getId())
+                .username(comment.getAuthor().getUsername())
+                .email(comment.getAuthor().getEmail())
+                .build();
+        }
         
-        CommentDTO.PostInfoDTO postDTO = new CommentDTO.PostInfoDTO(
-            comment.getPost().getId(),
-            comment.getPost().getTitle()
-        );
+        CommentResponseDTO.PostInfo postInfo = null;
+        if (comment.getPost() != null) {
+            postInfo = CommentResponseDTO.PostInfo.builder()
+                .id(comment.getPost().getId())
+                .title(comment.getPost().getTitle())
+                .build();
+        }
         
-        return new CommentDTO(
-            comment.getId(),
-            comment.getContent(),
-            comment.getCreatedAt(),
-            comment.getUpdatedAt(),
-            authorDTO,
-            postDTO
-        );
+        return CommentResponseDTO.builder()
+            .id(comment.getId())
+            .content(comment.getContent())
+            .createdAt(comment.getCreatedAt())
+            .updatedAt(comment.getUpdatedAt())
+            .author(authorInfo)
+            .post(postInfo)
+            .build();
     }
     
     /**
-     * Convertit un Subscription en SubscriptionDTO
+     * Convertit un Subscription en SubscriptionResponseDTO
      */
-    public SubscriptionDTO toSubscriptionDTO(Subscription subscription) {
+    public SubscriptionResponseDTO toSubscriptionResponseDTO(Subscription subscription) {
         if (subscription == null) {
             return null;
         }
         
-        SubscriptionDTO.UserDTO userDTO = new SubscriptionDTO.UserDTO(
-            subscription.getUser().getId(),
-            subscription.getUser().getUsername(),
-            subscription.getUser().getEmail()
-        );
+        SubscriptionResponseDTO.UserInfo userInfo = null;
+        if (subscription.getUser() != null) {
+            userInfo = new SubscriptionResponseDTO.UserInfo(
+                subscription.getUser().getId(),
+                subscription.getUser().getUsername(),
+                subscription.getUser().getEmail()
+            );
+        }
         
-        SubscriptionDTO.ThemeDTO themeDTO = new SubscriptionDTO.ThemeDTO(
-            subscription.getTheme().getId(),
-            subscription.getTheme().getTitle(),
-            subscription.getTheme().getDescription()
-        );
+        SubscriptionResponseDTO.ThemeInfo themeInfo = null;
+        if (subscription.getTheme() != null) {
+            themeInfo = new SubscriptionResponseDTO.ThemeInfo(
+                subscription.getTheme().getId(),
+                subscription.getTheme().getTitle(),
+                subscription.getTheme().getDescription()
+            );
+        }
         
-        return new SubscriptionDTO(
+        return new SubscriptionResponseDTO(
             subscription.getId().getUserId(),
             subscription.getId().getThemeId(),
             subscription.getSubscribedAt(),
-            userDTO,
-            themeDTO
+            userInfo,
+            themeInfo
         );
     }
 }

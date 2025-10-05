@@ -3,167 +3,117 @@ package com.elducche.mdd.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.FieldError;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import jakarta.validation.ConstraintViolationException;
 
 /**
- * Gestionnaire global d'exceptions pour l'API MDD
+ * Gestionnaire global des exceptions pour l'API REST
  * 
- * Centralise la gestion des erreurs et fournit des réponses
- * cohérentes pour tous les endpoints de l'API
+ * Cette classe intercepte les exceptions levées par les contrôleurs
+ * et retourne des réponses HTTP appropriées avec des messages d'erreur clairs.
  */
-@ControllerAdvice
 @Slf4j
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * Gestion des erreurs de validation des données
+     * Gestion des erreurs de validation des données d'entrée (@Valid)
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(
-            MethodArgumentNotValidException ex,
-            WebRequest request) {
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+        log.warn("Erreur de validation des données d'entrée: {}", ex.getMessage());
         
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        
-        ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.BAD_REQUEST.value(),
-            "Erreur de validation",
-            "Les données fournies ne sont pas valides",
-            request.getDescription(false),
-            LocalDateTime.now(),
-            errors
+        StringBuilder errorMessage = new StringBuilder("Données invalides: ");
+        ex.getBindingResult().getFieldErrors().forEach(error -> 
+            errorMessage.append(error.getField())
+                    .append(" - ")
+                    .append(error.getDefaultMessage())
+                    .append("; ")
         );
         
-        log.warn("Erreur de validation: {}", errors);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(errorMessage.toString());
     }
 
     /**
-     * Gestion des erreurs d'authentification
+     * Gestion des erreurs de contraintes de validation
      */
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleAuthenticationException(
-            AuthenticationException ex,
-            WebRequest request) {
-        
-        ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.UNAUTHORIZED.value(),
-            "Erreur d'authentification",
-            "Token invalide ou expiré",
-            request.getDescription(false),
-            LocalDateTime.now(),
-            null
-        );
-        
-        log.warn("Erreur d'authentification: {}", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
+        log.warn("Erreur de contrainte de validation: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body("Données invalides: " + ex.getMessage());
     }
 
     /**
-     * Gestion des erreurs d'autorisation
+     * Gestion des erreurs de format JSON (JSON malformé)
      */
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDeniedException(
-            AccessDeniedException ex,
-            WebRequest request) {
-        
-        ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.FORBIDDEN.value(),
-            "Accès refusé",
-            "Vous n'avez pas les permissions nécessaires pour effectuer cette action",
-            request.getDescription(false),
-            LocalDateTime.now(),
-            null
-        );
-        
-        log.warn("Accès refusé: {}", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        log.warn("Erreur de format JSON: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body("Format JSON invalide");
     }
 
     /**
-     * Gestion des erreurs génériques non prévues
+     * Gestion des erreurs de Content-Type non supporté
      */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(
-            Exception ex,
-            WebRequest request) {
-        
-        ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            "Erreur interne",
-            "Une erreur technique s'est produite",
-            request.getDescription(false),
-            LocalDateTime.now(),
-            null
-        );
-        
-        log.error("Erreur non gérée: ", ex);
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<String> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
+        log.warn("Content-Type non supporté: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body("Content-Type non supporté. Utilisez application/json");
     }
 
     /**
-     * Gestion des erreurs d'argument illégal
+     * Gestion des erreurs de type d'argument incorrect
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        log.warn("Erreur de type d'argument: {}", ex.getMessage());
+        Class<?> requiredTypeClass = ex.getRequiredType();
+        String requiredType = requiredTypeClass != null ? requiredTypeClass.getSimpleName() : "inconnu";
+        return ResponseEntity.badRequest()
+                .body("Paramètre invalide: " + ex.getName() + " doit être de type " + requiredType);
+    }
+
+    /**
+     * Gestion des ressources non trouvées
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        log.warn("Ressource non trouvée: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    /**
+     * Gestion des erreurs métier (validation logique)
      */
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
-            IllegalArgumentException ex,
-            WebRequest request) {
-        
-        ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.BAD_REQUEST.value(),
-            "Argument invalide",
-            ex.getMessage(),
-            request.getDescription(false),
-            LocalDateTime.now(),
-            null
-        );
-        
-        log.warn("Argument invalide: {}", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.warn("Erreur de logique métier: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     /**
-     * Classe interne pour la structure des réponses d'erreur
+     * Gestion des erreurs d'état métier (abonnement déjà existant, etc.)
      */
-    public static class ErrorResponse {
-        private int status;
-        private String error;
-        private String message;
-        private String path;
-        private LocalDateTime timestamp;
-        private Map<String, String> validationErrors;
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
+        log.warn("Erreur d'état métier: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
-        public ErrorResponse(int status, String error, String message, String path, 
-                           LocalDateTime timestamp, Map<String, String> validationErrors) {
-            this.status = status;
-            this.error = error;
-            this.message = message;
-            this.path = path;
-            this.timestamp = timestamp;
-            this.validationErrors = validationErrors;
-        }
-
-        // Getters
-        public int getStatus() { return status; }
-        public String getError() { return error; }
-        public String getMessage() { return message; }
-        public String getPath() { return path; }
-        public LocalDateTime getTimestamp() { return timestamp; }
-        public Map<String, String> getValidationErrors() { return validationErrors; }
+    /**
+     * Gestion des autres exceptions non prévues
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception ex) {
+        log.error("Erreur inattendue: {}", ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erreur interne du serveur");
     }
 }

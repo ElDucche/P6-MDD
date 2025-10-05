@@ -1,8 +1,6 @@
-/*
-	Installed from https://ui.angular-material.dev/api/registry/
-	Update this file using `@ngm-dev/cli update free-authentication/login-email-password`
+/**
+ * Composant de connexion par identifiant (email ou username) et mot de passe
 */
-
 import { Component, signal } from '@angular/core';
 import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -19,7 +17,7 @@ import { AuthService } from '../../auth.service';
 })
 export class LoginEmailPasswordComponent {
   form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    identifier: new FormControl('', [Validators.required]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
@@ -35,8 +33,7 @@ export class LoginEmailPasswordComponent {
     if (this.form.valid) {
       this.isLoading.set(true);
       this.errorMessage.set('');
-      
-      this.authService.login(this.form.value).subscribe({
+      this.authService.login(this.form.value as {identifier: string; password: string}).subscribe({
         next: () => {
           this.isLoading.set(false);
           this.router.navigate(['/home']);

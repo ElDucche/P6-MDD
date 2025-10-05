@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,11 +42,11 @@ public class Theme {
     // Relations JPA
     @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
     
     @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Subscription> subscriptions;
+    private List<Subscription> subscriptions = new ArrayList<>();
     
     @PrePersist
     protected void onCreate() {

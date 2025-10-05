@@ -1,0 +1,126 @@
+<div class="max-w-2xl mx-auto mt-8">
+  <div class="card bg-base-100">
+    <div class="card-body">
+      <!-- Header avec bouton retour -->
+      <div class="flex items-center space-x-4 mb-6">
+        <button 
+          type="button"
+          class="btn btn-ghost btn-circle"
+          (click)="goBack()"
+          title="Retour"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div class="flex-1">
+          <h2 class="card-title text-2xl">Créer un nouvel article</h2>
+          <p class="text-base-content/70">Partagez vos idées avec la communauté</p>
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <!-- Formulaire de création -->
+      <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Sélection du thème -->
+        <div class="form-control w-full">
+          <label class="label" for="themeId">
+            <span class="label-text font-medium">Thème <span class="text-error">*</span></span>
+          </label>
+          <select 
+            id="themeId"
+            class="select select-bordered w-full" 
+            formControlName="themeId"
+            [class.select-error]="articleForm.get('themeId')?.invalid && articleForm.get('themeId')?.touched">
+            <option value="" disabled>Choisissez un thème</option>
+            @for (theme of themes(); track theme.id) {
+              <option [value]="theme.id">{{ theme.title }}</option>
+            }
+          </select>
+          @if (articleForm.get('themeId')?.invalid && articleForm.get('themeId')?.touched) {
+            <label class="label">
+              <span class="label-text-alt text-error">Le thème est obligatoire</span>
+            </label>
+          }
+        </div>
+
+        <!-- Titre de l'article -->
+        <div class="form-control w-full">
+          <label class="label" for="title">
+            <span class="label-text font-medium">Titre <span class="text-error">*</span></span>
+          </label>
+          <input 
+            id="title"
+            type="text" 
+            placeholder="Saisissez le titre de votre article" 
+            class="input input-bordered w-full" 
+            formControlName="title"
+            [class.input-error]="articleForm.get('title')?.invalid && articleForm.get('title')?.touched">
+          @if (articleForm.get('title')?.invalid && articleForm.get('title')?.touched) {
+            <label class="label">
+              <span class="label-text-alt text-error">
+                @if (articleForm.get('title')?.errors?.['required']) {
+                  Le titre est obligatoire
+                }
+                @if (articleForm.get('title')?.errors?.['minlength']) {
+                  Le titre doit contenir au moins 3 caractères
+                }
+              </span>
+            </label>
+          }
+        </div>
+
+        <!-- Contenu de l'article -->
+        <div class="form-control w-full">
+          <label class="label" for="content">
+            <span class="label-text font-medium">Description <span class="text-error">*</span></span>
+          </label>
+          <textarea 
+            id="content"
+            class="textarea textarea-bordered h-40 resize-none w-full" 
+            placeholder="Décrivez votre article..." 
+            formControlName="content"
+            [class.textarea-error]="articleForm.get('content')?.invalid && articleForm.get('content')?.touched"></textarea>
+          @if (articleForm.get('content')?.invalid && articleForm.get('content')?.touched) {
+            <label class="label">
+              <span class="label-text-alt text-error">
+                @if (articleForm.get('content')?.errors?.['required']) {
+                  La description est obligatoire
+                }
+                @if (articleForm.get('content')?.errors?.['minlength']) {
+                  La description doit contenir au moins 10 caractères
+                }
+              </span>
+            </label>
+          }
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-3 pt-4">
+          <button 
+            type="button" 
+            class="btn btn-ghost flex-1" 
+            (click)="goBack()"
+            [disabled]="isLoading()">
+            Annuler
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary flex-1" 
+            [disabled]="articleForm.invalid || isLoading()">
+            @if (isLoading()) {
+              <span class="loading loading-spinner loading-sm"></span>
+              Création...
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              Créer l'article
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

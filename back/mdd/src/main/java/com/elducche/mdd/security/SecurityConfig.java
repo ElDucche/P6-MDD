@@ -52,10 +52,28 @@ public class SecurityConfig {
             // Configuration des autorisations
             .authorizeHttpRequests(auth -> auth
                 // Endpoints d'authentification publics
-                .requestMatchers("/api/auth/**").permitAll()
-                
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
+                // Endpoints de santé publics (pour monitoring)
+                .requestMatchers(HttpMethod.GET, "/api/health", "/api/info", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
                 // Tous les autres endpoints nécessitent une authentification JWT
                 .anyRequest().authenticated()
+            )
+            
+            // Configuration des exceptions d'authentification et d'autorisation
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(401);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Token manquant ou invalide\"}");
+                })
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.setStatus(403);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\":\"Forbidden\",\"message\":\"Accès refusé\"}");
+                })
             )
             
             // Ajouter le filtre JWT avant le filtre d'authentification standard

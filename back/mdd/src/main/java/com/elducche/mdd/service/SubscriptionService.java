@@ -1,5 +1,6 @@
 package com.elducche.mdd.service;
 
+import com.elducche.mdd.dto.SubscriptionResponseDTO;
 import com.elducche.mdd.entity.Subscription;
 import com.elducche.mdd.entity.SubscriptionId;
 import com.elducche.mdd.entity.Theme;
@@ -24,6 +25,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class SubscriptionService {
+    // Méthodes CRUD minimales pour les tests unitaires
+    public Optional<Subscription> findById(SubscriptionId id) {
+        return subscriptionRepository.findById(id);
+    }
+
+    public Subscription save(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
+    }
+
+    public void deleteById(SubscriptionId id) {
+        subscriptionRepository.deleteById(id);
+    }
     
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
@@ -74,21 +87,21 @@ public class SubscriptionService {
             Optional<User> userOpt = userRepository.findById(userId);
             if (userOpt.isEmpty()) {
                 log.warn("Tentative d'abonnement avec utilisateur inexistant: {}", userId);
-                return Optional.empty();
+                throw new IllegalArgumentException("Impossible de créer l'abonnement");
             }
             
             // Vérification de l'existence du thème
             Optional<Theme> themeOpt = themeRepository.findById(themeId);
             if (themeOpt.isEmpty()) {
                 log.warn("Tentative d'abonnement à un thème inexistant: {}", themeId);
-                return Optional.empty();
+                throw new IllegalArgumentException("Impossible de créer l'abonnement");
             }
             
             // Vérification que l'abonnement n'existe pas déjà
             SubscriptionId subscriptionId = new SubscriptionId(userId, themeId);
             if (subscriptionRepository.existsById(subscriptionId)) {
                 log.info("L'utilisateur {} est déjà abonné au thème {}", userId, themeId);
-                return subscriptionRepository.findById(subscriptionId);
+                throw new IllegalStateException("Impossible de créer l'abonnement");
             }
             
             // Création de l'abonnement
@@ -102,6 +115,9 @@ public class SubscriptionService {
             
             return Optional.of(savedSubscription);
             
+        } catch (IllegalStateException e) {
+            // Re-throw les exceptions métier pour que le contrôleur puisse les gérer
+            throw e;
         } catch (Exception e) {
             log.error("Erreur lors de l'abonnement de l'utilisateur {} au thème {}: {}", 
                      userId, themeId, e.getMessage());
@@ -114,7 +130,7 @@ public class SubscriptionService {
      */
     public Subscription subscribeToTheme(Long userId, Long themeId) {
         Optional<Subscription> result = subscribeUserToTheme(userId, themeId);
-        return result.orElse(null);
+        return result.orElseThrow(() -> new IllegalArgumentException("Impossible de créer l'abonnement"));
     }
     
     /**
@@ -207,5 +223,53 @@ public class SubscriptionService {
      */
     public List<Theme> getSubscribedThemesForUser(Long userId) {
         return themeRepository.findSubscribedThemes(userId);
+    }
+    
+    /**
+     * Convertit une Subscription en SubscriptionResponseDTO
+     */
+    private SubscriptionResponseDTO convertToDTO(Subscription subscription) {
+        SubscriptionResponseDTO dto = new SubscriptionResponseDTO();
+        dto.setUserId(subscription.getId().getUserId());
+        dto.setThemeId(subscription.getId().getThemeId());
+        dto.setSubscribedAt(subscription.getSubscribedAt());
+        
+        // Informations utilisateur
+        if (subscription.getUser() != null) {
+            SubscriptionResponseDTO.UserInfo userInfo = new SubscriptionResponseDTO.UserInfo();
+            userInfo.setId(subscription.getUser().getId());
+            userInfo.setUsername(subscription.getUser().getUsername());
+            userInfo.setEmail(subscription.getUser().getEmail());
+            dto.setUser(userInfo);
+        }
+        
+        // Informations thème
+        if (subscription.getTheme() != null) {
+            SubscriptionResponseDTO.ThemeInfo themeInfo = new SubscriptionResponseDTO.ThemeInfo();
+            themeInfo.setId(subscription.getTheme().getId());
+            themeInfo.setTitle(subscription.getTheme().getTitle());
+            themeInfo.setDescription(subscription.getTheme().getDescription());
+            dto.setTheme(themeInfo);
+        }
+        
+        return dto;
+    }
+    
+    /**
+     * Récupère tous les abonnements d'un utilisateur en DTO
+     */
+    public List<SubscriptionResponseDTO> getUserSubscriptionsDTO(Long userId) {
+        List<Subscription> subscriptions = getUserSubscriptions(userId);
+        return subscriptions.stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+    
+    /**
+     * Abonne un utilisateur à un thème et retourne le DTO
+     */
+    public SubscriptionResponseDTO subscribeToThemeDTO(Long userId, Long themeId) {
+        Subscription subscription = subscribeToTheme(userId, themeId);
+        return convertToDTO(subscription);
     }
 }

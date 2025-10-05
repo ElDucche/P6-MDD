@@ -1,6 +1,7 @@
 package com.elducche.mdd.repository;
 
 import com.elducche.mdd.entity.Post;
+import com.elducche.mdd.entity.Theme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,8 @@ import java.util.Optional;
  */
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+    // Trouve les posts d'un thème (pour les tests)
+    List<Post> findByTheme(Theme theme);
     
     /**
      * Trouve tous les posts triés par date de création (plus récents en premier)

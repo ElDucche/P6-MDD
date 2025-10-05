@@ -54,6 +54,28 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+## Authentication form (identifier field)
+
+The login form now uses a single field named `identifier` allowing the user to type either their email or their username. The previous `email` field has been removed from the UI. The request payload sent to the backend looks like:
+
+```json
+{
+	"identifier": "usertest@example.com",
+	"password": "?Password1"
+}
+```
+
+or:
+
+```json
+{
+	"identifier": "myUsername",
+	"password": "?Password1"
+}
+```
+
+Backward compatibility: the backend still accepts `email` temporarily, but new code should always send `identifier`.
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

@@ -19,6 +19,7 @@ export const routes: Routes = [
     { path: 'home', component: HomeComponent, canActivate: [authGuard] },
     { path: 'themes', loadComponent: () => import('./features/themes/themes.component').then(m => m.ThemesComponent), canActivate: [authGuard] },
     { path: 'article/:id', loadComponent: () => import('./features/article/article.component').then(m => m.ArticleComponent), canActivate: [authGuard] },
+    { path: 'create-article', loadComponent: () => import('./features/create-article/create-article.component').then(m => m.CreateArticleComponent), canActivate: [authGuard] },
     { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
     
     // Fallback
