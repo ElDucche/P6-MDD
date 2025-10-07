@@ -3,14 +3,8 @@ package com.elducche.mdd.service;
 import com.elducche.mdd.dto.LoginRequest;
 import com.elducche.mdd.dto.LoginResponse;
 import com.elducche.mdd.dto.RegisterRequest;
-import com.elducche.mdd.dto.UserResponse;
 import com.elducche.mdd.entity.User;
-import com.elducche.mdd.repository.UserRepository;
-import com.elducche.mdd.security.JwtUtil;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 
 import java.util.Optional;
 
@@ -19,116 +13,25 @@ import java.util.Optional;
  * 
  * Gère l'inscription, la connexion et la génération des tokens JWT
  */
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class AuthService {
+
+public interface AuthService {
     // Méthodes pour les tests unitaires
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+    Optional<User> findByEmail(String email);
 
-    public Optional<User> authenticate(String email, String password) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getPassword())) {
-            return userOpt;
-        }
-        return Optional.empty();
-    }
+    Optional<User> authenticate(String email, String password) ;
 
-    
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
-    
     /**
      * Connexion d'un utilisateur (email ou username accepté dans le champ identifiant)
      */
-    public LoginResponse login(LoginRequest loginRequest) {
-        try {
-            String identifier = loginRequest.getIdentifier();
-            // 1. tentative par email
-            User user = userRepository.findByEmail(identifier).orElse(null);
-            if (user == null) {
-                // 2. tentative par username/email combiné
-                user = userRepository.findByEmailOrUsername(identifier).orElse(null);
-            }
-
-            if (user == null) {
-                log.warn("Tentative de connexion avec identifiant inexistant: {}", identifier);
-                return LoginResponse.error("Email ou mot de passe incorrect");
-            }
-
-            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                log.warn("Tentative de connexion avec mot de passe incorrect pour: {}", identifier);
-                return LoginResponse.error("Email ou mot de passe incorrect");
-            }
-
-            String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getUsername());
-            log.info("Connexion réussie pour l'utilisateur: {}", user.getEmail());
-
-            UserResponse userResponse = new UserResponse();
-            userResponse.setId(user.getId());
-            userResponse.setEmail(user.getEmail());
-            userResponse.setUsername(user.getUsername());
-            userResponse.setCreatedAt(user.getCreatedAt());
-            userResponse.setUpdatedAt(user.getUpdatedAt());
-
-            return LoginResponse.success(token, userResponse);
-        } catch (Exception e) {
-            log.error("Erreur lors de la connexion pour {}: {}", loginRequest.getIdentifier(), e.getMessage());
-            return LoginResponse.error("Erreur technique lors de la connexion");
-        }
-    }
+    LoginResponse login(LoginRequest loginRequest);
     
     /**
      * Inscription d'un nouvel utilisateur
      */
-    public LoginResponse register(RegisterRequest registerRequest) {
-        try {
-            // Vérifications d'existence
-            if (userRepository.existsByEmail(registerRequest.getEmail())) {
-                log.warn("Tentative d'inscription avec email existant: {}", registerRequest.getEmail());
-                return LoginResponse.error("Un compte avec cet email existe déjà");
-            }
-            
-            if (userRepository.existsByUsername(registerRequest.getUsername())) {
-                log.warn("Tentative d'inscription avec username existant: {}", registerRequest.getUsername());
-                return LoginResponse.error("Ce nom d'utilisateur est déjà pris");
-            }
-            
-            // Création de l'utilisateur
-            User user = new User();
-            user.setEmail(registerRequest.getEmail());
-            user.setUsername(registerRequest.getUsername());
-            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-            
-            User savedUser = userRepository.save(user);
-            log.info("Nouveau compte créé pour l'utilisateur: {}", savedUser.getEmail());
-            
-            // Génération du token JWT pour connexion automatique
-            String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getId(), savedUser.getUsername());
-            
-            // Création de la réponse utilisateur (sans le mot de passe)
-            UserResponse userResponse = new UserResponse();
-            userResponse.setId(savedUser.getId());
-            userResponse.setEmail(savedUser.getEmail());
-            userResponse.setUsername(savedUser.getUsername());
-            userResponse.setCreatedAt(savedUser.getCreatedAt());
-            userResponse.setUpdatedAt(savedUser.getUpdatedAt());
-            
-            return LoginResponse.registered(token, userResponse);
-            
-        } catch (Exception e) {
-            log.error("Erreur lors de l'inscription pour {}: {}", registerRequest.getEmail(), e.getMessage());
-            return LoginResponse.error("Erreur technique lors de l'inscription");
-        }
-    }
+    LoginResponse register(RegisterRequest registerRequest) ;
     
     /**
      * Validation d'un token JWT
      */
-    public boolean isTokenValid(String token) {
-        return jwtUtil.isTokenValid(token);
-    }
+    boolean isTokenValid(String token) ;
 }

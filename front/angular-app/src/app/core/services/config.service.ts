@@ -44,8 +44,8 @@ export class ConfigService {
         register: this.getApiEndpoint('auth/register')
       },
       users: {
-        me: this.getApiEndpoint('users/me'),
-        byId: (id: number) => this.getApiEndpoint(`users/${id}`)
+        me: this.getApiEndpoint('user/me'),
+        byId: (id: number) => this.getApiEndpoint(`user/${id}`)
       },
       posts: {
         all: this.getApiEndpoint('posts'),

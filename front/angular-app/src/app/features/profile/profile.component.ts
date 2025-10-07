@@ -152,8 +152,17 @@ export class ProfileComponent implements OnInit {
             
             // Déconnexion automatique après mise à jour pour régénérer le token
             setTimeout(() => {
-              this.authService.logout();
-              this.router.navigate(['/auth/login']);
+              this.authService.logout()
+                .pipe(takeUntilDestroyed(this.destroyRef))
+                .subscribe({
+                  next: () => {
+                    this.router.navigate(['/auth/login']);
+                  },
+                  error: () => {
+                    // Rediriger même en cas d'erreur
+                    this.router.navigate(['/auth/login']);
+                  }
+                });
             }, 2000); // Délai de 2 secondes pour que l'utilisateur puisse lire le message
           },
           error: (error: unknown) => {

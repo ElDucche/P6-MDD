@@ -68,28 +68,39 @@ export class ThemesComponent {
   protected subscribeToTheme(event: Event, theme: Theme): void {
     event.stopPropagation(); // Empêche la navigation vers les articles
     
-    const userId = this.authService.getCurrentUserId();
-    if (!userId) {
-      console.error('Utilisateur non connecté');
-      return;
-    }
-
     // Ajouter le thème aux chargements en cours
     const loading = new Set(this.loadingSubscriptions());
     loading.add(theme.id);
     this.loadingSubscriptions.set(loading);
 
-    // S'abonner uniquement
-    this.subscriptionService.subscribe(theme.id, userId)
+    // Récupérer l'userId depuis le backend puis s'abonner
+    this.authService.getCurrentUserId()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (newSubscription: Subscription) => {
-          const updatedSubscriptions = [...this.subscriptions(), newSubscription];
-          this.subscriptions.set(updatedSubscriptions);
-          this.removeFromLoading(theme.id);
+        next: (userId) => {
+          if (!userId) {
+            console.error('Utilisateur non connecté');
+            this.removeFromLoading(theme.id);
+            return;
+          }
+
+          // S'abonner au thème
+          this.subscriptionService.subscribe(theme.id, userId)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: (newSubscription: Subscription) => {
+                const updatedSubscriptions = [...this.subscriptions(), newSubscription];
+                this.subscriptions.set(updatedSubscriptions);
+                this.removeFromLoading(theme.id);
+              },
+              error: (error: any) => {
+                console.error('Erreur lors de l\'abonnement:', error);
+                this.removeFromLoading(theme.id);
+              }
+            });
         },
-        error: (error: any) => {
-          console.error('Erreur lors de l\'abonnement:', error);
+        error: (error) => {
+          console.error('Erreur lors de la récupération de l\'utilisateur:', error);
           this.removeFromLoading(theme.id);
         }
       });

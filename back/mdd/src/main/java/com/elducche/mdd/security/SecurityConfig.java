@@ -40,7 +40,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // Désactiver CSRF pour API REST
+            // Désactiver CSRF pour API REST (le cookie SameSite=Lax offre une protection partielle)
             .csrf(csrf -> csrf.disable())
             
             // Configuration CORS

@@ -1,29 +1,22 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { AuthService } from '../../features/auth/auth.service';
 import { AlertService } from '../services/alert.service';
 
 /**
  * Intercepteur d'authentification moderne pour Angular 18+
- * Ajoute automatiquement le token JWT aux requêtes et gère les erreurs
+ * Avec HttpOnly cookies, le navigateur envoie automatiquement le cookie
+ * Plus besoin d'ajouter manuellement le header Authorization
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
   const alertService = inject(AlertService);
+  const router = inject(Router);
   
-  // Récupérer le token
-  const token = authService.getToken();
-  
-  // Cloner la requête avec le token si disponible
-  let clonedReq = req;
-  if (token) {
-    clonedReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-  }
+  // Cloner la requête pour inclure withCredentials (important pour les cookies)
+  const clonedReq = req.clone({
+    withCredentials: true
+  });
   
   // Exécuter la requête avec gestion d'erreurs
   return next(clonedReq).pipe(
@@ -32,11 +25,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       
       // Gestion spécifique des erreurs 401 (non autorisé)
       if (error.status === 401) {
-        authService.logout();
         alertService.showAlert({
           type: 'error',
           message: 'Session expirée. Veuillez vous reconnecter.'
         });
+        // Rediriger vers la page de connexion
+        router.navigate(['/auth/login']);
       }
       
       // Gestion des autres erreurs

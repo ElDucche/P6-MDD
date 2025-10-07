@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 
 export interface LoginResponse {
@@ -19,19 +19,33 @@ export interface CurrentUser {
   providedIn: 'root'
 })
 export class AuthService {
+  // Signal pour suivre l'état de connexion
+  private readonly isAuthenticated = signal<boolean>(false);
+  // Cache de l'utilisateur courant
+  private currentUserCache: CurrentUser | null = null;
 
   constructor(
     private readonly http: HttpClient,
     private readonly config: ConfigService
-  ) { }
+  ) {
+    // Vérifier si l'utilisateur est déjà connecté au démarrage
+    this.checkAuthStatus();
+  }
 
   login(credentials: { identifier: string; password: string }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.config.endpoints.auth.login, credentials).pipe(
+    return this.http.post<LoginResponse>(
+      this.config.endpoints.auth.login, 
+      credentials,
+      { withCredentials: true } // Important : envoyer et recevoir les cookies
+    ).pipe(
       tap(response => {
-        if (response?.token) {
-          localStorage.setItem('token', response.token);
+        // Le token est maintenant dans un cookie HttpOnly
+        // On ne le stocke plus dans localStorage
+        if (response?.message === 'Connexion réussie' || response?.token === null) {
+          this.isAuthenticated.set(true);
+          // Invalider le cache utilisateur
+          this.currentUserCache = null;
         } else {
-          // Si pas de token, c'est une erreur d'authentification
           throw new Error(response.message || 'Erreur de connexion');
         }
       })
@@ -39,51 +53,99 @@ export class AuthService {
   }
 
   register(userInfo: any): Observable<any> {
-    return this.http.post(this.config.endpoints.auth.register, userInfo, { responseType: 'text' });
+    return this.http.post(
+      this.config.endpoints.auth.register, 
+      userInfo, 
+      { 
+        responseType: 'json',
+        withCredentials: true // Important : envoyer et recevoir les cookies
+      }
+    ).pipe(
+      tap(() => {
+        this.isAuthenticated.set(true);
+        // Invalider le cache utilisateur
+        this.currentUserCache = null;
+      })
+    );
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  isLoggedIn(): boolean {
-    return this.getToken() !== null;
+  logout(): Observable<any> {
+    return this.http.post(
+      `${this.config.apiUrl}/api/auth/logout`,
+      {},
+      { withCredentials: true }
+    ).pipe(
+      tap(() => {
+        this.isAuthenticated.set(false);
+        this.currentUserCache = null;
+      })
+    );
   }
 
   /**
-   * Décode le token JWT pour récupérer les informations de l'utilisateur
+   * Le token n'est plus accessible depuis le frontend (sécurité)
+   * Cette méthode retourne null car le token est dans un cookie HttpOnly
    */
-  getCurrentUser(): CurrentUser | null {
-    const token = this.getToken();
-    if (!token) {
-      return null;
+  getToken(): string | null {
+    // Le token est maintenant dans un cookie HttpOnly inaccessible depuis JavaScript
+    // C'est normal et souhaité pour la sécurité
+    return null;
+  }
+
+  isLoggedIn(): boolean {
+    return this.isAuthenticated();
+  }
+
+  /**
+   * Vérifie le statut d'authentification en interrogeant le backend
+   */
+  private checkAuthStatus(): void {
+    // Appeler l'endpoint /me pour vérifier si le cookie est valide
+    this.http.get<any>(this.config.endpoints.users.me, { withCredentials: true })
+      .pipe(
+        tap(() => this.isAuthenticated.set(true)),
+        catchError(() => {
+          this.isAuthenticated.set(false);
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  /**
+   * Récupère les informations de l'utilisateur courant depuis le backend
+   */
+  getCurrentUser(): Observable<CurrentUser | null> {
+    // Si on a déjà l'utilisateur en cache, le retourner
+    if (this.currentUserCache) {
+      return of(this.currentUserCache);
     }
 
-    try {
-      // Decode JWT payload (partie entre les deux points)
-      const payload = token.split('.')[1];
-      const decodedPayload = JSON.parse(atob(payload));
-      
-      return {
-        userId: decodedPayload.userId,
-        username: decodedPayload.username,
-        email: decodedPayload.sub
-      };
-    } catch (error) {
-      console.error('Erreur lors du décodage du token:', error);
-      return null;
-    }
+    // Sinon, appeler le backend
+    return this.http.get<any>(this.config.endpoints.users.me, { withCredentials: true })
+      .pipe(
+        map(response => {
+          const user: CurrentUser = {
+            userId: response.id,
+            username: response.username,
+            email: response.email
+          };
+          this.currentUserCache = user;
+          return user;
+        }),
+        catchError(error => {
+          console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+          return of(null);
+        })
+      );
   }
 
   /**
    * Récupère l'ID de l'utilisateur courant
    */
-  getCurrentUserId(): number | null {
-    const user = this.getCurrentUser();
-    return user?.userId || null;
+  getCurrentUserId(): Observable<number | null> {
+    return this.getCurrentUser().pipe(
+      map(user => user?.userId || null)
+    );
   }
 }
