@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService, ThemeService, CommentService } from '@shared/services';
 import { Post, Theme, Comment } from '@shared/interfaces';
 
@@ -19,6 +20,7 @@ export class ArticleComponent implements OnInit {
   private readonly postService = inject(PostService);
   private readonly themeService = inject(ThemeService);
   private readonly commentService = inject(CommentService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly post = signal<Post | null>(null);
   protected readonly theme = signal<Theme | null>(null);
@@ -55,36 +57,40 @@ export class ArticleComponent implements OnInit {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.postService.getPostById(id).subscribe({
-      next: (post) => {
-        this.post.set(post);
-        this.loadTheme(post.theme.id);
-        this.loadComments(post.id);
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement de l\'article:', error);
-        this.error.set('Article non trouvé');
-        this.isLoading.set(false);
-      }
-    });
+    this.postService.getPostById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (post) => {
+          this.post.set(post);
+          this.loadTheme(post.theme.id);
+          this.loadComments(post.id);
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement de l\'article:', error);
+          this.error.set('Article non trouvé');
+          this.isLoading.set(false);
+        }
+      });
   }
 
   /**
    * Charge les informations du thème
    */
   private loadTheme(themeId: number): void {
-    this.themeService.getThemeById(themeId).subscribe({
-      next: (theme) => {
-        this.theme.set(theme);
-        this.isLoading.set(false);
-      },
-      error: (error) => {
-        console.warn('Thème non trouvé (ID:', themeId, '):', error);
-        // On continue sans le thème, ce n'est pas bloquant pour l'affichage de l'article
-        this.theme.set(null);
-        this.isLoading.set(false);
-      }
-    });
+    this.themeService.getThemeById(themeId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (theme) => {
+          this.theme.set(theme);
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          console.warn('Thème non trouvé (ID:', themeId, '):', error);
+          // On continue sans le thème, ce n'est pas bloquant pour l'affichage de l'article
+          this.theme.set(null);
+          this.isLoading.set(false);
+        }
+      });
   }
 
   /**
@@ -93,17 +99,19 @@ export class ArticleComponent implements OnInit {
   private loadComments(postId: number): void {
     this.isLoadingComments.set(true);
     
-    this.commentService.getCommentsByPostId(postId).subscribe({
-      next: (comments) => {
-        this.comments.set(this.sortComments(comments));
-        this.isLoadingComments.set(false);
-      },
-      error: (error) => {
-        console.warn('Erreur lors du chargement des commentaires:', error);
-        this.comments.set([]);
-        this.isLoadingComments.set(false);
-      }
-    });
+    this.commentService.getCommentsByPostId(postId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (comments) => {
+          this.comments.set(this.sortComments(comments));
+          this.isLoadingComments.set(false);
+        },
+        error: (error) => {
+          console.warn('Erreur lors du chargement des commentaires:', error);
+          this.comments.set([]);
+          this.isLoadingComments.set(false);
+        }
+      });
   }
 
   /**
@@ -154,19 +162,21 @@ export class ArticleComponent implements OnInit {
       postId: this.post()!.id
     };
 
-    this.commentService.createComment(commentData).subscribe({
-      next: (newComment) => {
-        // Ajouter le nouveau commentaire et trier la liste
-        this.comments.update(comments => this.sortComments([newComment, ...comments]));
-        this.commentControl.reset();
-        this.isSubmittingComment.set(false);
-      },
-      error: (error) => {
-        console.error('Erreur lors de la création du commentaire:', error);
-        this.isSubmittingComment.set(false);
-        // Ici on pourrait ajouter une notification d'erreur
-      }
-    });
+    this.commentService.createComment(commentData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (newComment) => {
+          // Ajouter le nouveau commentaire et trier la liste
+          this.comments.update(comments => this.sortComments([newComment, ...comments]));
+          this.commentControl.reset();
+          this.isSubmittingComment.set(false);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la création du commentaire:', error);
+          this.isSubmittingComment.set(false);
+          // Ici on pourrait ajouter une notification d'erreur
+        }
+      });
   }
 
   /**

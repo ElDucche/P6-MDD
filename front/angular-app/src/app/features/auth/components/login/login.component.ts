@@ -1,9 +1,10 @@
 /**
  * Composant de connexion par identifiant (email ou username) et mot de passe
 */
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, DestroyRef } from '@angular/core';
 import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class LoginEmailPasswordComponent {
 
   protected readonly errorMessage = signal<string>('');
   protected readonly isLoading = signal<boolean>(false);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
@@ -33,17 +35,19 @@ export class LoginEmailPasswordComponent {
     if (this.form.valid) {
       this.isLoading.set(true);
       this.errorMessage.set('');
-      this.authService.login(this.form.value as {identifier: string; password: string}).subscribe({
-        next: () => {
-          this.isLoading.set(false);
-          this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorMessage.set(err.message || 'Erreur de connexion');
-          console.error('Login failed', err);
-        },
-      });
+      this.authService.login(this.form.value as {identifier: string; password: string})
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.isLoading.set(false);
+            this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            this.isLoading.set(false);
+            this.errorMessage.set(err.message || 'Erreur de connexion');
+            console.error('Login failed', err);
+          },
+        });
     }
   }
 }
