@@ -68,7 +68,7 @@ describe('ThemesComponent', () => {
     };
 
     const authServiceMock = {
-      getCurrentUserId: jest.fn().mockReturnValue(1)
+      getCurrentUserId: jest.fn().mockReturnValue(of(1))
     };
 
     const routerMock = {

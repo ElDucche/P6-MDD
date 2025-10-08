@@ -36,7 +36,11 @@ describe('AuthService', () => {
       endpoints: {
         auth: {
           login: '/api/auth/login',
-          register: '/api/auth/register'
+          register: '/api/auth/register',
+          logout: '/api/auth/logout'
+        },
+        users: {
+          me: '/api/user/me'
         }
       }
     };
@@ -49,10 +53,6 @@ describe('AuthService', () => {
       ]
     });
 
-    service = TestBed.inject(AuthService);
-    httpMock = TestBed.inject(HttpTestingController);
-    configService = TestBed.inject(ConfigService);
-
     // Clear localStorage before each test and setup mock
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -63,6 +63,15 @@ describe('AuthService', () => {
       },
       writable: true,
     });
+
+    service = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
+    configService = TestBed.inject(ConfigService);
+
+    // Le service appelle checkAuthStatus() dans son constructeur
+    // On doit mock cette requête initiale
+    const req = httpMock.expectOne('/api/user/me');
+    req.flush(null, { status: 401, statusText: 'Unauthorized' });
   });
 
   afterEach(() => {

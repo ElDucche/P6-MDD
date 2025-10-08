@@ -1,37 +1,36 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpRequest, HttpHandlerFn, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AuthService } from '../../features/auth/auth.service';
+import { Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
 import { authInterceptor } from './auth-interceptor';
 import { of, throwError } from 'rxjs';
 import { Injector, runInInjectionContext } from '@angular/core';
 
 describe('AuthInterceptor', () => {
-  let authService: any;
   let alertService: any;
+  let router: any;
   let injector: Injector;
 
   beforeEach(() => {
-    const authSpy = {
-      getToken: jest.fn(),
-      logout: jest.fn()
-    };
-
     const alertSpy = {
       showAlert: jest.fn()
+    };
+
+    const routerSpy = {
+      navigate: jest.fn()
     };
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthService, useValue: authSpy },
-        { provide: AlertService, useValue: alertSpy }
+        { provide: AlertService, useValue: alertSpy },
+        { provide: Router, useValue: routerSpy }
       ]
     });
 
-    authService = TestBed.inject(AuthService);
     alertService = TestBed.inject(AlertService);
+    router = TestBed.inject(Router);
     injector = TestBed.inject(Injector);
   });
 
@@ -39,11 +38,8 @@ describe('AuthInterceptor', () => {
     jest.clearAllMocks();
   });
 
-  describe('Token Injection', () => {
-    it('should add authorization header when token exists', () => {
-      const testToken = 'test-jwt-token';
-      authService.getToken.mockReturnValue(testToken);
-
+  describe('Cookie Configuration', () => {
+    it('should set withCredentials to true for all requests', () => {
       const mockRequest = new HttpRequest('GET', '/api/test');
       const mockHandler = jest.fn().mockReturnValue(of(new HttpResponse()));
 
@@ -55,15 +51,13 @@ describe('AuthInterceptor', () => {
       // Verify handler was called
       expect(mockHandler).toHaveBeenCalled();
       
-      // Verify the request has authorization header
+      // Verify the request has withCredentials set to true
       const calledRequest = (mockHandler as any).mock.calls[0][0] as HttpRequest<any>;
-      expect(calledRequest.headers.get('Authorization')).toBe(`Bearer ${testToken}`);
+      expect(calledRequest.withCredentials).toBe(true);
     });
 
-    it('should not add authorization header when no token exists', () => {
-      authService.getToken.mockReturnValue(null);
-
-      const mockRequest = new HttpRequest('GET', '/api/test');
+    it('should clone request with withCredentials enabled', () => {
+      const mockRequest = new HttpRequest('POST', '/api/test', { data: 'test' });
       const mockHandler = jest.fn().mockReturnValue(of(new HttpResponse()));
 
       // Execute interceptor within injection context
@@ -71,15 +65,15 @@ describe('AuthInterceptor', () => {
         authInterceptor(mockRequest, mockHandler).subscribe();
       });
 
-      // Verify handler was called with original request (no auth header)
-      expect(mockHandler).toHaveBeenCalledWith(mockRequest);
+      // Verify the cloned request maintains withCredentials
+      const calledRequest = (mockHandler as any).mock.calls[0][0] as HttpRequest<any>;
+      expect(calledRequest.withCredentials).toBe(true);
+      expect(calledRequest.body).toEqual({ data: 'test' });
     });
   });
 
   describe('Error Handling', () => {
-    it('should handle 401 errors by logging out and showing alert', () => {
-      authService.getToken.mockReturnValue('test-token');
-
+    it('should handle 401 errors by redirecting to login and showing alert', () => {
       const mockRequest = new HttpRequest('GET', '/api/test');
       const mockError = new HttpErrorResponse({
         status: 401,
@@ -93,7 +87,7 @@ describe('AuthInterceptor', () => {
           next: () => fail('Should have thrown an error'),
           error: (error) => {
             expect(error.message).toBe('Une erreur est survenue');
-            expect(authService.logout).toHaveBeenCalled();
+            expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
             expect(alertService.showAlert).toHaveBeenCalledWith({
               type: 'error',
               message: 'Session expirée. Veuillez vous reconnecter.'
@@ -104,8 +98,6 @@ describe('AuthInterceptor', () => {
     });
 
     it('should handle errors with message from error.error.message', () => {
-      authService.getToken.mockReturnValue('test-token');
-
       const mockRequest = new HttpRequest('GET', '/api/test');
       const mockError = new HttpErrorResponse({
         status: 400,
@@ -119,7 +111,7 @@ describe('AuthInterceptor', () => {
           next: () => fail('Should have thrown an error'),
           error: (error) => {
             expect(error.message).toBe('Validation error');
-            expect(authService.logout).not.toHaveBeenCalled();
+            expect(router.navigate).not.toHaveBeenCalled();
             expect(alertService.showAlert).not.toHaveBeenCalled();
           }
         });
@@ -127,8 +119,6 @@ describe('AuthInterceptor', () => {
     });
 
     it('should use default error message when no specific message is available', () => {
-      authService.getToken.mockReturnValue('test-token');
-
       const mockRequest = new HttpRequest('GET', '/api/test');
       const mockError = new HttpErrorResponse({
         status: 500
@@ -148,10 +138,7 @@ describe('AuthInterceptor', () => {
   });
 
   describe('Successful Requests', () => {
-    it('should pass through successful requests unchanged', () => {
-      const testToken = 'test-token';
-      authService.getToken.mockReturnValue(testToken);
-
+    it('should pass through successful requests with withCredentials', () => {
       const mockRequest = new HttpRequest('GET', '/api/test');
       const mockResponse = new HttpResponse({ body: { data: 'test' } });
       const mockHandler = jest.fn().mockReturnValue(of(mockResponse));
@@ -164,6 +151,10 @@ describe('AuthInterceptor', () => {
       });
 
       expect(mockHandler).toHaveBeenCalled();
+      
+      // Verify withCredentials was set
+      const calledRequest = (mockHandler as any).mock.calls[0][0] as HttpRequest<any>;
+      expect(calledRequest.withCredentials).toBe(true);
     });
   });
 });
