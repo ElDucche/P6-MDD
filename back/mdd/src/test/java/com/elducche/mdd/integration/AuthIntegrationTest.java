@@ -78,16 +78,16 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                 .content(asJsonString(validLoginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.token", notNullValue()))
-                .andExpect(jsonPath("$.user.email", is("test.integration@example.com")))
-                .andExpect(jsonPath("$.user.username", is("testintegration")))
-                .andExpect(jsonPath("$.user.password").doesNotExist()) // Vérification que le mot de passe n'est pas exposé
+                .andExpect(cookie().exists("authToken"))
+                .andExpect(cookie().httpOnly("authToken", true))
+                .andExpect(jsonPath("$.message", containsString("réussie")))
                 .andReturn();
 
-        // 5. Extraction et validation du token JWT
-        String responseBody = loginResult.getResponse().getContentAsString();
-        assertTrue(responseBody.contains("token"));
-        assertTrue(responseBody.contains("user"));
+        // 5. Extraction et validation du cookie JWT
+        jakarta.servlet.http.Cookie authCookie = getAuthCookie(loginResult);
+        assertNotNull(authCookie, "Le cookie authToken devrait être présent");
+        assertNotNull(authCookie.getValue(), "Le token JWT ne devrait pas être null");
+        assertFalse(authCookie.getValue().isEmpty(), "Le token JWT ne devrait pas être vide");
     }
 
     @Test

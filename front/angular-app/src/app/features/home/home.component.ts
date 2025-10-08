@@ -1,6 +1,7 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ThemeService, PostService } from '@shared/services';
 import { Theme, Post } from '@shared/interfaces';
 import { ArticleCardComponent } from '@components/article-card/article-card.component';
@@ -15,6 +16,7 @@ export class HomeComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly postService = inject(PostService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   
   themes = signal<Theme[]>([]);
   myFeedPosts = signal<Post[]>([]);
@@ -31,44 +33,50 @@ export class HomeComponent implements OnInit {
   }
 
   private loadThemes(): void {
-    this.themeService.getAllThemes().subscribe({
-      next: (themes) => {
-        this.themes.set(themes);
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement des thèmes:', error);
-      }
-    });
+    this.themeService.getAllThemes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (themes) => {
+          this.themes.set(themes);
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement des thèmes:', error);
+        }
+      });
   }
 
   private loadMyFeedPosts(): void {
     this.isLoadingMyFeed.set(true);
-    this.postService.getPostsFromSubscribedThemes().subscribe({
-      next: (posts) => {
-        this.myFeedPosts.set(this.sortPosts(posts, this.sortOrderMyFeed()));
-        this.isLoadingMyFeed.set(false);
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement de Mon Fil:', error);
-        this.myFeedPosts.set([]);
-        this.isLoadingMyFeed.set(false);
-      }
-    });
+    this.postService.getPostsFromSubscribedThemes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (posts) => {
+          this.myFeedPosts.set(this.sortPosts(posts, this.sortOrderMyFeed()));
+          this.isLoadingMyFeed.set(false);
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement de Mon Fil:', error);
+          this.myFeedPosts.set([]);
+          this.isLoadingMyFeed.set(false);
+        }
+      });
   }
 
   private loadAllPosts(): void {
     this.isLoadingAllPosts.set(true);
-    this.postService.getAllPosts().subscribe({
-      next: (posts) => {
-        this.allPosts.set(this.sortPosts(posts, this.sortOrderAllPosts()));
-        this.isLoadingAllPosts.set(false);
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement de tous les posts:', error);
-        this.allPosts.set([]);
-        this.isLoadingAllPosts.set(false);
-      }
-    });
+    this.postService.getAllPosts()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (posts) => {
+          this.allPosts.set(this.sortPosts(posts, this.sortOrderAllPosts()));
+          this.isLoadingAllPosts.set(false);
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement de tous les posts:', error);
+          this.allPosts.set([]);
+          this.isLoadingAllPosts.set(false);
+        }
+      });
   }
 
   /**

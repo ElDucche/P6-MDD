@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ThemeService, PostService } from '@shared/services';
 import { AlertService } from '@core/services/alert.service';
 import { Theme } from '@shared/interfaces';
@@ -17,6 +18,7 @@ export class CreateArticleComponent {
   private readonly postService = inject(PostService);
   private readonly alertService = inject(AlertService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly themes = signal<Theme[]>([]);
   readonly isLoading = signal(false);
@@ -32,16 +34,18 @@ export class CreateArticleComponent {
   }
 
   private loadThemes(): void {
-    this.themeService.getAllThemes().subscribe({
-      next: (themes) => this.themes.set(themes),
-      error: (error) => {
-        console.error('Erreur lors du chargement des thèmes:', error);
-        this.alertService.showAlert({
-          type: 'error',
-          message: 'Erreur lors du chargement des thèmes'
-        });
-      }
-    });
+    this.themeService.getAllThemes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (themes) => this.themes.set(themes),
+        error: (error) => {
+          console.error('Erreur lors du chargement des thèmes:', error);
+          this.alertService.showAlert({
+            type: 'error',
+            message: 'Erreur lors du chargement des thèmes'
+          });
+        }
+      });
   }
 
   onSubmit(): void {
@@ -55,23 +59,25 @@ export class CreateArticleComponent {
         themeId: parseInt(formValue.themeId!)
       };
 
-      this.postService.createPost(newPost).subscribe({
-        next: (post) => {
-          this.alertService.showAlert({
-            type: 'success',
-            message: 'Article créé avec succès !'
-          });
-          this.router.navigate(['/home']);
-        },
-        error: (error) => {
-          console.error('Erreur lors de la création de l\'article:', error);
-          this.alertService.showAlert({
-            type: 'error',
-            message: 'Erreur lors de la création de l\'article'
-          });
-          this.isLoading.set(false);
-        }
-      });
+      this.postService.createPost(newPost)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (post) => {
+            this.alertService.showAlert({
+              type: 'success',
+              message: 'Article créé avec succès !'
+            });
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error('Erreur lors de la création de l\'article:', error);
+            this.alertService.showAlert({
+              type: 'error',
+              message: 'Erreur lors de la création de l\'article'
+            });
+            this.isLoading.set(false);
+          }
+        });
     } else {
       this.alertService.showAlert({
         type: 'error',

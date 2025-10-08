@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ThemeService, SubscriptionService } from '@shared/services';
 import { AuthService } from '../auth/auth.service';
 import { Theme, Subscription } from '@shared/interfaces';
@@ -15,6 +16,7 @@ export class ThemesComponent {
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly themes = signal<Theme[]>([]);
   protected readonly subscriptions = signal<Subscription[]>([]);
@@ -28,27 +30,31 @@ export class ThemesComponent {
 
   private loadThemes(): void {
     this.isLoading.set(true);
-    this.themeService.getAllThemes().subscribe({
-      next: (themes: Theme[]) => {
-        this.themes.set(themes);
-        this.isLoading.set(false);
-      },
-      error: (error: any) => {
-        console.error('Erreur lors du chargement des thèmes:', error);
-        this.isLoading.set(false);
-      }
-    });
+    this.themeService.getAllThemes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (themes: Theme[]) => {
+          this.themes.set(themes);
+          this.isLoading.set(false);
+        },
+        error: (error: any) => {
+          console.error('Erreur lors du chargement des thèmes:', error);
+          this.isLoading.set(false);
+        }
+      });
   }
 
   private loadUserSubscriptions(): void {
-    this.subscriptionService.getUserSubscriptions().subscribe({
-      next: (subscriptions: Subscription[]) => {
-        this.subscriptions.set(subscriptions);
-      },
-      error: (error: any) => {
-        console.error('Erreur lors du chargement des abonnements:', error);
-      }
-    });
+    this.subscriptionService.getUserSubscriptions()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (subscriptions: Subscription[]) => {
+          this.subscriptions.set(subscriptions);
+        },
+        error: (error: any) => {
+          console.error('Erreur lors du chargement des abonnements:', error);
+        }
+      });
   }
 
   protected isSubscribed(themeId: number): boolean {
@@ -62,29 +68,42 @@ export class ThemesComponent {
   protected subscribeToTheme(event: Event, theme: Theme): void {
     event.stopPropagation(); // Empêche la navigation vers les articles
     
-    const userId = this.authService.getCurrentUserId();
-    if (!userId) {
-      console.error('Utilisateur non connecté');
-      return;
-    }
-
     // Ajouter le thème aux chargements en cours
     const loading = new Set(this.loadingSubscriptions());
     loading.add(theme.id);
     this.loadingSubscriptions.set(loading);
 
-    // S'abonner uniquement
-    this.subscriptionService.subscribe(theme.id, userId).subscribe({
-      next: (newSubscription: Subscription) => {
-        const updatedSubscriptions = [...this.subscriptions(), newSubscription];
-        this.subscriptions.set(updatedSubscriptions);
-        this.removeFromLoading(theme.id);
-      },
-      error: (error: any) => {
-        console.error('Erreur lors de l\'abonnement:', error);
-        this.removeFromLoading(theme.id);
-      }
-    });
+    // Récupérer l'userId depuis le backend puis s'abonner
+    this.authService.getCurrentUserId()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (userId) => {
+          if (!userId) {
+            console.error('Utilisateur non connecté');
+            this.removeFromLoading(theme.id);
+            return;
+          }
+
+          // S'abonner au thème
+          this.subscriptionService.subscribe(theme.id, userId)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: (newSubscription: Subscription) => {
+                const updatedSubscriptions = [...this.subscriptions(), newSubscription];
+                this.subscriptions.set(updatedSubscriptions);
+                this.removeFromLoading(theme.id);
+              },
+              error: (error: any) => {
+                console.error('Erreur lors de l\'abonnement:', error);
+                this.removeFromLoading(theme.id);
+              }
+            });
+        },
+        error: (error) => {
+          console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+          this.removeFromLoading(theme.id);
+        }
+      });
   }
 
   private removeFromLoading(themeId: number): void {

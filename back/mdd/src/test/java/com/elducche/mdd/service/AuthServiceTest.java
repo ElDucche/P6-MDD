@@ -5,6 +5,8 @@ import com.elducche.mdd.dto.LoginResponse;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.UserRepository;
 import com.elducche.mdd.security.JwtUtil;
+import com.elducche.mdd.service.impl.AuthServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +37,7 @@ class AuthServiceTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         jwtUtil = createRealJwtUtil();
-        authService = new AuthService(userRepository, passwordEncoder, jwtUtil);
+        authService = new AuthServiceImpl(userRepository, passwordEncoder, jwtUtil);
     }
 
     private JwtUtil createRealJwtUtil() throws Exception {

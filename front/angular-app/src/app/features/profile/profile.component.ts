@@ -1,7 +1,8 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService, SubscriptionService, ThemeService } from '@shared/services';
 import { AuthService } from '../auth/auth.service';
 import { AlertService } from '@core/services/alert.service';
@@ -51,6 +52,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  private readonly destroyRef = inject(DestroyRef);
+
   ngOnInit(): void {
     this.loadUserProfile();
   }
@@ -58,64 +61,68 @@ export class ProfileComponent implements OnInit {
   private loadUserProfile(): void {
     this.isLoading.set(true);
     
-    this.userService.getUser().subscribe({
-      next: (user) => {
-        this.user.set(user);
-        // Mettre à jour le formulaire avec les données utilisateur
-        this.editForm.patchValue({
-          username: user?.username || '',
-          email: user?.email || '',
-          password: ''
-        });
-        
-        // Charger les abonnements une fois que l'utilisateur est chargé
-        this.loadUserSubscriptions();
-        
-        // Simulation d'un délai pour voir le loading (à retirer en production)
-        setTimeout(() => {
+    this.userService.getUser()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (user) => {
+          this.user.set(user);
+          // Mettre à jour le formulaire avec les données utilisateur
+          this.editForm.patchValue({
+            username: user?.username || '',
+            email: user?.email || '',
+            password: ''
+          });
+          
+          // Charger les abonnements une fois que l'utilisateur est chargé
+          this.loadUserSubscriptions();
+          
+          // Simulation d'un délai pour voir le loading (à retirer en production)
+          setTimeout(() => {
+            this.isLoading.set(false);
+          }, 800);
+        },
+        error: (error: unknown) => {
+          console.error('Erreur lors du chargement du profil:', error);
+          this.alertService.showAlert({
+            type: 'error',
+            message: 'Impossible de charger le profil utilisateur'
+          });
           this.isLoading.set(false);
-        }, 800);
-      },
-      error: (error: unknown) => {
-        console.error('Erreur lors du chargement du profil:', error);
-        this.alertService.showAlert({
-          type: 'error',
-          message: 'Impossible de charger le profil utilisateur'
-        });
-        this.isLoading.set(false);
-      }
-    });
+        }
+      });
   }
 
   private loadUserSubscriptions(): void {
     this.isLoadingSubscriptions.set(true);
     
-    this.subscriptionService.getUserSubscriptions().subscribe({
-      next: (subscriptions) => {
-        if (subscriptions.length === 0) {
-          this.subscribedThemes.set([]);
+    this.subscriptionService.getUserSubscriptions()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (subscriptions) => {
+          if (subscriptions.length === 0) {
+            this.subscribedThemes.set([]);
+            this.isLoadingSubscriptions.set(false);
+            return;
+          }
+
+          // Mapper les abonnements vers les thèmes avec la date d'abonnement
+          const themesWithSubscription = subscriptions.map(subscription => ({
+            ...subscription.theme,
+            subscribedAt: subscription.createdAt ? new Date(subscription.createdAt) : new Date()
+          } as ThemeWithSubscription));
+
+          this.subscribedThemes.set(themesWithSubscription);
           this.isLoadingSubscriptions.set(false);
-          return;
+        },
+        error: (error: unknown) => {
+          console.error('Erreur lors du chargement des abonnements:', error);
+          this.alertService.showAlert({
+            type: 'error',
+            message: 'Erreur lors du chargement de vos abonnements'
+          });
+          this.isLoadingSubscriptions.set(false);
         }
-
-        // Mapper les abonnements vers les thèmes avec la date d'abonnement
-        const themesWithSubscription = subscriptions.map(subscription => ({
-          ...subscription.theme,
-          subscribedAt: subscription.createdAt ? new Date(subscription.createdAt) : new Date()
-        } as ThemeWithSubscription));
-
-        this.subscribedThemes.set(themesWithSubscription);
-        this.isLoadingSubscriptions.set(false);
-      },
-      error: (error: unknown) => {
-        console.error('Erreur lors du chargement des abonnements:', error);
-        this.alertService.showAlert({
-          type: 'error',
-          message: 'Erreur lors du chargement de vos abonnements'
-        });
-        this.isLoadingSubscriptions.set(false);
-      }
-    });
+      });
   }
 
   protected updateProfile(): void {
@@ -133,28 +140,39 @@ export class ProfileComponent implements OnInit {
         updateData.password = formValue.password;
       }
 
-      this.userService.updateUser(updateData).subscribe({
-        next: (updatedUser) => {
-          this.user.set(updatedUser);
-          this.alertService.showAlert({
-            type: 'success',
-            message: 'Profil mis à jour avec succès. Vous allez être déconnecté pour actualiser votre session.'
-          });
-          
-          // Déconnexion automatique après mise à jour pour régénérer le token
-          setTimeout(() => {
-            this.authService.logout();
-            this.router.navigate(['/auth/login']);
-          }, 2000); // Délai de 2 secondes pour que l'utilisateur puisse lire le message
-        },
-        error: (error: unknown) => {
-          console.error('Erreur lors de la mise à jour:', error);
-          this.alertService.showAlert({
-            type: 'error',
-            message: 'Erreur lors de la mise à jour du profil'
-          });
-        }
-      });
+      this.userService.updateUser(updateData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (updatedUser) => {
+            this.user.set(updatedUser);
+            this.alertService.showAlert({
+              type: 'success',
+              message: 'Profil mis à jour avec succès. Vous allez être déconnecté pour actualiser votre session.'
+            });
+            
+            // Déconnexion automatique après mise à jour pour régénérer le token
+            setTimeout(() => {
+              this.authService.logout()
+                .pipe(takeUntilDestroyed(this.destroyRef))
+                .subscribe({
+                  next: () => {
+                    this.router.navigate(['/auth/login']);
+                  },
+                  error: () => {
+                    // Rediriger même en cas d'erreur
+                    this.router.navigate(['/auth/login']);
+                  }
+                });
+            }, 2000); // Délai de 2 secondes pour que l'utilisateur puisse lire le message
+          },
+          error: (error: unknown) => {
+            console.error('Erreur lors de la mise à jour:', error);
+            this.alertService.showAlert({
+              type: 'error',
+              message: 'Erreur lors de la mise à jour du profil'
+            });
+          }
+        });
     } else {
       this.alertService.showAlert({
         type: 'error',
@@ -183,25 +201,27 @@ export class ProfileComponent implements OnInit {
 
     // Utiliser l'ID du thème comme ID d'abonnement pour l'instant
     // Note: Le backend devrait idéalement retourner l'ID réel de l'abonnement
-    this.subscriptionService.unsubscribe(themeId).subscribe({
-      next: () => {
-        // Mettre à jour la liste locale
-        const updatedThemes = currentThemes.filter(t => t.id !== themeId);
-        this.subscribedThemes.set(updatedThemes);
-        
-        this.alertService.showAlert({
-          type: 'success',
-          message: `Vous vous êtes désabonné de "${themeName}"`
-        });
-      },
-      error: (error: unknown) => {
-        console.error('Erreur lors du désabonnement:', error);
-        this.alertService.showAlert({
-          type: 'error',
-          message: 'Erreur lors du désabonnement'
-        });
-      }
-    });
+    this.subscriptionService.unsubscribe(themeId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          // Mettre à jour la liste locale
+          const updatedThemes = currentThemes.filter(t => t.id !== themeId);
+          this.subscribedThemes.set(updatedThemes);
+          
+          this.alertService.showAlert({
+            type: 'success',
+            message: `Vous vous êtes désabonné de "${themeName}"`
+          });
+        },
+        error: (error: unknown) => {
+          console.error('Erreur lors du désabonnement:', error);
+          this.alertService.showAlert({
+            type: 'error',
+            message: 'Erreur lors du désabonnement'
+          });
+        }
+      });
   }
 
   // Getters pour accéder aux contrôles du formulaire

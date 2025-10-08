@@ -28,7 +28,15 @@ export class AppComponent {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la déconnexion:', error);
+        // Rediriger quand même vers la page d'accueil
+        this.router.navigate(['/']);
+      }
+    });
   }
 }

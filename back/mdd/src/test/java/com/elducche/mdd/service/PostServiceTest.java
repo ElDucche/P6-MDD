@@ -2,6 +2,7 @@ package com.elducche.mdd.service;
 
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.repository.PostRepository;
+import com.elducche.mdd.service.impl.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,7 @@ class PostServiceTest {
     private PostRepository postRepository;
 
     @InjectMocks
-    private PostService postService;
+    private PostServiceImpl postService;
 
     @BeforeEach
     void setUp() {

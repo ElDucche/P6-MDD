@@ -3,6 +3,7 @@ package com.elducche.mdd.service;
 import com.elducche.mdd.entity.Subscription;
 import com.elducche.mdd.entity.SubscriptionId;
 import com.elducche.mdd.repository.SubscriptionRepository;
+import com.elducche.mdd.service.impl.SubscriptionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,7 @@ class SubscriptionServiceTest {
     private SubscriptionRepository subscriptionRepository;
 
     @InjectMocks
-    private SubscriptionService subscriptionService;
+    private SubscriptionServiceImpl subscriptionService;
 
     @BeforeEach
     void setUp() {

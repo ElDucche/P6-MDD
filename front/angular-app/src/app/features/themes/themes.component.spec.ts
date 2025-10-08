@@ -68,7 +68,7 @@ describe('ThemesComponent', () => {
     };
 
     const authServiceMock = {
-      getCurrentUserId: jest.fn().mockReturnValue(1)
+      getCurrentUserId: jest.fn().mockReturnValue(of(1))
     };
 
     const routerMock = {
@@ -208,7 +208,7 @@ describe('ThemesComponent', () => {
   });
 
   it('should not subscribe when user is not logged in', () => {
-    authService.getCurrentUserId.mockReturnValue(null);
+    authService.getCurrentUserId.mockReturnValue(of(null));
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
     fixture.detectChanges();
     

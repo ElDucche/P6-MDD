@@ -24,23 +24,23 @@ describe('ConfigService', () => {
     });
 
     it('should build correct API endpoint path', () => {
-      const endpoint = service.getApiEndpoint('users');
-      expect(endpoint).toBe(`${service.apiUrl}/api/users`);
+      const endpoint = service.getApiEndpoint('user');
+      expect(endpoint).toBe(`${service.apiUrl}/api/user`);
     });
 
     it('should handle endpoint path with leading slash', () => {
-      const endpoint = service.getApiEndpoint('/users');
-      expect(endpoint).toBe(`${service.apiUrl}/api/users`);
+      const endpoint = service.getApiEndpoint('/user');
+      expect(endpoint).toBe(`${service.apiUrl}/api/user`);
     });
 
     it('should handle endpoint path with trailing slash', () => {
-      const endpoint = service.getApiEndpoint('users/');
-      expect(endpoint).toBe(`${service.apiUrl}/api/users/`);
+      const endpoint = service.getApiEndpoint('user/');
+      expect(endpoint).toBe(`${service.apiUrl}/api/user/`);
     });
 
     it('should handle complex endpoint paths', () => {
-      const endpoint = service.getApiEndpoint('users/profile/settings');
-      expect(endpoint).toBe(`${service.apiUrl}/api/users/profile/settings`);
+      const endpoint = service.getApiEndpoint('user/profile/settings');
+      expect(endpoint).toBe(`${service.apiUrl}/api/user/profile/settings`);
     });
 
     it('should handle empty endpoint path', () => {
@@ -77,23 +77,23 @@ describe('ConfigService', () => {
 
   describe('User endpoints', () => {
     it('should provide correct user me endpoint', () => {
-      expect(service.endpoints.users.me).toBe(`${service.apiUrl}/api/users/me`);
+      expect(service.endpoints.users.me).toBe(`${service.apiUrl}/api/user/me`);
     });
 
     it('should provide correct user by ID endpoint', () => {
-      expect(service.endpoints.users.byId(123)).toBe(`${service.apiUrl}/api/users/123`);
+      expect(service.endpoints.users.byId(123)).toBe(`${service.apiUrl}/api/user/123`);
     });
 
     it('should handle zero user ID', () => {
-      expect(service.endpoints.users.byId(0)).toBe(`${service.apiUrl}/api/users/0`);
+      expect(service.endpoints.users.byId(0)).toBe(`${service.apiUrl}/api/user/0`);
     });
 
     it('should handle negative user ID', () => {
-      expect(service.endpoints.users.byId(-1)).toBe(`${service.apiUrl}/api/users/-1`);
+      expect(service.endpoints.users.byId(-1)).toBe(`${service.apiUrl}/api/user/-1`);
     });
 
     it('should handle large user ID numbers', () => {
-      expect(service.endpoints.users.byId(999999)).toBe(`${service.apiUrl}/api/users/999999`);
+      expect(service.endpoints.users.byId(999999)).toBe(`${service.apiUrl}/api/user/999999`);
     });
   });
 
@@ -159,7 +159,7 @@ describe('ConfigService', () => {
 
   describe('Endpoint Function Parameters', () => {
     it('should handle string numbers in endpoint functions', () => {
-      expect(service.endpoints.users.byId(Number('123'))).toBe(`${service.apiUrl}/api/users/123`);
+      expect(service.endpoints.users.byId(Number('123'))).toBe(`${service.apiUrl}/api/user/123`);
     });
 
     it('should handle decimal numbers in endpoint functions', () => {
@@ -168,7 +168,7 @@ describe('ConfigService', () => {
 
     it('should handle very large numbers', () => {
       const largeNumber = Number.MAX_SAFE_INTEGER;
-      expect(service.endpoints.users.byId(largeNumber)).toBe(`${service.apiUrl}/api/users/${largeNumber}`);
+      expect(service.endpoints.users.byId(largeNumber)).toBe(`${service.apiUrl}/api/user/${largeNumber}`);
     });
   });
 
@@ -238,7 +238,7 @@ describe('ConfigService', () => {
     it('should build endpoints correctly using getApiEndpoint method', () => {
       // Test that endpoints use the same base URL as direct getApiEndpoint calls
       expect(service.endpoints.auth.login).toBe(service.getApiEndpoint('auth/login'));
-      expect(service.endpoints.users.me).toBe(service.getApiEndpoint('users/me'));
+      expect(service.endpoints.users.me).toBe(service.getApiEndpoint('user/me'));
       expect(service.endpoints.posts.all).toBe(service.getApiEndpoint('posts'));
       expect(service.endpoints.themes.all).toBe(service.getApiEndpoint('themes'));
       expect(service.endpoints.subscriptions.all).toBe(service.getApiEndpoint('subscriptions'));
@@ -247,7 +247,7 @@ describe('ConfigService', () => {
 
     it('should provide consistent parameterized endpoints', () => {
       // Test that parameterized endpoints follow the same pattern
-      expect(service.endpoints.users.byId(1)).toBe(service.getApiEndpoint('users/1'));
+      expect(service.endpoints.users.byId(1)).toBe(service.getApiEndpoint('user/1'));
       expect(service.endpoints.posts.byId(1)).toBe(service.getApiEndpoint('posts/1'));
       expect(service.endpoints.posts.byTheme(1)).toBe(service.getApiEndpoint('posts/theme/1'));
       expect(service.endpoints.subscriptions.byId(1)).toBe(service.getApiEndpoint('subscriptions/1'));
@@ -262,8 +262,8 @@ describe('ConfigService', () => {
     });
 
     it('should handle paths with multiple slashes', () => {
-      const endpoint = service.getApiEndpoint('users//profile');
-      expect(endpoint).toBe(`${service.apiUrl}/api/users//profile`);
+      const endpoint = service.getApiEndpoint('user//profile');
+      expect(endpoint).toBe(`${service.apiUrl}/api/user//profile`);
     });
 
     it('should handle very long paths', () => {

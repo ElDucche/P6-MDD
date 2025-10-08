@@ -62,7 +62,8 @@ class AuthControllerTest extends BaseIntegrationTest {
                 .content(asJsonString(validRegisterRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.token", notNullValue()))
+                .andExpect(cookie().exists("authToken"))
+                .andExpect(cookie().httpOnly("authToken", true))
                 .andExpect(jsonPath("$.message", containsString("réussie")));
     }
 
@@ -125,7 +126,8 @@ class AuthControllerTest extends BaseIntegrationTest {
                 .content(asJsonString(validLoginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.token", notNullValue()))
+                .andExpect(cookie().exists("authToken"))
+                .andExpect(cookie().httpOnly("authToken", true))
                 .andExpect(jsonPath("$.message", containsString("réussie")));
     }
 
@@ -143,9 +145,9 @@ class AuthControllerTest extends BaseIntegrationTest {
         .content(jsonPayload))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.token", notNullValue()))
-        .andExpect(jsonPath("$.user.email", is(existingUser.getEmail())))
-        .andExpect(jsonPath("$.user.username", is(existingUser.getUsername())));
+        .andExpect(cookie().exists("authToken"))
+        .andExpect(cookie().httpOnly("authToken", true))
+        .andExpect(jsonPath("$.message", containsString("réussie")));
     }
 
     @Test

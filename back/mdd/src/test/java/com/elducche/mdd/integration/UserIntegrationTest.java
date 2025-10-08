@@ -1,7 +1,5 @@
 package com.elducche.mdd.integration;
 
-import com.elducche.mdd.dto.LoginRequest;
-import com.elducche.mdd.dto.RegisterRequest;
 import com.elducche.mdd.dto.UpdateUserProfileRequest;
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.UserRepository;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,7 +30,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    private String authToken;
+    private jakarta.servlet.http.Cookie authCookie;
     private User testUser;
 
     @BeforeEach
@@ -41,31 +38,8 @@ class UserIntegrationTest extends BaseIntegrationTest {
         // Nettoyage de la base de données
         userRepository.deleteAll();
 
-        // Création et inscription d'un utilisateur de test
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("user.integration@example.com");
-        registerRequest.setUsername("userintegration");
-        registerRequest.setPassword("Password123!");
-
-        mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(registerRequest)))
-                .andExpect(status().isCreated());
-
-        // Connexion pour obtenir le token
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setIdentifier("user.integration@example.com");
-        loginRequest.setPassword("Password123!");
-
-        MvcResult loginResult = mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(loginRequest)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        // Extraction du token
-        String responseBody = loginResult.getResponse().getContentAsString();
-        authToken = extractTokenFromResponse(responseBody);
+        // Création et inscription d'un utilisateur de test via helper
+        authCookie = authenticateTestUser("user.integration@example.com", "userintegration", "Password123!");
 
         // Récupération de l'utilisateur créé
         testUser = userRepository.findByEmail("user.integration@example.com").orElse(null);
@@ -77,7 +51,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
     void testCompleteUserProfileFlow() throws Exception {
         // 1. Récupération du profil utilisateur
         mockMvc.perform(get("/api/user/me")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.email", is("user.integration@example.com")))
@@ -90,7 +64,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
         // updateRequest.setEmail("updated.email@example.com"); // Commenté temporairement
 
         mockMvc.perform(put("/api/user/me")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(updateRequest)))
                 .andExpect(status().isOk())
@@ -106,7 +80,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
 
         // 4. Nouvelle récupération pour confirmer les changements
         mockMvc.perform(get("/api/user/me")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("user.integration@example.com"))) // Garde l'ancien email
                 .andExpect(jsonPath("$.username", is("updatedusername")));
@@ -148,7 +122,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
         invalidEmailRequest.setUsername("validusername");
 
         mockMvc.perform(put("/api/user/me")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(invalidEmailRequest)))
                 .andExpect(status().isBadRequest());
@@ -159,7 +133,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
         emptyUsernameRequest.setUsername("");
 
         mockMvc.perform(put("/api/user/me")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(emptyUsernameRequest)))
                 .andExpect(status().isBadRequest());
@@ -187,7 +161,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
         duplicateEmailRequest.setUsername("newusername");
 
         mockMvc.perform(put("/api/user/me")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(duplicateEmailRequest)))
                 .andExpect(status().isBadRequest())
@@ -207,7 +181,7 @@ class UserIntegrationTest extends BaseIntegrationTest {
         specialCharsRequest.setUsername("user_spécial-123");
 
         mockMvc.perform(put("/api/user/me")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(specialCharsRequest)))
                 .andExpect(status().isOk())
@@ -221,14 +195,4 @@ class UserIntegrationTest extends BaseIntegrationTest {
         assertEquals("user_spécial-123", updatedUser.getUsername());
     }
 
-    /**
-     * Utilitaire pour extraire le token JWT de la réponse de connexion
-     */
-    private String extractTokenFromResponse(String responseBody) {
-        // Cette méthode peut être améliorée avec Jackson pour parser le JSON
-        // Pour l'instant, une extraction simple
-        int tokenStart = responseBody.indexOf("\"token\":\"") + 9;
-        int tokenEnd = responseBody.indexOf("\"", tokenStart);
-        return responseBody.substring(tokenStart, tokenEnd);
-    }
 }

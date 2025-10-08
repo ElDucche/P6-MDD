@@ -2,6 +2,7 @@ package com.elducche.mdd.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ import java.util.ArrayList;
 /**
  * Filtre JWT simplifié pour l'authentification
  * 
- * Vérifie la validité du token et définit l'authentification
- * dans le contexte de sécurité Spring avec l'email comme principal
+ * Vérifie la validité du token (depuis header Authorization OU cookie HttpOnly)
+ * et définit l'authentification dans le contexte de sécurité Spring avec l'email comme principal
  */
 @Slf4j
 @Component
@@ -35,15 +36,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("Authorization"); 
+        String jwt = null;
+        
+        // 1. Essayer de récupérer le token depuis le cookie (prioritaire)
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("authToken".equals(cookie.getName())) {
+                    jwt = cookie.getValue();
+                    log.debug("Token JWT trouvé dans le cookie");
+                    break;
+                }
+            }
+        }
+        
+        // 2. Si pas de cookie, essayer le header Authorization (rétrocompatibilité)
+        if (jwt == null) {
+            final String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                jwt = authHeader.substring(7);
+                log.debug("Token JWT trouvé dans le header Authorization");
+            }
+        }
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        // Si aucun token trouvé, continuer sans authentification
+        if (jwt == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
         try {
-            final String jwt = authHeader.substring(7);
             final String userEmail = jwtUtil.getValidatedEmail(jwt);
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
