@@ -1,8 +1,6 @@
 package com.elducche.mdd.integration;
 
 import com.elducche.mdd.dto.CommentCreateRequest;
-import com.elducche.mdd.dto.LoginRequest;
-import com.elducche.mdd.dto.RegisterRequest;
 import com.elducche.mdd.entity.Comment;
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.entity.Theme;
@@ -49,7 +47,7 @@ class CommentIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    private String authToken;
+    private jakarta.servlet.http.Cookie authCookie;
     private User testUser;
     private Theme testTheme;
     private Post testPost;
@@ -67,8 +65,8 @@ class CommentIntegrationTest extends BaseIntegrationTest {
         testTheme = createAndSaveTestTheme();
         testPost = createAndSaveTestPost();
 
-        // Obtenir un token d'authentification
-        authToken = authenticateAndGetToken();
+        // Obtenir un cookie d'authentification
+        authCookie = authenticateAndGetCookie();
 
         // Créer des commentaires de test
         createTestComments();
@@ -81,7 +79,7 @@ class CommentIntegrationTest extends BaseIntegrationTest {
         request.setContent("Commentaire d'intégration très intéressant sur ce post.");
 
         mockMvc.perform(post("/api/posts/{postId}/comments", testPost.getId())
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -97,7 +95,7 @@ class CommentIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Doit récupérer tous les commentaires d'un post")
     void shouldGetCommentsByPost() throws Exception {
         mockMvc.perform(get("/api/posts/{postId}/comments", testPost.getId())
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -130,7 +128,7 @@ class CommentIntegrationTest extends BaseIntegrationTest {
         // Contenu vide/null
 
         mockMvc.perform(post("/api/posts/{postId}/comments", testPost.getId())
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -143,7 +141,7 @@ class CommentIntegrationTest extends BaseIntegrationTest {
         request.setContent("Commentaire sur post inexistant");
 
         mockMvc.perform(post("/api/posts/{postId}/comments", 99999L)
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -183,32 +181,10 @@ class CommentIntegrationTest extends BaseIntegrationTest {
     }
 
     /**
-     * Authentifie l'utilisateur et retourne le token JWT
+     * Authentifie l'utilisateur et retourne le cookie JWT
      */
-    private String authenticateAndGetToken() throws Exception {
-        // Inscription
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("comment-integration@example.com");
-        registerRequest.setUsername("commentintegrationuser");
-        registerRequest.setPassword("?Password1");
-
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
-                .andExpect(status().isCreated());
-
-        // Connexion
-        LoginRequest loginRequest = new LoginRequest();
-    loginRequest.setIdentifier("comment-integration@example.com");
-        loginRequest.setPassword("?Password1");
-
-        String response = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        return extractTokenFromResponse(response);
+    private jakarta.servlet.http.Cookie authenticateAndGetCookie() throws Exception {
+        return authenticateTestUser("comment-integration@example.com", "commentintegrationuser", "?Password1");
     }
 
     /**
@@ -226,13 +202,5 @@ class CommentIntegrationTest extends BaseIntegrationTest {
         comment2.setAuthor(testUser);
         comment2.setPost(testPost);
         commentRepository.save(comment2);
-    }
-
-    /**
-     * Extrait le token JWT de la réponse JSON
-     */
-    private String extractTokenFromResponse(String response) throws Exception {
-        com.fasterxml.jackson.databind.JsonNode jsonNode = objectMapper.readTree(response);
-        return jsonNode.get("token").asText();
     }
 }

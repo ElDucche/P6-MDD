@@ -2,6 +2,7 @@ package com.elducche.mdd.service;
 
 import com.elducche.mdd.entity.Theme;
 import com.elducche.mdd.repository.ThemeRepository;
+import com.elducche.mdd.service.impl.ThemeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,7 @@ class ThemeServiceTest {
     private ThemeRepository themeRepository;
 
     @InjectMocks
-    private ThemeService themeService;
+    private ThemeServiceImpl themeService;
 
     @BeforeEach
     void setUp() {

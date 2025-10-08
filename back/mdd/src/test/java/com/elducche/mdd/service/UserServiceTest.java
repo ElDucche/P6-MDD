@@ -2,6 +2,7 @@ package com.elducche.mdd.service;
 
 import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.UserRepository;
+import com.elducche.mdd.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,7 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {

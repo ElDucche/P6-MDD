@@ -2,6 +2,7 @@ package com.elducche.mdd.service;
 
 import com.elducche.mdd.entity.Comment;
 import com.elducche.mdd.repository.CommentRepository;
+import com.elducche.mdd.service.impl.CommentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,7 @@ class CommentServiceTest {
     private CommentRepository commentRepository;
 
     @InjectMocks
-    private CommentService commentService;
+    private CommentServiceImpl commentService;
 
     @BeforeEach
     void setUp() {

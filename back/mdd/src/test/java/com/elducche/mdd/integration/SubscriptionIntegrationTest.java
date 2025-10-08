@@ -1,7 +1,5 @@
 package com.elducche.mdd.integration;
 
-import com.elducche.mdd.dto.LoginRequest;
-import com.elducche.mdd.dto.RegisterRequest;
 import com.elducche.mdd.dto.SubscriptionRequest;
 import com.elducche.mdd.entity.Subscription;
 import com.elducche.mdd.entity.Theme;
@@ -50,7 +48,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private PostRepository postRepository;
 
-    private String authToken;
+    private jakarta.servlet.http.Cookie authCookie;
     private User testUser;
     private Theme testTheme;
     private Theme secondTestTheme;
@@ -88,7 +86,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         secondTestTheme = themeRepository.save(secondTestTheme);
 
         // S'authentifier
-        authToken = authenticateAndGetToken();
+        authCookie = authenticateAndGetCookie();
     }
 
     @Test
@@ -98,7 +96,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -114,14 +112,14 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
         // Puis vérifier qu'on peut le récupérer
         mockMvc.perform(get("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].themeId").value(testTheme.getId()));
@@ -135,14 +133,14 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
         // Puis le supprimer
         mockMvc.perform(delete("/api/subscriptions/" + testTheme.getId())
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isNoContent());
     }
 
@@ -153,7 +151,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(999L);
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -167,14 +165,14 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
         // Essayer de créer le même abonnement
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -184,7 +182,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Doit retourner une liste vide pour un utilisateur sans abonnements")
     void shouldReturnEmptyListForUserWithoutSubscriptions() throws Exception {
         mockMvc.perform(get("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -197,7 +195,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request1.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request1)))
                 .andExpect(status().isCreated());
@@ -206,13 +204,13 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request2.setThemeId(secondTestTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request2)))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(get("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
@@ -225,25 +223,25 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
         // Vérifier qu'il existe
         mockMvc.perform(get("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
 
         // Le supprimer
         mockMvc.perform(delete("/api/subscriptions/" + testTheme.getId())
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isNoContent());
 
         // Vérifier qu'il n'existe plus
         mockMvc.perform(get("/api/subscriptions")
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -277,7 +275,7 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
 
         // Essayer de supprimer l'abonnement de l'autre utilisateur
         mockMvc.perform(delete("/api/subscriptions/" + testTheme.getId())
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isNotFound());
     }
 
@@ -288,38 +286,14 @@ class SubscriptionIntegrationTest extends BaseIntegrationTest {
         subscriptionRepository.deleteAll();
 
         mockMvc.perform(delete("/api/subscriptions/" + testTheme.getId())
-                .header("Authorization", "Bearer " + authToken))
+                .cookie(authCookie))
                 .andExpect(status().isNotFound());
     }
 
     /**
-     * Authentifie un utilisateur et retourne le token JWT.
+     * Authentifie un utilisateur et retourne le cookie JWT.
      */
-    private String authenticateAndGetToken() throws Exception {
-        // Inscription
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("subscription-integration@example.com");
-        registerRequest.setUsername("subscriptionintegrationuser");
-        registerRequest.setPassword("?Password1");
-
-        mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
-                .andExpect(status().isCreated());
-
-        // Connexion
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setIdentifier("subscription-integration@example.com");
-        loginRequest.setPassword("?Password1");
-
-        String response = mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        return objectMapper.readTree(response).get("token").asText();
+    private jakarta.servlet.http.Cookie authenticateAndGetCookie() throws Exception {
+        return authenticateTestUser("subscription-integration@example.com", "subscriptionintegrationuser", "?Password1");
     }
 }

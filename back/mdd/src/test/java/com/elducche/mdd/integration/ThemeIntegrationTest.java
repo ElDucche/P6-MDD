@@ -1,7 +1,5 @@
 package com.elducche.mdd.integration;
 
-import com.elducche.mdd.dto.LoginRequest;
-import com.elducche.mdd.dto.RegisterRequest;
 import com.elducche.mdd.entity.Theme;
 import com.elducche.mdd.repository.ThemeRepository;
 import com.elducche.mdd.repository.UserRepository;
@@ -36,7 +34,7 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    private String authToken;
+    private jakarta.servlet.http.Cookie authCookie;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -44,8 +42,8 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
         themeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Obtenir un token d'authentification
-        authToken = authenticateAndGetToken();
+        // Obtenir un cookie d'authentification
+        authCookie = authenticateTestUser("theme-integration@example.com", "themeintegrationuser", "?Password1");
 
         // Créer des thèmes de test
         createTestThemes();
@@ -55,7 +53,7 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Doit récupérer tous les thèmes avec succès")
     void shouldGetAllThemes() throws Exception {
         mockMvc.perform(get("/api/themes")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -76,7 +74,7 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
         themeRepository.save(specialTheme);
 
         mockMvc.perform(get("/api/themes")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -109,7 +107,7 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
         themeRepository.deleteAll();
 
         mockMvc.perform(get("/api/themes")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -119,7 +117,7 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Doit valider la structure des données des thèmes")
     void shouldValidateThemeDataStructure() throws Exception {
         mockMvc.perform(get("/api/themes")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", notNullValue()))
@@ -127,35 +125,6 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$[0].description", notNullValue()))
                 .andExpect(jsonPath("$[0].createdAt", notNullValue()))
                 .andExpect(jsonPath("$[0].updatedAt", notNullValue()));
-    }
-
-    /**
-     * Authentifie l'utilisateur et retourne le token JWT
-     */
-    private String authenticateAndGetToken() throws Exception {
-        // Inscription
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("theme-integration@example.com");
-        registerRequest.setUsername("themeintegrationuser");
-        registerRequest.setPassword("?Password1");
-
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
-                .andExpect(status().isCreated());
-
-        // Connexion
-        LoginRequest loginRequest = new LoginRequest();
-    loginRequest.setIdentifier("theme-integration@example.com");
-        loginRequest.setPassword("?Password1");
-
-        String response = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        return extractTokenFromResponse(response);
     }
 
     /**
@@ -171,13 +140,5 @@ class ThemeIntegrationTest extends BaseIntegrationTest {
         theme2.setTitle("Science");
         theme2.setDescription("Découvertes scientifiques et recherches actuelles");
         themeRepository.save(theme2);
-    }
-
-    /**
-     * Extrait le token JWT de la réponse JSON
-     */
-    private String extractTokenFromResponse(String response) throws Exception {
-        com.fasterxml.jackson.databind.JsonNode jsonNode = objectMapper.readTree(response);
-        return jsonNode.get("token").asText();
     }
 }

@@ -1,8 +1,6 @@
 package com.elducche.mdd.integration;
 
 import com.elducche.mdd.dto.PostCreateRequest;
-import com.elducche.mdd.dto.LoginRequest;
-import com.elducche.mdd.dto.RegisterRequest;
 import com.elducche.mdd.entity.Post;
 import com.elducche.mdd.entity.Theme;
 import com.elducche.mdd.entity.User;
@@ -44,7 +42,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    private String authToken;
+    private jakarta.servlet.http.Cookie authCookie;
     private User testUser;
     private Theme testTheme;
 
@@ -59,8 +57,8 @@ class PostIntegrationTest extends BaseIntegrationTest {
         testUser = createAndSaveTestUser();
         testTheme = createAndSaveTestTheme();
 
-        // Obtenir un token d'authentification
-        authToken = authenticateAndGetToken();
+        // Obtenir un cookie d'authentification
+        authCookie = authenticateAndGetCookie();
 
         // Créer des posts de test
         createTestPosts();
@@ -75,7 +73,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -94,7 +92,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         Post post = createSingleTestPost();
 
         mockMvc.perform(get("/api/posts/{id}", post.getId())
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -109,7 +107,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Doit récupérer tous les posts triés par date")
     void shouldGetAllPostsSortedByDate() throws Exception {
         mockMvc.perform(get("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -125,7 +123,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
     void shouldFilterPostsByTheme() throws Exception {
         mockMvc.perform(get("/api/posts")
                 .param("themeId", testTheme.getId().toString())
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -156,7 +154,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -171,7 +169,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(99999L); // ID inexistant
 
         mockMvc.perform(post("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -181,7 +179,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Doit retourner 404 pour un post inexistant")
     void shouldReturn404ForNonExistentPost() throws Exception {
         mockMvc.perform(get("/api/posts/{id}", 99999L)
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -195,7 +193,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -214,7 +212,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         mockMvc.perform(post("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -230,7 +228,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
         request.setThemeId(testTheme.getId());
 
         String response = mockMvc.perform(post("/api/posts")
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -242,7 +240,7 @@ class PostIntegrationTest extends BaseIntegrationTest {
 
         // Vérifier que l'auteur est cohérent lors de la récupération
         mockMvc.perform(get("/api/posts/{id}", postId)
-                .header("Authorization", "Bearer " + authToken)
+                .cookie(authCookie)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.author.email", is("post-integration@example.com")))
@@ -271,32 +269,10 @@ class PostIntegrationTest extends BaseIntegrationTest {
     }
 
     /**
-     * Authentifie l'utilisateur et retourne le token JWT
+     * Authentifie l'utilisateur et retourne le cookie JWT
      */
-    private String authenticateAndGetToken() throws Exception {
-        // Inscription
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("post-integration@example.com");
-        registerRequest.setUsername("postintegrationuser");
-        registerRequest.setPassword("?Password1");
-
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
-                .andExpect(status().isCreated());
-
-        // Connexion
-    LoginRequest loginRequest = new LoginRequest();
-    loginRequest.setIdentifier("post-integration@example.com");
-        loginRequest.setPassword("?Password1");
-
-        String response = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        return extractTokenFromResponse(response);
+    private jakarta.servlet.http.Cookie authenticateAndGetCookie() throws Exception {
+        return authenticateTestUser("post-integration@example.com", "postintegrationuser", "?Password1");
     }
 
     /**
@@ -330,11 +306,4 @@ class PostIntegrationTest extends BaseIntegrationTest {
         return postRepository.save(post);
     }
 
-    /**
-     * Extrait le token JWT de la réponse JSON
-     */
-    private String extractTokenFromResponse(String response) throws Exception {
-        com.fasterxml.jackson.databind.JsonNode jsonNode = objectMapper.readTree(response);
-        return jsonNode.get("token").asText();
-    }
 }

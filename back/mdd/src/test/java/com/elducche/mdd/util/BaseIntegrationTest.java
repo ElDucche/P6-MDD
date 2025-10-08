@@ -73,4 +73,37 @@ public abstract class BaseIntegrationTest {
     protected String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
+
+    /**
+     * Extrait le cookie authToken d'une réponse MockMvc
+     */
+    protected jakarta.servlet.http.Cookie getAuthCookie(org.springframework.test.web.servlet.MvcResult result) {
+        jakarta.servlet.http.Cookie[] cookies = result.getResponse().getCookies();
+        if (cookies != null) {
+            for (jakarta.servlet.http.Cookie cookie : cookies) {
+                if ("authToken".equals(cookie.getName())) {
+                    return cookie;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Crée et authentifie un utilisateur de test, retourne le cookie d'authentification
+     */
+    protected jakarta.servlet.http.Cookie authenticateTestUser(String email, String username, String password) throws Exception {
+        com.elducche.mdd.dto.RegisterRequest registerRequest = new com.elducche.mdd.dto.RegisterRequest();
+        registerRequest.setEmail(email);
+        registerRequest.setUsername(username);
+        registerRequest.setPassword(password);
+
+        org.springframework.test.web.servlet.MvcResult result = mockMvc.perform(
+                org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/auth/register")
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(asJsonString(registerRequest)))
+                .andReturn();
+
+        return getAuthCookie(result);
+    }
 }
