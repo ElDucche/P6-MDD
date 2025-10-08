@@ -7,10 +7,11 @@ import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.CommentRepository;
 import com.elducche.mdd.repository.PostRepository;
 import com.elducche.mdd.repository.UserRepository;
+import com.elducche.mdd.service.CommentService;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.elducche.mdd.service.CommentService;
 
 import java.util.List;
 import java.util.Optional;

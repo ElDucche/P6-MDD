@@ -7,11 +7,12 @@ import com.elducche.mdd.entity.User;
 import com.elducche.mdd.repository.PostRepository;
 import com.elducche.mdd.repository.ThemeRepository;
 import com.elducche.mdd.repository.UserRepository;
+import com.elducche.mdd.service.PostService;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.elducche.mdd.service.PostService;
 
 import java.util.List;
 import java.util.Optional;
