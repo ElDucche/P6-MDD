@@ -10,6 +10,7 @@ import com.elducche.mdd.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import com.elducche.mdd.service.CommentService;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CommentService implements CommentService {
+public class CommentServiceImpl implements CommentService {
 
     // Méthodes CRUD minimales pour les tests unitaires
   @Override

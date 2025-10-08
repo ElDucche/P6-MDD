@@ -19,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ThemeService implements ThemeService {
+public class ThemeServiceImpl implements ThemeService {
     // Méthodes CRUD minimales pour les tests unitaires
     @Override
     public Optional<Theme> findById(Long id) {

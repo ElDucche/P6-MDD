@@ -48,7 +48,7 @@ public class AuthController {
                 response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
                 
                 // Retourner la réponse sans le token (il est dans le cookie)
-                LoginResponse responseWithoutToken = new LoginResponse(null, loginResponse.getMessage());
+                LoginResponse responseWithoutToken = new LoginResponse(null, loginResponse.getMessage(), null);
                 return ResponseEntity.status(HttpStatus.CREATED).body(responseWithoutToken);
             } else {
                 log.warn("Échec de l'inscription pour l'email: {}", request.getEmail());
@@ -79,7 +79,7 @@ public class AuthController {
                 response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
                 
                 // Retourner la réponse sans le token (il est dans le cookie)
-                LoginResponse responseWithoutToken = new LoginResponse(null, loginResponse.getMessage());
+                LoginResponse responseWithoutToken = new LoginResponse(null, loginResponse.getMessage(), null);
                 return ResponseEntity.ok(responseWithoutToken);
             } else {
                 log.warn("Échec de la connexion pour l'identifiant: {}", request.getIdentifier());

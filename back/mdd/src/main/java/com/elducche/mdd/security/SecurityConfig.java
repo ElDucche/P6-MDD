@@ -95,7 +95,8 @@ public class SecurityConfig {
             "https://localhost:*",
             "https://*.github.dev",
             "https://*.gitpod.io",
-            "https://*.codespaces.live"
+            "https://*.codespaces.live",
+            "https://*.devtunnels.ms/"
         ));
         
         // Méthodes HTTP autorisées
