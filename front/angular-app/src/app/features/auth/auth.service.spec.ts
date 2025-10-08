@@ -86,29 +86,40 @@ describe('AuthService', () => {
   });
 
   describe('Login', () => {
-    it('should login successfully and store token', () => {
-      service.login(mockLoginCredentials).subscribe(response => {
-        expect(response).toEqual(mockLoginResponse);
-        expect(localStorage.setItem).toHaveBeenCalledWith('token', mockLoginResponse.token);
+    it('should login successfully with cookie authentication', (done) => {
+      const successResponse: LoginResponse = {
+        token: null, // Le token est dans un cookie HttpOnly maintenant
+        message: 'Connexion réussie'
+      };
+
+      service.login(mockLoginCredentials).subscribe({
+        next: (response) => {
+          expect(response).toEqual(successResponse);
+          expect(service.isLoggedIn()).toBe(true);
+          done();
+        },
+        error: (err) => done.fail(err)
       });
 
       const req = httpMock.expectOne('/api/auth/login');
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(mockLoginCredentials);
-      req.flush(mockLoginResponse);
+      expect(req.request.withCredentials).toBe(true); // Vérifier que les cookies sont envoyés
+      req.flush(successResponse);
     });
 
-    it('should throw error when login fails with no token', () => {
+    it('should throw error when login fails with error message', (done) => {
       const errorResponse: LoginResponse = {
-        token: null,
+        token: 'some-token', // Présence d'un token mais pas le bon message = échec
         message: 'Identifiants invalides'
       };
 
       service.login(mockLoginCredentials).subscribe({
-        next: () => fail('Should have thrown an error'),
+        next: () => done.fail('Should have thrown an error'),
         error: (error) => {
           expect(error.message).toBe('Identifiants invalides');
-          expect(localStorage.setItem).not.toHaveBeenCalled();
+          expect(service.isLoggedIn()).toBe(false);
+          done();
         }
       });
 
@@ -116,16 +127,17 @@ describe('AuthService', () => {
       req.flush(errorResponse);
     });
 
-    it('should throw default error message when no message provided', () => {
+    it('should throw default error message when no message provided', (done) => {
       const errorResponse: LoginResponse = {
-        token: null,
-        message: ''
+        token: 'some-token',
+        message: '' // Message vide = erreur par défaut
       };
 
       service.login(mockLoginCredentials).subscribe({
-        next: () => fail('Should have thrown an error'),
+        next: () => done.fail('Should have thrown an error'),
         error: (error) => {
           expect(error.message).toBe('Erreur de connexion');
+          done();
         }
       });
 
@@ -164,122 +176,164 @@ describe('AuthService', () => {
   });
 
   describe('Token Management', () => {
-    it('should logout and remove token', () => {
-      (localStorage.setItem as jest.Mock).mockImplementation();
-      (localStorage.removeItem as jest.Mock).mockImplementation();
-      
-      service.logout();
-      
-      expect(localStorage.removeItem).toHaveBeenCalledWith('token');
+    it('should logout and clear authentication state', (done) => {
+      // Le logout appelle maintenant le backend et retourne un Observable
+      service.logout().subscribe(() => {
+        // Vérifier que l'état d'authentification est réinitialisé
+        expect(service.isLoggedIn()).toBe(false);
+        done();
+      });
+
+      // Vérifier la requête HTTP
+      const req = httpMock.expectOne(`${service['config'].apiUrl}/api/auth/logout`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.withCredentials).toBe(true);
+      req.flush({});
     });
 
-    it('should get token from localStorage', () => {
-      const testToken = 'test-token-123';
-      (localStorage.getItem as jest.Mock).mockReturnValue(testToken);
-      
-      const result = service.getToken();
-      
-      expect(localStorage.getItem).toHaveBeenCalledWith('token');
-      expect(result).toBe(testToken);
-    });
-
-    it('should return null when no token exists', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(null);
-      
+    it('should return null for getToken (token in HttpOnly cookie)', () => {
+      // Le token n'est plus accessible depuis le frontend pour des raisons de sécurité
+      // Il est stocké dans un cookie HttpOnly
       const result = service.getToken();
       
       expect(result).toBeNull();
     });
 
-    it('should return true when user is logged in', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue('test-token');
-      
-      const result = service.isLoggedIn();
-      
-      expect(result).toBe(true);
+    it('should return true when user is logged in', (done) => {
+      // Simuler un utilisateur connecté en appelant login
+      service.login({ identifier: 'test@example.com', password: 'password' }).subscribe({
+        next: () => {
+          // Après un login réussi, isLoggedIn() doit retourner true
+          expect(service.isLoggedIn()).toBe(true);
+          done();
+        },
+        error: (err) => done.fail(err)
+      });
+
+      // Vérifier et répondre à la requête de login avec le message attendu
+      const loginReq = httpMock.expectOne('/api/auth/login');
+      loginReq.flush({ message: 'Connexion réussie', token: null }); // Message en français comme attendu par le service
     });
 
     it('should return false when user is not logged in', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(null);
-      
+      // Par défaut, l'utilisateur n'est pas connecté
       const result = service.isLoggedIn();
       
       expect(result).toBe(false);
     });
   });
 
-  describe('JWT Decoding', () => {
-    it('should decode JWT token and return current user', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(mockLoginResponse.token);
+  describe('Get Current User', () => {
+    it('should fetch and return current user from backend', (done) => {
+      const mockUserResponse = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com'
+      };
       
-      const result = service.getCurrentUser();
-      
-      expect(result).toEqual(mockExpectedUser);
+      service.getCurrentUser().subscribe(result => {
+        expect(result).toEqual(mockExpectedUser);
+        done();
+      });
+
+      const req = httpMock.expectOne('/api/user/me');
+      expect(req.request.method).toBe('GET');
+      expect(req.request.withCredentials).toBe(true);
+      req.flush(mockUserResponse);
     });
 
-    it('should return null when no token exists', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(null);
-      
-      const result = service.getCurrentUser();
-      
-      expect(result).toBeNull();
+    it('should return null when backend returns error', (done) => {
+      service.getCurrentUser().subscribe(result => {
+        expect(result).toBeNull();
+        done();
+      });
+
+      const req = httpMock.expectOne('/api/user/me');
+      req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
     });
 
-    it('should return null when token is invalid', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue('invalid.token.format');
+    it('should return cached user on subsequent calls', (done) => {
+      const mockUserResponse = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com'
+      };
       
-      const result = service.getCurrentUser();
-      
-      expect(result).toBeNull();
+      // Premier appel - doit appeler le backend
+      service.getCurrentUser().subscribe(result => {
+        expect(result).toEqual(mockExpectedUser);
+        
+        // Deuxième appel - doit utiliser le cache
+        service.getCurrentUser().subscribe(cachedResult => {
+          expect(cachedResult).toEqual(mockExpectedUser);
+          done();
+        });
+        
+        // Vérifier qu'il n'y a pas de deuxième requête HTTP
+        httpMock.expectNone('/api/user/me');
+      });
+
+      const req = httpMock.expectOne('/api/user/me');
+      req.flush(mockUserResponse);
     });
 
-    it('should handle malformed JWT token gracefully', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue('malformed-token');
+    it('should get current user ID', (done) => {
+      const mockUserResponse = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com'
+      };
       
-      const result = service.getCurrentUser();
-      
-      expect(result).toBeNull();
+      service.getCurrentUserId().subscribe(result => {
+        expect(result).toBe(mockExpectedUser.userId);
+        done();
+      });
+
+      const req = httpMock.expectOne('/api/user/me');
+      req.flush(mockUserResponse);
     });
 
-    it('should get current user ID', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(mockLoginResponse.token);
-      
-      const result = service.getCurrentUserId();
-      
-      expect(result).toBe(mockExpectedUser.userId);
-    });
+    it('should return null for user ID when not logged in', (done) => {
+      service.getCurrentUserId().subscribe(result => {
+        expect(result).toBeNull();
+        done();
+      });
 
-    it('should return null for user ID when not logged in', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(null);
-      
-      const result = service.getCurrentUserId();
-      
-      expect(result).toBeNull();
+      const req = httpMock.expectOne('/api/user/me');
+      req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
     });
   });
 
   describe('Edge Cases', () => {
-    it('should handle empty localStorage', () => {
-      (localStorage.getItem as jest.Mock).mockReturnValue(null);
-      
-      expect(service.getToken()).toBeNull();
+    it('should handle user not authenticated', (done) => {
       expect(service.isLoggedIn()).toBe(false);
-      expect(service.getCurrentUser()).toBeNull();
-      expect(service.getCurrentUserId()).toBeNull();
+      
+      service.getCurrentUser().subscribe(result => {
+        expect(result).toBeNull();
+        done();
+      });
+
+      const req = httpMock.expectOne('/api/user/me');
+      req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
     });
 
-    it('should handle JWT with missing properties', () => {
-      // JWT with incomplete payload
-      const incompleteToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjF9.test-signature';
-      (localStorage.getItem as jest.Mock).mockReturnValue(incompleteToken);
+    it('should handle backend returning incomplete user data', (done) => {
+      const incompleteUserResponse = {
+        id: 1
+        // username et email manquants
+      };
       
-      const result = service.getCurrentUser();
-      
-      expect(result).toEqual({
-        userId: 1,
-        username: undefined,
-        email: undefined
+      service.getCurrentUser().subscribe(result => {
+        expect(result).toEqual({
+          userId: 1,
+          username: undefined,
+          email: undefined
+        });
+        done();
       });
+
+      const req = httpMock.expectOne('/api/user/me');
+      req.flush(incompleteUserResponse);
     });
   });
 });

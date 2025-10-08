@@ -1,39 +1,46 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { LoginEmailPasswordComponent } from './login.component';
 import { AuthService, LoginResponse } from '../../auth.service';
 
 describe('LoginEmailPasswordComponent', () => {
   let component: LoginEmailPasswordComponent;
+  let fixture: ComponentFixture<LoginEmailPasswordComponent>;
   let authService: any;
-  let router: any;
+  let router: Router;
 
   beforeEach(async () => {
     const authServiceMock = {
       login: jest.fn()
     };
 
-    const routerMock = {
-      navigate: jest.fn()
-    };
-
     await TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule
+        LoginEmailPasswordComponent, // Import du composant standalone
+        ReactiveFormsModule,
+        RouterTestingModule // Fournit tous les services Router nécessaires
       ],
       providers: [
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: AuthService, useValue: authServiceMock }
+      ],
+      schemas: [NO_ERRORS_SCHEMA] // Ignorer les erreurs de template
     }).compileComponents();
 
-    // Créer le composant manuellement sans template pour éviter les problèmes de routerLink
+    // Utiliser TestBed.createComponent pour permettre l'injection de DestroyRef
+    fixture = TestBed.createComponent(LoginEmailPasswordComponent);
+    component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     router = TestBed.inject(Router);
-    component = new LoginEmailPasswordComponent(authService, router);
+    
+    // Spy sur router.navigate
+    jest.spyOn(router, 'navigate');
+    
+    fixture.detectChanges(); // Déclencher la détection de changements
   });
 
   it('should create', () => {
